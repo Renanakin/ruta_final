@@ -1,0 +1,200 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - img "Alquimista moderno en cocina mágica" [ref=e6]
+      - generic:
+        - img
+        - img
+        - img
+        - img
+        - img
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - img [ref=e10]
+        - text: Concepto Culinario Avanzado
+      - heading "El Alquimista del Nido" [level=1] [ref=e13]
+      - paragraph [ref=e14]: "“Descubre la alquimia culinaria: transforma lo cotidiano en extraordinario.”"
+      - generic [ref=e15]:
+        - generic [ref=e16]: No es solo un recetario
+        - generic [ref=e17]: Es el Chef de tu Cocina
+      - paragraph [ref=e19]: Es la mente culinaria de Ruta del Nido.
+  - generic [ref=e23]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: Sección 1
+        - heading "¿Qué es El Alquimista?" [level=2] [ref=e27]
+        - paragraph [ref=e28]: “El Alquimista del Nido no solo sugiere recetas, crea experiencias únicas a partir de lo que tienes y lo que eres.”
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: "Es un sistema de inteligencia culinaria diseñado para encontrar la armonía perfecta entre:"
+          - list [ref=e31]:
+            - listitem [ref=e32]:
+              - img [ref=e34]
+              - generic [ref=e36]: Productos naturales del Nido
+            - listitem [ref=e37]:
+              - img [ref=e39]
+              - generic [ref=e42]: Ingredientes de tu cocina
+            - listitem [ref=e43]:
+              - img [ref=e45]
+              - generic [ref=e47]: Técnicas simples pero extraordinarias
+          - paragraph [ref=e48]: Transformando lo cotidiano en extraordinario.
+      - img "Ingredientes Mágicos" [ref=e52]
+    - generic [ref=e54]:
+      - generic [ref=e56]:
+        - img "Ingredientes Puros" [ref=e57]
+        - generic [ref=e59]:
+          - heading "Ingredientes Puros" [level=4] [ref=e60]
+          - paragraph [ref=e61]: El alma de cada transmutación.
+      - generic [ref=e63]:
+        - img "El Destrezza del Nido" [ref=e64]
+        - generic [ref=e66]:
+          - heading "El Destrezza del Nido" [level=4] [ref=e67]
+          - paragraph [ref=e68]: Entrega directa del campo.
+      - generic [ref=e70]:
+        - img "Momentos Mágicos" [ref=e71]
+        - generic [ref=e73]:
+          - heading "Momentos Mágicos" [level=4] [ref=e74]
+          - paragraph [ref=e75]: Creaciones que unen familias.
+      - generic [ref=e77]:
+        - img "El Plato Final" [ref=e78]
+        - generic [ref=e80]:
+          - heading "El Plato Final" [level=4] [ref=e81]
+          - paragraph [ref=e82]: Una obra maestra efímera.
+      - generic [ref=e84]:
+        - img "Conocimiento Ancestral" [ref=e85]
+        - generic [ref=e87]:
+          - heading "Conocimiento Ancestral" [level=4] [ref=e88]
+          - paragraph [ref=e89]: Recetas que perduran.
+  - generic [ref=e91]:
+    - heading "La inteligencia culinaria que descubre el plato perfecto a partir de los ingredientes que tienes en casa." [level=2] [ref=e92]:
+      - text: La inteligencia culinaria que descubre el plato perfecto
+      - text: a partir de los ingredientes que tienes en casa.
+    - generic [ref=e93]:
+      - paragraph [ref=e94]: Cuando los ingredientes son extraordinarios, la cocina se convierte en alquimia.
+      - paragraph [ref=e95]: El Alquimista del Nido analiza los productos naturales de Ruta del Nido y los combina con lo que tienes en tu cocina para crear recetas únicas, simples y sorprendentes.
+  - generic [ref=e97]:
+    - img "Ingredientes Extraordinarios" [ref=e100]
+    - generic [ref=e101]:
+      - text: Sección 1
+      - heading "¿Qué es El Alquimista del Nido?" [level=2] [ref=e102]
+      - generic [ref=e103]:
+        - paragraph [ref=e104]: "Es un sistema diseñado para descubrir combinaciones perfectas entre:"
+        - list [ref=e105]:
+          - listitem [ref=e106]:
+            - img [ref=e108]
+            - generic [ref=e110]: Nuestros productos naturales
+          - listitem [ref=e111]:
+            - img [ref=e113]
+            - generic [ref=e116]: Los ingredientes disponibles en tu cocina
+          - listitem [ref=e117]:
+            - img [ref=e119]
+            - generic [ref=e121]: Técnicas culinarias simples pero extraordinarias
+        - paragraph [ref=e122]: Su misión es transformar ingredientes cotidianos en platos memorables.
+  - generic [ref=e124]:
+    - generic [ref=e125]:
+      - generic [ref=e126]: Sección 2
+      - heading "Cómo funciona" [level=2] [ref=e127]
+    - generic [ref=e128]:
+      - generic [ref=e130]:
+        - img "Recibes la Canasta" [ref=e132]
+        - generic [ref=e133]:
+          - generic [ref=e134]: "1"
+          - generic [ref=e135]: "1"
+          - heading "Recibes la Canasta" [level=3] [ref=e136]
+          - paragraph [ref=e137]: Productos frescos y artesanales llegan a tu puerta con el sello de Ruta del Nido.
+          - generic [ref=e138]:
+            - text: Explorar este paso
+            - img [ref=e139]
+      - generic [ref=e142]:
+        - img "Hablas con el Chef" [ref=e144]
+        - generic [ref=e145]:
+          - generic [ref=e146]: "2"
+          - generic [ref=e147]: "2"
+          - heading "Hablas con el Chef" [level=3] [ref=e148]
+          - paragraph [ref=e149]: Dile al Alquimista qué tienes disponible y él diseñará el camino culinario perfecto.
+          - generic [ref=e150]:
+            - text: Explorar este paso
+            - img [ref=e151]
+      - generic [ref=e154]:
+        - img "Ocurre la Magia" [ref=e156]
+        - generic [ref=e157]:
+          - generic [ref=e158]: "3"
+          - generic [ref=e159]: "3"
+          - heading "Ocurre la Magia" [level=3] [ref=e160]
+          - paragraph [ref=e161]: Transforma tus ingredientes en un plato extraordinario con instrucciones paso a paso.
+          - generic [ref=e162]:
+            - text: Explorar este paso
+            - img [ref=e163]
+  - generic [ref=e166]:
+    - generic [ref=e167]:
+      - generic [ref=e168]:
+        - generic [ref=e169]: Sección 3
+        - heading "Galería de Creaciones" [level=2] [ref=e170]:
+          - text: Galería de
+          - text: Creaciones
+        - paragraph [ref=e171]: “Cada plato es una historia contada a través de ingredientes puros y conocimiento alquímico.”
+      - generic [ref=e173]:
+        - img [ref=e174]
+        - paragraph [ref=e177]: Marta S.
+        - paragraph [ref=e178]: “Nunca pensé que con solo unos huevos y un poco de queso pudiera crear algo tan elegante. El Alquimista me abrió los ojos.”
+    - generic [ref=e179]:
+      - generic [ref=e180]:
+        - img "Creación" [ref=e181]
+        - img [ref=e183]
+      - generic [ref=e185]:
+        - img "Creación" [ref=e186]
+        - img [ref=e188]
+      - generic [ref=e190]:
+        - img "Creación" [ref=e191]
+        - img [ref=e193]
+      - generic [ref=e195]:
+        - img "Creación" [ref=e196]
+        - img [ref=e198]
+  - generic [ref=e201]:
+    - generic [ref=e202]:
+      - generic [ref=e203]: Sección 4
+      - heading "Bóveda de Conocimiento" [level=2] [ref=e204]:
+        - text: Bóveda de
+        - text: Conocimiento
+      - generic [ref=e205]:
+        - paragraph [ref=e206]: El acceso al Alquimista está reservado exclusivamente para los miembros del círculo Ruta del Nido.
+        - paragraph [ref=e207]: No se trata solo de recetas, sino de una nueva filosofía de vida donde la calidad del ingrediente dicta la calidad de tu bienestar.
+        - generic [ref=e208]:
+          - generic [ref=e209]:
+            - heading "Sin Secretos" [level=4] [ref=e210]
+            - paragraph [ref=e211]: Transparencia total en el origen de cada producto.
+          - generic [ref=e212]:
+            - heading "Nutrición" [level=4] [ref=e213]
+            - paragraph [ref=e214]: Diseño de platos optimizados para tu salud.
+    - generic [ref=e218]:
+      - img "Bóveda Secreta" [ref=e219]
+      - img [ref=e223]
+  - generic [ref=e227]:
+    - generic [ref=e228]:
+      - img [ref=e229]
+      - paragraph [ref=e231]: El Alquimista del Nido está pensando...
+    - generic [ref=e232]:
+      - generic [ref=e233]: Mesa de Alquimia
+      - generic [ref=e234]:
+        - generic [ref=e261]:
+          - textbox "“Tengo huevos, pan y queso...”" [ref=e262]
+          - button [ref=e263]:
+            - img [ref=e264]
+        - generic [ref=e267]:
+          - img [ref=e268]
+          - paragraph [ref=e271]: “Dime qué tienes en tu cocina y comenzará la alquimia...”
+  - generic [ref=e245]:
+    - generic:
+      - img "Overlay"
+    - generic [ref=e246]:
+      - heading "La cocina comienza en el nido." [level=2] [ref=e247]:
+        - text: La cocina comienza
+        - text: en el nido.
+      - paragraph [ref=e249]: “Nunca volverás a ver tu cocina igual.”
+      - generic [ref=e250]:
+        - button "Comienza tu alquimia culinaria hoy" [ref=e251]:
+          - generic [ref=e253]:
+            - text: Comienza tu alquimia culinaria hoy
+            - img [ref=e254]
+        - generic [ref=e256]:
+          - paragraph [ref=e257]: Ruta del Nido selecciona los mejores productos naturales.
+          - paragraph [ref=e258]: El Alquimista del Nido convierte lo cotidiano en extraordinario.

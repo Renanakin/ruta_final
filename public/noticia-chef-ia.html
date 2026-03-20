@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef IA: La evolución del sabor natural - Ruta del Nido</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-green: #1a4d2e;
+            --brand-gold: #ffcc00;
+            --brand-cream: #f9f7f2;
+            --text-dark: #2d2621;
+            --text-light: #6b625a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--brand-cream);
+            color: var(--text-dark);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background-color: white;
+            padding: 2.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--brand-green);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem;
+        }
+
+        .category-badge {
+            display: inline-block;
+            background-color: var(--brand-gold);
+            color: var(--brand-green);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: var(--brand-green);
+        }
+
+        .author-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--brand-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .featured-image {
+            width: 100%;
+            border-radius: 2rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        }
+
+        .article-body p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #4a443e;
+        }
+
+        .quote-box {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--brand-green);
+            border-left: 4px solid var(--brand-gold);
+            padding-left: 2rem;
+            margin: 4rem 0;
+            line-height: 1.4;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin: 3.5rem 0 1.5rem 0;
+            color: var(--brand-green);
+        }
+
+        .call-to-action {
+            background-color: var(--brand-green);
+            color: white;
+            padding: 4rem;
+            border-radius: 2.5rem;
+            margin-top: 6rem;
+            text-align: center;
+        }
+
+        .call-to-action h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--brand-gold);
+            color: var(--brand-green);
+            padding: 1.2rem 3rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem;
+            border-top: 1px solid #ddd;
+            margin-top: 4rem;
+            font-size: 0.8rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            .article-container { padding: 3rem 1rem; }
+            .quote-box { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo">RUTA DEL NIDO</a>
+    </header>
+
+    <article class="article-container">
+        <span class="category-badge">Innovación Artesanal</span>
+        <h1>Chef IA: El alma tecnológica que transforma el campo en gastronomía de autor</h1>
+        
+        <div class="author-meta">
+            <div class="author-avatar">RN</div>
+            <div>
+                <strong>Redacción Ruta del Nido</strong><br>
+                <span>13 de Marzo, 2026 · 5 min de lectura</span>
+            </div>
+        </div>
+
+        <img src="/images/chef_ia_news.png" alt="Chef IA en la cocina de Ruta del Nido" class="featured-image">
+
+        <div class="article-body">
+            <p>En **Ruta del Nido**, nuestra obsesión siempre ha sido el origen. Sabemos que un huevo de gallina libre o un queso mantecoso de Púa no son solo alimentos; son el resultado de meses de cuidado, respeto por los ciclos naturales y un amor profundo por la tierra. Pero hoy, damos un paso hacia el futuro para responder a la pregunta que surge en cada hogar: *¿Cómo honrar estos ingredientes en mi mesa?*</p>
+            
+            <p>Presentamos **Chef IA**, la primera inteligencia artificial gastronómica diseñada exclusivamente para actuar como el puente entre la pureza del campo y el calor de tu hogar. No es solo un buscador de recetas; es un mentor culinario que entiende que cada producto nuestro merece ser tratado con el mismo amor con el que fue producido.</p>
+
+            <div class="quote-box">
+                "La tecnología no viene a reemplazar al productor, sino a darle voz a sus frutos a través de recetas que emocionan."
+            </div>
+
+            <h2>Más que algoritmos: Inspiración con Propósito</h2>
+            <p>Imagina abrir tu refrigerador y encontrar nuestras longanizas de Capitán Pastene y tus últimos huevos de la semana. Chef IA no te dará una receta genérica. Analizará el perfil de sabor de cada componente y te guiará para crear, por ejemplo, un *shakshuka rústico con toques ahumados*, respetando las raíces italianas de la longaniza y la frescura de nuestros huevos.</p>
+
+            <h2>El complemento perfecto</h2>
+            <p>Entendemos que el ritmo de la vida moderna a veces nos desconecta de la cocina. Chef IA se convierte en ese aliado que te permite desacelerar. Te ofrece planes de cocina que integran nuestras suscripciones mensuales, asegurando que cada producto que llega a tu puerta sea aprovechado al máximo, sin desperdicios y con resultados de restaurante en tu propio comedor.</p>
+
+            <p>Queremos que sientas la misma satisfacción que siente el equipo de Ruta del Nido cuando selecciona cada bandeja. Queremos que la tecnología te acerque a la naturaleza, no que te aleje de ella.</p>
+
+            <div class="call-to-action">
+                <h3>¿Listo para cocinar con inspiración?</h3>
+                <p>Descubre el poder de Chef IA dentro de nuestra plataforma y transforma tu próximo pedido en una obra maestra.</p>
+                <a href="/" class="btn">PROBAR CHEF IA AHORA</a>
+            </div>
+        </div>
+    </article>
+
+    <footer>
+        &copy; 2026 Ruta del Nido - Alimentos con Alma
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Manrope:wght@200..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Neutral Foundation */
+  --color-stone-50: oklch(0.98 0.01 80);
+  --color-stone-100: oklch(0.96 0.01 80);
+  --color-stone-200: oklch(0.92 0.01 80);
+  --color-stone-300: oklch(0.88 0.02 80);
+  --color-stone-400: oklch(0.8 0.02 80);
+  --color-stone-500: oklch(0.6 0.02 80);
+  --color-stone-600: oklch(0.4 0.02 80);
+  --color-stone-700: oklch(0.25 0.02 80);
+  --color-stone-800: oklch(0.15 0.02 80);
+  --color-stone-900: oklch(0.1 0.02 80);
+
+  /* Primary Brand - Deep Natural Green */
+  --color-brand-50: oklch(0.97 0.02 145);
+  --color-brand-100: oklch(0.94 0.03 145);
+  --color-brand-200: oklch(0.88 0.05 145);
+  --color-brand-300: oklch(0.8 0.09 145);
+  --color-brand-400: oklch(0.7 0.12 145);
+  --color-brand-500: oklch(0.58 0.13 145);
+  --color-brand-600: oklch(0.47 0.12 145);
+  --color-brand-700: oklch(0.38 0.1 145);
+  --color-brand-800: oklch(0.3 0.08 145);
+  --color-brand-900: oklch(0.24 0.06 145);
+  --color-brand-950: oklch(0.18 0.04 145);
+
+  /* Secondary - Warm Golden Yolk */
+  --color-yolk-50: oklch(0.98 0.02 88);
+  --color-yolk-100: oklch(0.95 0.04 86);
+  --color-yolk-200: oklch(0.9 0.08 83);
+  --color-yolk-300: oklch(0.84 0.13 80);
+  --color-yolk-400: oklch(0.77 0.17 77);
+  --color-yolk-500: oklch(0.69 0.19 74);
+  --color-yolk-600: oklch(0.6 0.18 70);
+  --color-yolk-700: oklch(0.51 0.15 67);
+
+  /* Accent - Soft Beige / Earth */
+  --color-beige-100: oklch(0.95 0.02 80);
+  --color-beige-200: oklch(0.9 0.03 78);
+  --color-earth-500: oklch(0.62 0.05 62);
+
+  --color-organic-50: oklch(0.98 0.02 150);
+  --color-organic-500: oklch(0.45 0.12 150);
+  --color-organic-600: oklch(0.35 0.12 150);
+
+  /* Typography */
+  --font-serif: "Fraunces", serif;
+  --font-sans: "Manrope", sans-serif;
+
+  /* Layout */
+  --spacing-container: 1280px;
+
+  /* Custom Effects */
+  --shadow-premium: 0 10px 15px -3px oklch(0 0 0 / 0.05), 0 4px 6px -4px oklch(0 0 0 / 0.05);
+  --shadow-premium-xl: 0 20px 25px -5px oklch(0 0 0 / 0.1), 0 8px 10px -6px oklch(0 0 0 / 0.1);
+}
+
+@layer base {
+  html, body, #root {
+    min-height: 100%;
+    font-size: 16px;
+  }
+
+  body {
+    @apply bg-beige-100 text-stone-900 font-sans;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(circle at 8% 6%, oklch(0.95 0.03 145 / 0.4) 0%, transparent 45%), radial-gradient(circle at 92% 92%, oklch(0.96 0.05 83 / 0.45) 0%, transparent 35%);
+  }
+  
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+
+  *:focus-visible {
+    outline: 2px solid oklch(0.58 0.13 145);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* Alchemist Custom Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-15px) rotate(-3deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.3; filter: blur(20px); scale: 1; }
+  50% { opacity: 0.6; filter: blur(30px); scale: 1.1; }
+}
+
+@keyframes particle-drift {
+  0% { transform: translate(0, 0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.animate-particle {
+  animation: particle-drift var(--duration) linear infinite;
+}
+
+@keyframes fog-drift {
+  0% { transform: translateX(-5%) translateY(2%); opacity: 0.1; }
+  50% { transform: translateX(5%) translateY(-2%); opacity: 0.3; }
+  100% { transform: translateX(-5%) translateY(2%); opacity: 0.1; }
+}
+
+@keyframes misty-grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -5%); }
+  20% { transform: translate(-10%, 5%); }
+  30% { transform: translate(5%, -10%); }
+  40% { transform: translate(-5%, 15%); }
+  50% { transform: translate(-10%, 5%); }
+  60% { transform: translate(15%, 0); }
+  70% { transform: translate(0, 10%); }
+  80% { transform: translate(-15%, 0); }
+  90% { transform: translate(10%, 5%); }
+}
+
+.animate-fog {
+  animation: fog-drift 20s ease-in-out infinite;
+}
+
+.misty-overlay {
+  position: relative;
+}
+
+.misty-overlay::before {
+  content: "";
+  position: absolute;
+  inset: -100%;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  opacity: 0.03;
+  pointer-events: none;
+  animation: misty-grain 8s steps(10) infinite;
+  z-index: 10;
+}
+
+.shadow-3xl {
+  box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.4);
+}
+
+.glass-wood {
+  background: color-mix(in oklch, var(--color-brand-900) 80%, transparent);
+  backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in oklch, white 10%, transparent);
+}
