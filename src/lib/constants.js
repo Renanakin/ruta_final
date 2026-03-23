@@ -101,7 +101,7 @@ export const PRODUCTS = [
     name: 'Salmón porcionado 500g',
     category: 'congelados',
     description: 'Cortes premium seleccionados. Calidad de exportación en formato práctico y congelado IQF.',
-    price: 8000,
+    price: 7990,
     image: '/images/SALMON_PREMIUM_BAG.png',
     badge: 'Contenido 500g',
     inStock: true,

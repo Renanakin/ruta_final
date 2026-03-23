@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Sparkles } from 'lucide-react';
 
 const sumCartItems = (items) =>
   (items || []).reduce((acc, item) => acc + Number(item.quantity || 0), 0);
@@ -11,7 +11,8 @@ import {
   PRICE_PLACEHOLDER,
   PRODUCTS,
   WHATSAPP_NUMBER,
-  createSessionId
+  createSessionId,
+  cn
 } from './lib/constants';
 import Nav from './components/Nav';
 import AccountPanel from './components/AccountPanel';
@@ -21,6 +22,7 @@ import CatalogSection from './components/CatalogSection';
 import SubscriptionSection from './components/SubscriptionSection';
 import AlchemistTeaserSection from './components/AlchemistTeaserSection';
 import AlchemistView from './components/AlchemistView';
+import AlchemistViewAnimated from './components/AlchemistViewAnimated';
 import ProductDetailModal from './components/ProductDetailModal';
 import Footer from './components/Footer';
 import WhatsAppFloat from './components/WhatsAppFloat';
@@ -58,6 +60,7 @@ const App = () => {
   const [accountPanelOpen, setAccountPanelOpen] = useState(false);
   const [accountPanelTab, setAccountPanelTab] = useState('profile');
   const [cartCount, setCartCount] = useState(0);
+  const [useAlchemistV2, setUseAlchemistV2] = useState(true);
 
   const [showNewsletter, setShowNewsletter] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -583,20 +586,39 @@ const App = () => {
       />
 
       {(pathname.startsWith('/alquimista') || activeTab === 'alquimista') ? (
-        <AlchemistView
-          isChefUnlocked={isChefUnlocked}
-          accessCode={accessCode}
-          setAccessCode={setAccessCode}
-          verifyCode={verifyCode}
-          codeError={Boolean(codeError)}
-          chefQuery={chefQuery}
-          setChefQuery={setChefQuery}
-          askChef={askChef}
-          chefLoading={chefLoading}
-          chefResult={chefResult}
-          chefFallbackText={chefFallbackText}
-          chefFallbackActionable={chefFallbackActionable}
-        />
+        <>
+          {useAlchemistV2 ? (
+            <AlchemistViewAnimated
+              isChefUnlocked={isChefUnlocked}
+              accessCode={accessCode}
+              setAccessCode={setAccessCode}
+              verifyCode={verifyCode}
+              codeError={Boolean(codeError)}
+              chefQuery={chefQuery}
+              setChefQuery={setChefQuery}
+              askChef={askChef}
+              chefLoading={chefLoading}
+              chefResult={chefResult}
+              chefFallbackText={chefFallbackText}
+              chefFallbackActionable={chefFallbackActionable}
+            />
+          ) : (
+            <AlchemistView
+              isChefUnlocked={isChefUnlocked}
+              accessCode={accessCode}
+              setAccessCode={setAccessCode}
+              verifyCode={verifyCode}
+              codeError={Boolean(codeError)}
+              chefQuery={chefQuery}
+              setChefQuery={setChefQuery}
+              askChef={askChef}
+              chefLoading={chefLoading}
+              chefResult={chefResult}
+              chefFallbackText={chefFallbackText}
+              chefFallbackActionable={chefFallbackActionable}
+            />
+          )}
+        </>
       ) : (
         <>
           {showTopBanner && (
