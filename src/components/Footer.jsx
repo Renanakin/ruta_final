@@ -68,7 +68,7 @@ const Footer = ({ scrollTo, onOpenAlchemist, handleOrder, activeTab }) => {
         </a>
       </div>
       <div className={cn("text-center mt-32 text-[10px] font-bold uppercase tracking-[0.8em]", isAlchemist ? "text-white/30" : "text-stone-600")}>
-        © 2026 Ruta del Nido • Alquimia de Origen
+        © 2026 Ruta del Nido &nbsp;•&nbsp; Diseñada, programada y desplegada por HackTeck Design
       </div>
     </footer>
   );

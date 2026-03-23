@@ -16,7 +16,7 @@ export const createGeminiTextGenerator = ({
     generationConfig: {
       temperature: 0.2,
       topP: 0.9,
-      maxOutputTokens: 2048,
+      maxOutputTokens: 8192,
       responseMimeType: 'application/json',
       ...generationConfig,
     },

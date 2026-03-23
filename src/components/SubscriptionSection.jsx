@@ -1,4 +1,5 @@
 import { Sparkles, Lock } from 'lucide-react';
+import { WHATSAPP_NUMBER } from '../lib/constants';
 
 const SubscriptionSection = () => (
   <section
@@ -33,7 +34,7 @@ const SubscriptionSection = () => (
       
       <div className="mt-10">
         <a 
-          href="https://wa.me/56947529379" 
+          href={`https://wa.me/${WHATSAPP_NUMBER}`}
           target="_blank" 
           rel="noopener noreferrer"
           className="inline-block bg-yolk-500 text-brand-900 px-12 py-6 rounded-[2rem] font-black text-2xl hover:scale-105 active:scale-95 transition-all shadow-premium hover:bg-yolk-400"

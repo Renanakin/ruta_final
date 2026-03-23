@@ -45,7 +45,6 @@ const ProductDetailModal = ({ selectedProduct, onClose, onAddToCart, onProductWh
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2">
-              <button onClick={() => onAddToCart(1, selectedProduct.id)} className="px-4 py-3 rounded-xl bg-brand-700 text-white font-black">Agregar al carrito</button>
               <button onClick={() => onProductWhatsApp(selectedProduct.name)} className="px-4 py-3 rounded-xl bg-yolk-500 text-brand-900 font-black">Pedir por WhatsApp</button>
               <button onClick={onClose} className="px-4 py-3 rounded-xl border border-stone-200 font-black text-stone-600">Cerrar</button>
             </div>

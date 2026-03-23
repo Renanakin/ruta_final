@@ -126,10 +126,7 @@ const App = () => {
   }, [showTopBanner]);
 
   useEffect(() => {
-    const dismissed = localStorage.getItem('rdn_newsletter_dismissed');
-    if (dismissed) return;
-    const timer = setTimeout(() => setShowNewsletter(true), 25000);
-    return () => clearTimeout(timer);
+    // Newsletter popup desactivado
   }, []);
 
   useEffect(() => {
@@ -314,13 +311,11 @@ const App = () => {
   };
 
   const handleOrder = (productName) => {
-    const catalogSummary = products
-      .map((p) => `- ${p.name}: ${PRICE_PLACEHOLDER}`)
-      .join('%0A');
-    const message = encodeURIComponent(
-      `Hola ${BRAND_NAME}, quiero pedir: ${productName}.%0A%0A` +
-      `Catalogo:%0A${catalogSummary}`
-    );
+    const isGeneric = productName === 'Preguntas' || productName === 'Soporte';
+    const text = isGeneric
+      ? `Hola ${BRAND_NAME}, me estoy contactando desde su sitio web.`
+      : `Hola ${BRAND_NAME}, me estoy contactando desde su sitio web. Estoy interesado/a en: ${productName}.`;
+    const message = encodeURIComponent(text);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
   };
 

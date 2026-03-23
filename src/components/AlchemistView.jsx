@@ -12,7 +12,11 @@ import {
   Sprout,
   ShoppingBag,
   Home,
-  Star
+  Star,
+  Clock,
+  Flame,
+  Lightbulb,
+  PanelTop
 } from 'lucide-react';
 import { cn, WHATSAPP_NUMBER } from '../lib/constants';
 
@@ -194,7 +198,7 @@ const AlchemistView = ({
             {[
               { id: 1, product: "Huevos de Campo", tag: "Alquimia de Proteína" },
               { id: 2, product: "Salmón Premium", tag: "Fuego & Mares" },
-              { id: 3, product: "Queso Licanray", tag: "Maduración Lenta" },
+              { id: 3, product: "Queso Licán Ray", tag: "Maduración Lenta" },
               { id: 4, product: "Longaniza Artesanal", tag: "Sabor del Secreto" }
             ].map((item) => (
               <div key={item.id} className="group relative aspect-[3/4] rounded-[3.5rem] overflow-hidden border border-stone-200 shadow-xl transition-all hover:scale-[1.02]">
@@ -279,7 +283,7 @@ const AlchemistView = ({
                     <div className="relative flex flex-col md:flex-row items-center bg-beige-50 rounded-[3rem] border-2 border-stone-100 p-3 gap-3">
                        <input
                         type="text"
-                        placeholder="“Tengo Huevos del Nido, Queso Licanray y espinaca...”"
+                        placeholder={'Tengo Huevos del Nido, Queso Licán Ray y espinaca...'}
                         value={chefQuery}
                         onChange={(e) => setChefQuery(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && askChef()}
@@ -323,42 +327,125 @@ const AlchemistView = ({
                     )}
 
                     {chefResult && (
-                      <div className="w-full animate-in fade-in slide-in-from-bottom-8 duration-1000">
-                        <div className="text-center mb-16 border-b border-stone-100 pb-12 text-stone-900">
-                          <h3 className="text-4xl md:text-6xl font-serif font-black leading-tight mb-6">{chefResult.title}</h3>
-                          <p className="text-brand-700 italic text-xl md:text-3xl font-medium">{chefResult.summary}</p>
+                      <div className="w-full animate-in fade-in slide-in-from-bottom-8 duration-1000 -m-10 md:-m-14">
+
+                        {/* Hero imagen + título */}
+                        <div className="relative rounded-t-[3.5rem] overflow-hidden">
+                          {chefResult.imageUrl && (
+                            <img
+                              src={chefResult.imageUrl}
+                              alt={chefResult.title}
+                              className="w-full h-64 md:h-96 object-cover"
+                              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                            />
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                            <h3 className="text-3xl md:text-5xl font-serif font-black text-white leading-tight drop-shadow-lg mb-4">
+                              {chefResult.title}
+                            </h3>
+                            <div className="flex flex-wrap gap-3">
+                              {chefResult.timeMinutes && (
+                                <span className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest">
+                                  <Clock size={13} /> {chefResult.timeMinutes} min
+                                </span>
+                              )}
+                              {chefResult.difficulty && (
+                                <span className={cn(
+                                  "inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border",
+                                  chefResult.difficulty === 'Facil' && "bg-green-500/30 border-green-400/40 text-green-100",
+                                  chefResult.difficulty === 'Media' && "bg-yolk-500/30 border-yolk-400/40 text-yolk-100",
+                                  chefResult.difficulty === 'Dificil' && "bg-red-500/30 border-red-400/40 text-red-100",
+                                )}>
+                                  <Flame size={13} /> {chefResult.difficulty}
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         </div>
 
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                          <div className="space-y-10">
-                            <h4 className="flex items-center gap-4 text-xs font-black uppercase tracking-[0.6em] text-stone-500">
-                              <Sparkles size={18} className="text-brand-600" /> Ingredientes
+                        {/* Summary */}
+                        <div className="px-8 md:px-14 pt-10 pb-8 border-b border-stone-100">
+                          <p className="text-brand-800 italic text-lg md:text-2xl font-serif font-medium leading-relaxed">{chefResult.summary}</p>
+                        </div>
+
+                        {/* Ingredientes + Pasos */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-stone-100">
+
+                          {/* Ingredientes */}
+                          <div className="px-8 md:px-14 py-10 space-y-6">
+                            <h4 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.5em] text-stone-400">
+                              <Sparkles size={16} className="text-brand-500" /> Ingredientes
                             </h4>
-                            <ul className="grid grid-cols-1 gap-4">
-                              {chefResult.ingredients?.map((item, i) => (
-                                <li key={i} className="bg-beige-50 p-6 rounded-3xl flex items-center gap-5 text-stone-800 text-lg font-black border border-stone-100 shadow-sm">
-                                   <div className="w-3 h-3 rounded-full bg-brand-500"></div> {item}
-                                </li>
-                              ))}
+                            <ul className="space-y-3">
+                              {chefResult.ingredients?.map((item, i) => {
+                                const isRDN = /ruta del nido/i.test(item);
+                                return (
+                                  <li key={i} className={cn(
+                                    "flex items-center gap-4 px-5 py-4 rounded-2xl text-base font-bold border transition-all",
+                                    isRDN
+                                      ? "bg-yolk-50 border-yolk-200 text-yolk-900 shadow-sm"
+                                      : "bg-beige-50 border-stone-100 text-stone-700"
+                                  )}>
+                                    <div className={cn("w-2.5 h-2.5 rounded-full shrink-0", isRDN ? "bg-yolk-500" : "bg-brand-400")} />
+                                    <span>{item}</span>
+                                    {isRDN && (
+                                      <span className="ml-auto text-[9px] font-black uppercase tracking-widest text-yolk-600 bg-yolk-100 px-2 py-1 rounded-full border border-yolk-200 shrink-0">
+                                        Ruta del Nido
+                                      </span>
+                                    )}
+                                  </li>
+                                );
+                              })}
                             </ul>
                           </div>
 
-                          <div className="space-y-10">
-                            <h4 className="flex items-center gap-4 text-xs font-black uppercase tracking-[0.6em] text-stone-500">
-                              <Utensils size={18} className="text-brand-600" /> El Arte del Proceso
+                          {/* Pasos */}
+                          <div className="px-8 md:px-14 py-10 space-y-6">
+                            <h4 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.5em] text-stone-400">
+                              <Utensils size={16} className="text-brand-500" /> El Arte del Proceso
                             </h4>
-                            <div className="space-y-6">
+                            <div className="space-y-5">
                               {chefResult.steps?.map((step, i) => (
-                                <div key={i} className="flex gap-6 group">
-                                  <span className="shrink-0 w-10 h-10 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center text-sm font-black border-2 border-brand-200 group-hover:bg-brand-700 group-hover:text-white transition-all">
+                                <div key={i} className="flex gap-5 group">
+                                  <span className="shrink-0 w-9 h-9 rounded-xl bg-brand-700 text-white flex items-center justify-center text-sm font-black shadow-md group-hover:scale-110 transition-transform">
                                     {i + 1}
                                   </span>
-                                  <p className="text-stone-700 text-lg md:text-xl font-medium leading-relaxed group-hover:text-stone-900 transition-colors">{step}</p>
+                                  <p className="text-stone-600 text-base md:text-lg font-medium leading-relaxed pt-1 group-hover:text-stone-900 transition-colors">{step}</p>
                                 </div>
                               ))}
                             </div>
                           </div>
                         </div>
+
+                        {/* Tips */}
+                        {(chefResult.flavorTip || chefResult.presentationTip) && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-8 md:px-14 py-10 border-t border-stone-100">
+                            {chefResult.flavorTip && (
+                              <div className="bg-brand-950 rounded-3xl p-7 space-y-3">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-9 h-9 rounded-xl bg-yolk-500/20 flex items-center justify-center">
+                                    <Lightbulb size={18} className="text-yolk-400" />
+                                  </div>
+                                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-yolk-400">Consejo de Sabor</span>
+                                </div>
+                                <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed">{chefResult.flavorTip}</p>
+                              </div>
+                            )}
+                            {chefResult.presentationTip && (
+                              <div className="bg-stone-100 rounded-3xl p-7 space-y-3">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-9 h-9 rounded-xl bg-brand-100 flex items-center justify-center">
+                                    <PanelTop size={18} className="text-brand-600" />
+                                  </div>
+                                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-600">Presentación</span>
+                                </div>
+                                <p className="text-stone-600 text-sm md:text-base font-medium leading-relaxed">{chefResult.presentationTip}</p>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                       </div>
                     )}
 

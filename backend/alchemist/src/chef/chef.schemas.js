@@ -12,13 +12,13 @@ export const chefRecipeRequestSchema = z.object({
 });
 
 export const chefRecipeSchema = z.object({
-  title: z.string().min(3).max(120).transform(normalizeSingleLine),
-  summary: z.string().min(12).max(260).transform(normalizeParagraph),
+  title: z.string().min(3).max(160).transform(normalizeSingleLine),
+  summary: z.string().min(12).max(600).transform(normalizeParagraph),
   timeMinutes: z.coerce.number().int().min(5).max(240),
   difficulty: z.enum(['Facil', 'Media', 'Dificil']),
-  ingredients: z.array(z.string().min(2).max(140).transform(normalizeListItem)).min(3).max(20),
-  steps: z.array(z.string().min(8).max(400).transform(normalizeParagraph)).min(3).max(12),
-  flavorTip: z.string().min(8).max(180).transform(normalizeParagraph),
-  presentationTip: z.string().min(8).max(180).transform(normalizeParagraph),
-  imagePrompt: z.string().min(20).max(400).transform(normalizeParagraph),
+  ingredients: z.array(z.string().min(2).max(200).transform(normalizeListItem)).min(3).max(25),
+  steps: z.array(z.string().min(8).max(800).transform(normalizeParagraph)).min(3).max(15),
+  flavorTip: z.string().min(8).max(400).transform(normalizeParagraph),
+  presentationTip: z.string().min(8).max(400).transform(normalizeParagraph),
+  imagePrompt: z.string().min(20).max(600).transform(normalizeParagraph),
 });
