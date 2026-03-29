@@ -77,8 +77,8 @@ const CatalogSection = ({ products, onSelectProduct, onProductWhatsApp }) => {
                         <h3 className="text-xl font-serif font-black text-stone-900 mb-2">{p.name}</h3>
                         <p className="text-stone-600 text-sm leading-relaxed mb-4 font-medium">{p.description}</p>
                         <div className="flex items-center gap-2 mb-4">
-                          <span className={cn('text-xs font-black px-3 py-1 rounded-full', p.inStock ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700')}>
-                            {p.inStock ? 'En stock' : 'Próximamente'}
+                          <span className={cn('text-xs font-black px-3 py-1 rounded-full', p.inStock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700')}>
+                            {p.inStock ? 'En stock' : 'Agotado'}
                           </span>
                           <span className="text-xs text-stone-500 font-semibold">Del campo directo a tu mesa</span>
                         </div>
