@@ -462,31 +462,7 @@ const App = () => {
     setCodeError('');
 
     try {
-      // --- BYPASS: RECETA HARDCODEADA PARA PRUEBAS (Despliegue) ---
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setChefResult({
-        title: "Salmón Premium de los Fiordos con Costra de Licán Ray",
-        timeMinutes: 25,
-        difficulty: "Media",
-        summary: "Una obra maestra que realza el sabor profundo de nuestro Salmón Premium de la Patagonia, coronado con una deliciosa costra rústica, perfecto para encantar a tus invitados en una cena especial.",
-        ingredients: [
-          "2 lomos gruesos de Salmón Premium Ruta del Nido",
-          "100g de mantequilla de campo a punto pomada",
-          "Finas hierbas del sur (eneldo fresco y ciboulette)",
-          "80g de Queso Mantecoso Licán Ray rallado",
-          "Pizca de sal de mar gruesa trufada"
-        ],
-        steps: [
-          "Preparando el Fuego: Precalienta el horno a 200°C. Unta suavemente una fuente para horno con un poco de aceite de oliva.",
-          "La Mezcla Mágica: En un bol de madera, une la mantequilla artesanal con las hierbas finas y el queso Licán Ray hasta formar una pasta homogénea y dorada.",
-          "El Coronado: Seca los lomos de salmón y cúbrelos generosamente con tu alquimia de queso, presionando con gracia para crear una cúpula.",
-          "Transformación: Hornea por 12 a 15 minutos hasta que la costra esté dorada e irresistible y el corazón del pescado aún jugoso."
-        ],
-        flavorTip: "Añade unas gotas de jugo de un limón de pica justo antes de que se enfríe para un contraste espectacular en tu boca.",
-        presentationTip: "Preséntalo en la mesa sobre una tabla de madera rústica adornado con ramitas de romero fresco para impresionar visualmente."
-      });
-      return;
-      // ------------------------------------------------------------
+
       const res = await fetch(`${API_BASE_URL}/api/ai/chef`, {
         method: 'POST',
         credentials: 'include',

@@ -19,12 +19,6 @@ export default function ExclusiveAccess({
     setErrorMsg('');
 
     try {
-      // --- BYPASS DE VALIDACIÓN PARA PRUEBAS (Permite entrar con sólo Enter) ---
-      setStatus('success');
-      setTimeout(() => {
-        if (onUnlockSuccess) onUnlockSuccess(accessCode || 'liberado');
-      }, 1200);
-      /*
       const isValid = await validateLogic(accessCode);
 
       if (isValid) {
@@ -37,7 +31,6 @@ export default function ExclusiveAccess({
         setErrorMsg('La llave no pertenece a este santuario.');
         setTimeout(() => setStatus('idle'), 3000);
       }
-      */
     } catch {
       setStatus('error');
       setErrorMsg('La niebla oscurece la conexión.');
