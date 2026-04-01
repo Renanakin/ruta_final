@@ -1,7 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Lock,
   ArrowRight,
   ChefHat,
   Loader2,
@@ -17,9 +16,11 @@ import {
   Clock,
   Flame,
   Lightbulb,
-  PanelTop
+  PanelTop,
+  Key
 } from 'lucide-react';
 import { cn, WHATSAPP_NUMBER } from '../lib/constants';
+import ExclusiveAccess from './ExclusiveAccess';
 
 const containerVariant = {
   hidden: { opacity: 0, scale: 0.95 },
@@ -54,18 +55,31 @@ const imageVariant = {
 
 const AlchemistViewAnimated = ({
   isChefUnlocked,
-  accessCode,
-  setAccessCode,
-  verifyCode,
-  codeError,
+  validateLogic,
+  onUnlockSuccess,
   chefQuery,
   setChefQuery,
   askChef,
   chefLoading,
   chefResult,
   chefFallbackText,
-  chefFallbackActionable
+  chefFallbackActionable,
+  resetChef
 }) => {
+  useEffect(() => {
+    if (isChefUnlocked) {
+      setTimeout(() => {
+        const element = document.getElementById('receta-menu-alquimista');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        setTimeout(() => {
+          document.getElementById('alchemist-ingredients-input')?.focus();
+        }, 800);
+      }, 300);
+    }
+  }, [isChefUnlocked]);
+
   const particles = useMemo(() =>
     [...Array(20)].map((_, i) => ({
       id: i,
@@ -251,82 +265,117 @@ const AlchemistViewAnimated = ({
         </div>
       </section>
 
-      {/* --- LA MESA DE ALQUIMIA --- */}
-      <section id="ritual" className="py-32 px-6 bg-[#fdfbf7] border-t border-stone-100 relative overflow-hidden">
-        <div className="absolute top-1/2 left-0 w-[60vw] h-[60vw] bg-brand-500/5 rounded-full blur-[180px] -translate-x-1/2 -translate-y-1/2 opacity-30"></div>
+      {/* --- LA BÓVEDA DEL ALQUIMISTA --- */}
+      <section id="ritual" className="py-32 px-6 relative overflow-hidden bg-stone-950">
         
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="text-center mb-20 space-y-8">
-            <div className="w-24 h-24 bg-brand-700 rounded-[2.5rem] flex items-center justify-center mx-auto shadow-premium-xl animate-glow-pulse">
-              <Sparkles size={40} className="text-yolk-400" />
-            </div>
-            <h2 className="text-3xl sm:text-5xl md:text-8xl font-serif font-black text-stone-900 tracking-tight">Tu Próxima <span className="text-brand-700 italic">Nutrición.</span></h2>
-            <p className="text-xl md:text-2xl text-stone-600 font-medium max-w-2xl mx-auto opacity-90 leading-relaxed">
-              Dime qué productos de <span className="text-brand-700 font-black">Ruta del Nido</span> tienes y qué hay hoy en <span className="text-stone-900 font-black underline decoration-brand-500/20 underline-offset-8">tu despensa personal</span>.
-            </p>
-          </div>
-
+        {/* Fondo Cinematográfico (Fotografía + Capas Oscuras) */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/images/alchemist_ai/southern_ingredients.png" 
+            alt="Preparación Artesanal" 
+            className="w-full h-full object-cover blur-[8px] opacity-40 scale-105 saturate-150 mix-blend-luminosity"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-stone-950 via-amber-950/60 to-stone-950"></div>
+          {/* Luz focal dorada */}
+          <div className="absolute top-1/2 left-1/2 w-[60vw] h-[60vw] bg-amber-600/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 opacity-70 pointer-events-none blend-screen"></div>
+        </div>
+        
+        <div className="max-w-[85rem] mx-auto relative z-10 w-full flex flex-col items-center">
+          
           <div className={cn(
-            "p-1.5 rounded-[4rem] transition-all duration-1000 shadow-2xl",
-            isChefUnlocked ? "bg-gradient-to-br from-brand-600/40 via-brand-200/20 to-brand-600/40" : "bg-stone-200/50"
+            "w-full transition-all duration-1000",
+            isChefUnlocked && "max-w-5xl" 
           )}>
             <div className={cn(
-               "rounded-[3.8rem] overflow-hidden transition-all duration-700 bg-white/90 backdrop-blur-md shadow-inner relative"
+               "w-full transition-all duration-700 relative"
             )}>
               
               {!isChefUnlocked ? (
-                <div className="p-6 sm:p-12 md:p-24 text-center space-y-12">
-                  <div className="w-20 h-20 bg-beige-50 rounded-full flex items-center justify-center mx-auto border border-stone-100">
-                    <Lock size={32} className="text-stone-300" />
-                  </div>
-                  <div className="space-y-6">
-                    <h3 className="text-4xl md:text-5xl font-serif font-black text-stone-900 tracking-tight">Acceso Exclusivo</h3>
-                    <p className="text-stone-500 font-bold text-lg uppercase tracking-widest italic">“Solo para miembros que buscan la excelencia culinaria.”</p>
-                  </div>
+                <div className="flex flex-col xl:flex-row items-center justify-center gap-12 w-full pt-10">
                   
-                  <div className="max-w-md mx-auto space-y-8">
-                    <div className="relative group">
-                      <input
-                        type="text"
-                        placeholder="CÓDIGO"
-                        value={accessCode}
-                        onChange={(e) => setAccessCode(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && verifyCode()}
-                        className={cn(
-                          "w-full px-5 py-5 sm:px-10 sm:py-8 bg-beige-50 border-2 rounded-[2.5rem] text-center font-black text-xl sm:text-3xl tracking-widest placeholder:tracking-widest outline-none transition-all",
-                          codeError ? "border-red-400 text-red-500" : "border-stone-100 focus:border-brand-500 text-stone-900"
-                        )}
-                      />
-                      {codeError && <p className="text-red-500 text-xs font-black uppercase tracking-[0.3em] mt-6">Código no válido para la membresía</p>}
+                  {/* INSTRUCCIONES EXTERNAS FLOTANTES (Costado Izquierdo) */}
+                  <div className="w-full max-w-sm xl:w-[26rem] order-2 xl:order-1 flex-shrink-0 p-8 md:p-10 rounded-[3rem] bg-stone-900/60 backdrop-blur-xl border border-yolk-500/20 shadow-2xl select-none space-y-10">
+                    <div className="space-y-4 text-center xl:text-left">
+                       <h3 className="text-3xl font-serif text-yolk-400 font-medium italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                         Magia en 3 Pasos
+                       </h3>
+                       <p className="text-stone-400 font-sans text-xs tracking-widest uppercase font-bold">
+                         Guía para saborear nuestra tierra
+                       </p>
                     </div>
-                    <button 
-                      onClick={verifyCode} 
-                      className="w-full bg-brand-700 text-white py-5 sm:py-8 rounded-[2.5rem] font-black text-base sm:text-xl uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-premium-xl"
-                    >
-                      Desbloquear Alquimia <ArrowRight className="inline-block ml-4" size={24} />
-                    </button>
+
+                    <div className="space-y-8">
+                       <div className="flex gap-5 items-start">
+                         <div className="flex-shrink-0 w-12 h-12 rounded-full bg-yolk-500/10 border border-yolk-500/30 flex items-center justify-center shadow-inner">
+                           <Key className="text-yolk-400 w-5 h-5" />
+                         </div>
+                         <div className="space-y-1 pt-1">
+                           <h4 className="text-xl font-serif text-stone-100 font-bold">1. Abre la Puerta</h4>
+                           <p className="text-stone-400 font-serif leading-relaxed text-sm">Ingresa el código mágico en el letrero interactivo a tu derecha.</p>
+                         </div>
+                       </div>
+                       
+                       <div className="flex gap-5 items-start">
+                         <div className="flex-shrink-0 w-12 h-12 rounded-full bg-yolk-500/10 border border-yolk-500/30 flex items-center justify-center shadow-inner">
+                           <ShoppingBag className="text-yolk-400 w-5 h-5" />
+                         </div>
+                         <div className="space-y-1 pt-1">
+                           <h4 className="text-xl font-serif text-stone-100 font-bold">2. Dinos qué tienes</h4>
+                           <p className="text-stone-400 font-serif leading-relaxed text-sm">Escríbele al Alquimista los productos que compraste o tienes en la cocina.</p>
+                         </div>
+                       </div>
+
+                       <div className="flex gap-5 items-start">
+                         <div className="flex-shrink-0 w-12 h-12 rounded-full bg-yolk-500/10 border border-yolk-500/30 flex items-center justify-center shadow-inner">
+                           <ChefHat className="text-yolk-400 w-5 h-5" />
+                         </div>
+                         <div className="space-y-1 pt-1">
+                           <h4 className="text-xl font-serif text-stone-100 font-bold">3. Sorpréndete</h4>
+                           <p className="text-stone-400 font-serif leading-relaxed text-sm">Presiona el botón luminoso y descubre tu receta paso a paso preparada al instante.</p>
+                         </div>
+                       </div>
+                    </div>
+                  </div>
+
+                  {/* CUADRO DEL ALQUIMISTA - ORIGNAL E INTACTO (Costado Derecho / Centro) */}
+                  <div className="w-full flex-1 max-w-2xl order-1 xl:order-2 flex justify-center">
+                    <ExclusiveAccess
+                      validateLogic={validateLogic}
+                      onUnlockSuccess={onUnlockSuccess}
+                    />
                   </div>
                 </div>
               ) : (
-                <div className="p-10 md:p-16 space-y-12 bg-transparent z-10 relative">
+                <div id="receta-menu-alquimista" className="p-8 md:p-16 space-y-12 bg-white/5 backdrop-blur-3xl shadow-[0_0_80px_rgba(0,0,0,0.5)] rounded-[3.8rem] border border-white/10 z-10 relative mt-16 w-full">
+                  
+                  {/* Textos del Usuario Desbloqueado */}
+                  <div className="text-center space-y-6 pb-6 border-b border-white/10">
+                     <span className="text-yolk-500 font-sans text-[11px] font-black tracking-[0.4em] uppercase">Bienvenido al Santuario</span>
+                     <h3 className="text-3xl md:text-5xl font-serif font-black text-stone-100 tracking-tight">Tu Bóveda <span className="text-transparent bg-clip-text bg-gradient-to-r from-yolk-300 to-amber-500 italic">Culinaria.</span></h3>
+                     <p className="text-stone-400 font-serif text-sm md:text-lg max-w-2xl mx-auto leading-relaxed">
+                       Combina tus exquisitos salmones, quesos artesanales o cortes rústicos de <strong className="text-stone-100">Ruta del Nido</strong> con los ingredientes de tu despensa. Elaboraremos juntos obras de arte inigualables.
+                     </p>
+                  </div>
+
                   {/* Search Input Bar */}
-                  <div className="relative group">
-                    <div className="absolute -inset-2 bg-gradient-to-r from-brand-600 via-yolk-400 to-brand-600 rounded-[3rem] blur opacity-10 group-focus-within:opacity-30 transition duration-1000"></div>
-                    <div className="relative flex flex-col md:flex-row items-center bg-white/95 rounded-[3rem] border-2 border-stone-100 p-3 gap-3">
+                  <div className="relative group mt-8">
+                    <div className="absolute -inset-2 bg-gradient-to-r from-yolk-600 via-stone-400 to-amber-600 rounded-[3rem] blur opacity-10 group-focus-within:opacity-20 transition duration-1000"></div>
+                    <div className="relative flex flex-col md:flex-row items-center bg-stone-900/80 rounded-[3rem] border border-white/10 p-2 gap-3 shadow-inner">
                        <input
+                        id="alchemist-ingredients-input"
                         type="text"
-                        placeholder={'Tengo Huevos del Nido, Queso Licán Ray y espinaca...'}
+                        placeholder={'Ej: Salmón Premium y mantequilla artesanal...'}
                         value={chefQuery}
                         onChange={(e) => setChefQuery(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && askChef()}
-                        className="flex-1 w-full px-8 py-6 bg-transparent outline-none font-serif font-black text-xl md:text-3xl text-stone-900 placeholder:text-stone-400"
+                        className="flex-1 w-full px-8 py-6 bg-transparent outline-none font-serif font-medium text-xl md:text-2xl text-stone-100 placeholder:text-stone-500/70"
                       />
                       <button
                         onClick={askChef}
                         disabled={chefLoading}
-                        className="w-full md:w-auto bg-brand-700 text-white px-12 py-6 rounded-[2.2rem] font-black uppercase tracking-widest hover:scale-105 transition-all disabled:opacity-50 shadow-xl flex items-center justify-center gap-4"
+                        className="w-full md:w-auto bg-gradient-to-r from-yolk-500 to-amber-600 text-stone-900 font-bold px-12 py-6 rounded-[2.5rem] uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 shadow-xl shadow-yolk-500/20 flex items-center justify-center gap-4 border border-yolk-400/50"
                       >
-                        {chefLoading ? <Loader2 className="animate-spin" size={28} /> : <><Zap size={28} strokeWidth={3} /> Crear</>}
+                        {chefLoading ? <Loader2 className="animate-spin text-stone-900" size={24} /> : <><Flame size={24} strokeWidth={2.5} /> Cocinar</>}
                       </button>
                     </div>
                   </div>
@@ -374,42 +423,37 @@ const AlchemistViewAnimated = ({
                           className="w-full -m-10 md:-m-14"
                         >
 
-                          {/* Hero imagen + título */}
-                          <div className="relative rounded-t-[3.5rem] overflow-hidden">
-                            {chefResult.imageUrl && (
-                              <motion.img
-                                variants={imageVariant}
-                                src={chefResult.imageUrl}
-                                alt={chefResult.title}
-                                className="w-full h-64 md:h-96 object-cover"
-                                onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                              />
-                            )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-                              <motion.h3 
-                                variants={itemVariant}
-                                className="text-3xl md:text-5xl font-serif font-black text-white leading-tight drop-shadow-lg mb-4"
-                              >
-                                {chefResult.title}
-                              </motion.h3>
-                              <motion.div variants={itemVariant} className="flex flex-wrap gap-3">
+                          {/* Hero tipografico */}
+                          <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-stone-900 via-brand-950 to-stone-900 lg:-mx-14 lg:-mt-14 mb-10 shadow-premium-xl">
+                            {/* Particulas atmosfericas */}
+                            <div className="absolute inset-x-0 bottom-0 top-0 opacity-10 bg-[url('/images/noise.png')] mix-blend-overlay"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-brand-900/60 via-transparent to-stone-900/40" />
+                            
+                            <div className="relative z-10 p-10 md:p-20 flex flex-col items-center justify-center text-center space-y-6">
+                              <motion.div variants={itemVariant} className="flex flex-wrap justify-center gap-3 mb-2">
                                 {chefResult.timeMinutes && (
-                                  <span className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest">
-                                    <Clock size={13} /> {chefResult.timeMinutes} min
+                                  <span className="inline-flex items-center gap-2 bg-black/40 backdrop-blur-md border border-white/20 text-white px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest">
+                                    <Clock size={14} className="text-brand-400" /> {chefResult.timeMinutes} MIN
                                   </span>
                                 )}
                                 {chefResult.difficulty && (
                                   <span className={cn(
-                                    "inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border",
-                                    chefResult.difficulty === 'Facil' && "bg-green-500/30 border-green-400/40 text-green-100",
-                                    chefResult.difficulty === 'Media' && "bg-yolk-500/30 border-yolk-400/40 text-yolk-100",
-                                    chefResult.difficulty === 'Dificil' && "bg-red-500/30 border-red-400/40 text-red-100",
+                                    "inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest border backdrop-blur-md",
+                                    chefResult.difficulty === 'Facil' ? "bg-green-500/20 border-green-500/30 text-green-200" :
+                                    chefResult.difficulty === 'Media' ? "bg-yolk-500/20 border-yolk-500/30 text-yolk-200" :
+                                    "bg-red-500/20 border-red-500/30 text-red-200"
                                   )}>
-                                    <Flame size={13} /> {chefResult.difficulty}
+                                    <Flame size={14} /> {chefResult.difficulty}
                                   </span>
                                 )}
                               </motion.div>
+                              <motion.h3 
+                                variants={itemVariant}
+                                className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-black text-amber-50 leading-[1.1] drop-shadow-2xl px-4"
+                              >
+                                {chefResult.title}
+                              </motion.h3>
+                              <motion.div variants={itemVariant} className="w-24 h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-60 mt-4 mx-auto rounded-full"></motion.div>
                             </div>
                           </div>
 
@@ -507,6 +551,19 @@ const AlchemistViewAnimated = ({
                             </div>
                           )}
 
+                          {/* Botón Nueva Receta */}
+                          <div className="flex justify-center mt-12 mb-4">
+                            <button
+                              onClick={() => {
+                                resetChef?.();
+                                setTimeout(() => document.getElementById('alchemist-ingredients-input')?.focus(), 100);
+                              }}
+                              className="px-8 py-4 bg-stone-900 border border-stone-700 text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-stone-800 transition-colors shadow-lg"
+                            >
+                              Ingresar Nueva Receta
+                            </button>
+                          </div>
+
                         </motion.div>
                       )}
 
@@ -515,14 +572,25 @@ const AlchemistViewAnimated = ({
                           <p className="text-stone-900 text-2xl md:text-4xl font-serif font-black italic max-w-3xl mx-auto leading-tight">
                             “{chefFallbackText}”
                           </p>
-                          {chefFallbackActionable && (
-                            <button 
-                              onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, necesito ayuda con una receta saludable de Ruta del Nido.')}`, '_blank')}
-                              className="inline-flex items-center gap-5 bg-[#25D366] text-white px-12 py-7 rounded-full font-black text-xl shadow-premium-xl hover:scale-105 active:scale-95 transition-all"
+                          <div className="flex flex-col items-center gap-6">
+                            {chefFallbackActionable && (
+                              <button 
+                                onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, necesito ayuda con una receta saludable de Ruta del Nido.')}`, '_blank')}
+                                className="inline-flex items-center gap-5 bg-[#25D366] text-white px-12 py-7 rounded-full font-black text-xl shadow-premium-xl hover:scale-105 active:scale-95 transition-all"
+                              >
+                                <MessageSquare size={28} /> Hablar con el Alquimista
+                              </button>
+                            )}
+                            <button
+                              onClick={() => {
+                                resetChef?.();
+                                setTimeout(() => document.getElementById('alchemist-ingredients-input')?.focus(), 100);
+                              }}
+                              className="px-8 py-4 bg-transparent border border-stone-300 text-stone-600 rounded-full font-black text-sm uppercase tracking-widest hover:bg-stone-100 transition-colors"
                             >
-                              <MessageSquare size={28} /> Hablar con el Alquimista
+                              Intentar de Nuevo
                             </button>
-                          )}
+                          </div>
                         </div>
                       )}
                     </motion.div>

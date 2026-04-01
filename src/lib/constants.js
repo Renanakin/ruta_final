@@ -6,24 +6,24 @@ export function cn(...inputs) {
 }
 
 export const PRODUCTS = [
-  {
-    id: 1,
-    name: 'Huevo de Gallina Feliz Premium',
-    category: 'huevos',
-    description: 'Yema naranja, sabor intenso y real de campo. Libres de jaulas, alimentadas con granos naturales.',
-    price: 6700,
-    image: '/images/EGGS_EPIC.png',
-    badge: 'Agotado',
-    inStock: false,
-    extendedDescription: 'Nuestros huevos provienen de gallinas libres de estrés. Verás la diferencia en el color de la yema y la textura de tus preparaciones.',
-    nutrition: ['Proteína de alta calidad', 'Yema de color intenso', 'Sin hormonas'],
-    origin: 'Granjas del Valle Central, Chile',
-    reviews: [
-      'Increíble el sabor, nada que ver con los del súper.',
-      'La yema es naranja de verdad.',
-      'Llegan siempre frescos.'
-    ]
-  },
+    {
+      id: 1,
+      name: 'Huevo de Gallina Feliz Premium',
+      category: 'huevos',
+      description: 'Yema naranja, sabor intenso y real de campo. Libres de jaulas, alimentadas con granos naturales.',
+      price: 6700,
+      image: '/images/EGGS_EPIC.png',
+      badge: 'Agotado',
+      inStock: false,
+      extendedDescription: 'Nuestros huevos provienen de gallinas libres de estrés. Verás la diferencia en el color de la yema y la textura de tus preparaciones.',
+      nutrition: ['Proteína de alta calidad', 'Yema de color intenso', 'Sin hormonas'],
+      origin: 'Granjas del Valle Central, Chile',
+      reviews: [
+        'Increíble el sabor, nada que ver con los del súper.',
+        'La yema es naranja de verdad.',
+        'Llegan siempre frescos.'
+      ]
+    },
   {
     id: 8,
     name: 'Huevo Blanco Extra (Bandeja 30 un)',

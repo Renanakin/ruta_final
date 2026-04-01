@@ -3,24 +3,6 @@ import { open } from 'sqlite';
 
 const PRODUCTS = [
   {
-    id: 1,
-    name: 'Huevo de Gallina Feliz Premium',
-    category: 'huevos',
-    description: 'Yema naranja, sabor intenso y real de campo. Libres de jaulas, alimentadas con granos naturales.',
-    price: 8500,
-    image: '/images/EGGS_EPIC.png',
-    badge: 'Favorito del Alquimista',
-    inStock: true,
-    extendedDescription: 'Nuestros huevos provienen de gallinas libres de estres. Veras la diferencia en el color de la yema y la textura de tus preparaciones.',
-    nutrition: ['Proteina de alta calidad', 'Yema de color intenso', 'Sin hormonas'],
-    origin: 'Granjas del Valle Central, Chile',
-    reviews: [
-      'Increible el sabor, nada que ver con los del super.',
-      'La yema es naranja de verdad.',
-      'Llegan siempre frescos.'
-    ]
-  },
-  {
     id: 8,
     name: 'Huevo Blanco Extra (Bandeja 30 un)',
     category: 'huevos',

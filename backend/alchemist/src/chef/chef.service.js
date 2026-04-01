@@ -4,11 +4,6 @@ import { buildChefRecipePrompt } from './chef.prompt.js';
 import { AlchemistProviderError, AlchemistValidationError } from '../errors.js';
 import { parseJsonObjectFromText } from '../json.js';
 
-const buildImageUrl = (imagePrompt) => {
-  const encodedPrompt = encodeURIComponent(imagePrompt);
-  return `https://image.pollinations.ai/prompt/${encodedPrompt}?width=800&height=600&nologo=true`;
-};
-
 export const createChefService = ({ textGenerator, logger } = {}) => {
   if (!textGenerator || typeof textGenerator.generateText !== 'function') {
     throw new Error('createChefService requiere un textGenerator con generateText().');
@@ -37,6 +32,14 @@ export const createChefService = ({ textGenerator, logger } = {}) => {
 
       const parsedPayload = parseJsonObjectFromText(rawText);
 
+      // Evaluar la posibilidad de rechazo dictaminado por los topes de guardrails
+      if (parsedPayload.refusal && typeof parsedPayload.refusal === 'string') {
+        throw new AlchemistValidationError(parsedPayload.refusal, {
+          field: 'refusal',
+          reason: 'IA rechazó cumplir la orden por los guardrails.'
+        });
+      }
+
       let recipe;
       try {
         recipe = chefRecipeSchema.parse(parsedPayload);
@@ -57,10 +60,7 @@ export const createChefService = ({ textGenerator, logger } = {}) => {
         throw error;
       }
 
-      return {
-        ...recipe,
-        imageUrl: buildImageUrl(recipe.imagePrompt),
-      };
+      return recipe;
     },
   };
 };

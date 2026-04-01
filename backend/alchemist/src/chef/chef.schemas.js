@@ -20,5 +20,4 @@ export const chefRecipeSchema = z.object({
   steps: z.array(z.string().min(8).max(800).transform(normalizeParagraph)).min(3).max(15),
   flavorTip: z.string().min(8).max(400).transform(normalizeParagraph),
   presentationTip: z.string().min(8).max(400).transform(normalizeParagraph),
-  imagePrompt: z.string().min(20).max(600).transform(normalizeParagraph),
 });
