@@ -1,8 +1,8 @@
-import { FLOATING_WHATSAPP_URL } from '../lib/constants';
+import { buildWhatsAppContextUrl } from '../lib/constants';
 
 const WhatsAppFloat = () => (
   <a
-    href={FLOATING_WHATSAPP_URL}
+    href={buildWhatsAppContextUrl('hacer un pedido')}
     target="_blank"
     rel="noreferrer"
     className="fixed right-5 bottom-5 z-[9999] group"

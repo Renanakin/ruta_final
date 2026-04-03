@@ -1,244 +1,260 @@
-# Ruta Fresca (Ruta del Nido)
+# Ruta del Nido
 
-Plataforma web + CRM para venta y operacion de pedidos y suscripciones de Ruta del Nido.
+Plan maestro de corrección, validación y liberación controlada a producción.
 
-## Stack Tecnologico
+Este archivo define la ejecución oficial por fases para llevar el proyecto a un estado de release serio sobre la arquitectura real de producción:
 
-- **Frontend**: React + Vite + Tailwind CSS + Lucide Icons
-- **Backend**: Node.js + Express + SQLite
-- **Logging**: Pino + Pino-pretty
-- **Auth**: JWT con verificacion de email, recuperacion de contrasena y cookie httpOnly para la web publica
-- **IA**: Google Gemini
-- **Email**: Resend API
-- **Testing**: Vitest + Supertest
+- Frontend estático Vite servido por Nginx
+- Backend Node.js + Express administrado por PM2
+- API interna en `127.0.0.1:3004`
+- Dominio canónico objetivo: `https://rutadelnido.com`
 
-## Requisitos
+No autoriza despliegue automático. El proyecto permanece en estado `NO DEPLOY` hasta cerrar todos los bloqueadores de `P0`.
 
-- Node.js 18+ (20 recomendado)
-- Docker opcional
-- SQLite local en `backend/database.sqlite`
+## Estado oficial
 
-## Configuracion
+- Estado de ejecución: `Plan de remediación aprobado`
+- Estado de release: `NO DEPLOY`
+- Autoridad de pase entre fases: `Orquestador`
+- Registro de skills y agentes: ver [SKILLS.md](/C:/dev/1_ruta/SKILLS.md)
 
-### Frontend (`.env`)
+## Reglas obligatorias
 
-```env
-VITE_WHATSAPP_NUMBER=56993685089
-VITE_API_BASE_URL=http://localhost:3001
+1. Ninguna fase comienza sin pase formal del Orquestador.
+2. Ninguna fase se considera terminada sin evidencia verificable.
+3. Cada entregable finalizado debe documentarse y marcarse con check.
+4. Nada marcado como completado debe rehacerse, salvo que el Orquestador abra una reapertura explícita.
+5. Toda fase debe cerrar con:
+   - entregables
+   - evidencia
+   - riesgos residuales
+   - check de cierre
+6. Si una fase falla pruebas, vuelve a `En corrección` y no se avanza.
+
+## Orquestación oficial
+
+### Orquestador
+
+El Orquestador es el responsable de:
+
+- interpretar requerimientos de la fase
+- asignar agentes y skills
+- verificar criterios de entrada
+- revisar evidencia de salida
+- aprobar o rechazar el pase a la siguiente fase
+- mantener el registro de checks completados
+
+### Flujo de control
+
+1. El Orquestador abre la fase.
+2. Asigna agentes especializados.
+3. Los agentes ejecutan solo su alcance.
+4. Los agentes devuelven evidencia y piden revisión.
+5. El Orquestador valida el cumplimiento.
+6. Si aprueba, marca checks y libera la siguiente fase.
+7. Si rechaza, devuelve observaciones y la fase continúa bloqueada.
+
+## Registro persistente de avance
+
+Cada cierre debe reflejarse en este archivo y, si aplica, en documentos de fase bajo `docs/release/`.
+
+### Checks ya cerrados
+
+- [x] Auditoría inicial de seguridad, calidad, SEO, despliegue y accesibilidad realizada
+- [x] Arquitectura productiva recalibrada a `Nginx + PM2 + frontend estático`
+- [x] Dictamen oficial definido: `NO DEPLOY` hasta cierre de `P0`
+- [x] Plan por fases y sistema de orquestación documentados
+
+### Checks globales pendientes para habilitar release
+
+- [ ] `P0` cerrado completamente
+- [ ] `P1` cerrado completamente
+- [ ] `P2` cerrado completamente
+- [ ] Validación final del VPS real aprobada por el Orquestador
+- [ ] Cambio de estado de `NO DEPLOY` a `READY FOR RELEASE`
+
+## Fases oficiales
+
+## Fase P0 - Bloqueadores de release
+
+Objetivo: eliminar todo riesgo que impida un despliegue seguro, coherente y verificable.
+
+### Alcance
+
+- dependencias críticas y altas del frontend
+- secretos y configuración sensible
+- CORS y autenticación CRM
+- lint, build y tests
+- dominio canónico y metadatos mínimos
+- validación productiva del VPS
+
+### Tareas
+
+- [ ] Corregir o reemplazar dependencias vulnerables de severidad crítica/alta
+- [ ] Rotar secretos operativos y definir política de secretos fuera del repo
+- [ ] Endurecer JWT del CRM con claims consistentes
+- [ ] Alinear CORS con producción real y configuración por entorno
+- [ ] Llevar `npm run lint` a verde
+- [ ] Llevar `npm run build` a verde sin warnings bloqueantes de release
+- [ ] Llevar `backend npm test` a verde
+- [ ] Definir dominio canónico único `rutadelnido.com`
+- [ ] Completar SEO mínimo técnico:
+  - `meta description`
+  - `canonical`
+  - `og:title`
+  - `og:description`
+  - `og:url`
+  - `og:type`
+  - `twitter:image:alt`
+- [ ] Corregir `robots.txt`, `sitemap.xml` y JSON-LD con dominio y assets reales
+- [ ] Validar VPS real con:
+  - `curl -I https://rutadelnido.com`
+  - `curl -I https://www.rutadelnido.com`
+  - `curl http://127.0.0.1:3004/api/health` desde el servidor
+  - verificación de proxy `/api/*`
+
+### Evidencia mínima de cierre
+
+- `npm audit` sin findings críticos/altos aceptados como bloqueantes
+- `npm run lint` exitoso
+- `npm run build` exitoso
+- `backend npm test` exitoso
+- capturas o logs de `curl` del VPS
+- checklist SEO mínimo completado
+- nota de secretos rotados y estrategia de carga validada
+
+### Criterio de pase
+
+La fase solo pasa cuando el Orquestador confirme que no queda ningún bloqueador abierto de seguridad, QA, SEO canónico o despliegue.
+
+### Estado
+
+- [ ] P0 aprobado por Orquestador
+
+## Fase P1 - Calidad de producto y validación funcional
+
+Objetivo: dejar el producto estable, accesible y limpio para QA serio.
+
+### Alcance
+
+- accesibilidad crítica
+- errores de consola
+- smoke tests funcionales
+- validación visual principal
+- consistencia UX
+
+### Tareas
+
+- [ ] Corregir controles sin nombre accesible
+- [ ] Corregir navegación por teclado y skip links
+- [ ] Corregir jerarquía de headings
+- [ ] Corregir contraste insuficiente en UI principal
+- [ ] Eliminar errores de consola evitables en sesión anónima
+- [ ] Ejecutar smoke QA de:
+  - `/`
+  - `/alquimista`
+  - `favicon`
+  - CTA WhatsApp
+  - footer
+  - navegación móvil
+- [ ] Ejecutar validación visual de home y alquimista
+- [ ] Validar formularios críticos y fallback UX
+
+### Evidencia mínima de cierre
+
+- reporte de Lighthouse actualizado
+- evidencia de pruebas manuales o automatizadas
+- lista de issues a11y cerrados
+- consola limpia o con warnings no bloqueantes explícitamente aceptados
+
+### Criterio de pase
+
+La fase solo pasa cuando el Orquestador confirme que la experiencia pública principal soporta QA funcional y accesibilidad básica sin findings graves abiertos.
+
+### Estado
+
+- [ ] P1 aprobado por Orquestador
+
+## Fase P2 - Endurecimiento final y readiness operativa
+
+Objetivo: dejar el proyecto listo para un release defendible y repetible.
+
+### Alcance
+
+- automatización de QA
+- observabilidad
+- release checklist
+- rollback
+- documentación final de operación
+
+### Tareas
+
+- [ ] Definir checklist pre-release
+- [ ] Definir checklist post-deploy
+- [ ] Definir plan de rollback
+- [ ] Definir monitoreo y revisión de logs
+- [ ] Definir validación de SEO post-release
+- [ ] Dejar procedimiento de smoke test del VPS
+- [ ] Dejar procedimiento de revalidación cuando se cambie infraestructura
+- [ ] Dejar registro final de riesgos residuales aceptados
+
+### Evidencia mínima de cierre
+
+- checklist completa firmada por Orquestador
+- procedimiento de rollback documentado
+- procedimiento operativo de validación documentado
+- documento de riesgos residuales actualizado
+
+### Criterio de pase
+
+La fase solo pasa cuando el Orquestador determine que el proyecto ya no depende de conocimiento tribal para ser operado, validado o liberado.
+
+### Estado
+
+- [ ] P2 aprobado por Orquestador
+
+## Cambio de estado final
+
+Solo el Orquestador puede cambiar el estado del proyecto a:
+
+- [ ] `READY FOR RELEASE`
+
+Ese cambio requiere:
+
+- [ ] P0 aprobado
+- [ ] P1 aprobado
+- [ ] P2 aprobado
+- [ ] VPS validado
+- [ ] Riesgos residuales aceptados
+- [ ] Documentación final cerrada
+
+## Cómo documentar cada cierre
+
+Cada tarea o subfase cerrada debe añadir:
+
+- fecha
+- responsable
+- evidencia
+- decisión del Orquestador
+
+Formato sugerido:
+
+```md
+- [x] Nombre del entregable
+  Fecha: YYYY-MM-DD
+  Responsable: agente o equipo
+  Evidencia: ruta/log/reporte
+  Aprobado por: Orquestador
 ```
 
-### Backend (`backend/.env` y `backend/.env.local`)
+## Qué no se puede hacer
 
-Crea `backend/.env` a partir de [backend/.env.example](/K:/desarrollos/ruta_fresca/backend/.env.example) y guarda los secretos reales en `backend/.env.local`.
+- desplegar por intuición
+- pasar de fase por avance parcial
+- cerrar tareas sin evidencia
+- reabrir tareas cerradas sin justificación documentada
+- iniciar `P1` o `P2` con `P0` abierto
 
-Variables minimas:
+## Siguiente paso operativo
 
-```env
-PORT=3001
-NODE_ENV=development
-APP_BASE_URL=http://localhost:5173
-SQLITE_PATH=./database.sqlite
-JWT_SECRET=tu_secreto_aleatorio_largo
-CORS_ORIGINS=http://localhost:5173
-GEMINI_API_KEY=tu_key_de_gemini
-RESEND_API_KEY=re_tu_key_de_resend
-REPORT_EMAIL_FROM=No-Responder <onboarding@resend.dev>
-```
-
-Notas:
-
-- `backend/.env` debe quedar con placeholders seguros para el repo.
-- `backend/.env.local` sobreescribe `backend/.env` y queda ignorado por git.
-- El frontend no debe exponer tokens administrativos en variables `VITE_*`.
-- `DATABASE_URL` no es requisito del runtime publico actual; solo queda como soporte de migracion puntual.
-
-## Ejecución local (2 Métodos)
-
-Puedes correr este proyecto de dos formas distintas, **incluso simultáneamente** si lo deseas.
-
-### 1. Método Nativo (Puerto 5173) - Recomendado para Desarrollo
-Ideal si tienes Node.js 20 instalado y quieres cambios instantáneos.
-```bash
-# Frontend (Raíz)
-npm install
-npm run dev
-
-# Backend (en otra terminal)
-cd backend
-npm install
-npm run dev
-```
-Acceso: [http://localhost:5173](http://localhost:5173)
-
-### 2. Método Docker (Puerto 5174) - Recomendado para Prueba/Distribución 
-Ideal para correr el proyecto completo con un solo comando sin instalar dependencias.
-```bash
-docker compose up --build -d
-```
-Acceso: [http://localhost:5174](http://localhost:5174)
-
----
-
-Guía detallada:
-- [docs/COMO_EJECUTAR_LA_WEB.md](docs/COMO_EJECUTAR_LA_WEB.md)
-
-## Migracion desde SQLite a PostgreSQL
-
-Orden recomendado:
-
-1. Configura `DATABASE_URL` del destino.
-2. Verifica el origen SQLite actual:
-
-```bash
-cd backend
-npm run db:migrate:sqlite -- --dry-run
-```
-
-3. Ejecuta la migracion real:
-
-```bash
-cd backend
-npm run db:migrate:sqlite
-```
-
-4. Valida el backend:
-
-```bash
-cd backend
-npm test
-```
-
-## Docker (Recomendado)
-
-La forma más rápida de levantar el proyecto completo es usando Docker Compose:
-
-```bash
-docker compose up --build -d
-```
-Esto levantará el frontend en [http://localhost:5174](http://localhost:5174) (configurado para evitar colisiones) y el backend en el puerto `3003`.
-
-Para más detalles, consulta la [Guía de Ejecución](docs/COMO_EJECUTAR_LA_WEB.md).
-
-## Arquitectura
-
-El proyecto sigue una arquitectura en capas por modulos:
-
-1. **Routes**: endpoints y validacion de entrada.
-2. **Controller**: orquestacion HTTP.
-3. **Service**: logica de negocio y acceso a datos.
-
-Mas detalle en [ARCHITECTURE.md](/K:/desarrollos/ruta_fresca/ARCHITECTURE.md).
-
-## Alquimista Publico
-
-El Alquimista del Nido ya esta activo en la experiencia publica.
-
-Flujo actual:
-
-1. el usuario entra por `/alquimista`
-2. valida su codigo con `POST /api/ai/chef/verify`
-3. consulta ingredientes o contexto culinario con `POST /api/ai/chef`
-4. el backend devuelve una receta estructurada y segura
-5. si la IA falla o llega al limite, la UI deriva a WhatsApp como salida auxiliar
-
-Requisitos operativos:
-
-- `CHEF_ACCESS_CODE`
-- `GEMINI_API_KEY`
-- `ALCHEMIST_GEMINI_MODEL` opcional
-
-Validacion recomendada para esta capacidad:
-
-```bash
-cd backend
-npm test
-
-cd ..
-npm run lint
-npm run build
-```
-
-## Analitica Enriquecida
-
-El proyecto incluye una capa analitica completa para navegacion, conversion y geografia.
-
-### Capacidades implementadas
-
-- tracking enriquecido desde frontend para:
-  - `page_view`
-  - `view_product`
-  - `create_account`
-  - `login`
-  - `newsletter_subscribe`
-  - `add_to_cart`
-  - `begin_checkout`
-  - `purchase`
-  - `ai_interaction`
-  - `subscription_interest`
-  - `subscription_start`
-- deteccion de IP real en backend con anonimizado por `ip_hash` e `ip_masked`
-- geolocalizacion en modo `mock` y `live`
-- cache geografica en `geo_ip_cache`
-- agregados administrativos para resumen, geo, paginas, productos, heatmaps y eventos
-- dashboard CRM con:
-  - KPIs de eventos, sesiones, usuarios, cuentas e IA
-  - top paises y ciudades
-  - mapa geografico real estilizado de Chile
-  - heatmap de navegacion
-  - top paginas y productos
-  - filtros por fecha, evento, producto, canal y pagina
-  - presets locales de filtros
-  - exportacion CSV y PDF
-
-### Endpoints analiticos
-
-- `POST /api/analytics/events`
-- `GET /api/analytics/summary`
-- `GET /api/analytics/geo`
-- `GET /api/analytics/pages`
-- `GET /api/analytics/products`
-- `GET /api/analytics/heatmap`
-- `GET /api/analytics/events`
-
-Todos los endpoints `GET` de analytics estan protegidos para uso CRM administrativo.
-
-### Hardening operativo
-
-- exclusion de trafico interno y bots en la ingesta
-- limite de tasa para `POST /api/analytics/events`
-- limite de tamano de payload analitico
-- sanitizacion de propiedades sensibles
-- retencion automatica de `analytics_events` y `geo_ip_cache`
-
-### Variables de entorno analiticas
-
-Configuralas en `backend/.env` segun el entorno:
-
-```env
-ANALYTICS_GEO_MODE=mock
-ANALYTICS_GEO_PROVIDER=ip-api
-ANALYTICS_GEO_TIMEOUT_MS=3000
-ANALYTICS_TRACK_INTERNAL=false
-ANALYTICS_PAYLOAD_MAX_BYTES=4096
-ANALYTICS_RETENTION_DAYS=180
-ANALYTICS_RATE_LIMIT_WINDOW_MS=60000
-ANALYTICS_RATE_LIMIT_MAX=120
-ANALYTICS_IP_HASH_SALT=CHANGE_ME_ANALYTICS_HASH_SALT
-```
-
-### Validacion recomendada
-
-```bash
-cd backend
-npm test
-
-cd ..
-npm run build
-```
-
-Estado actual:
-
-- backend analitico listo
-- tracking frontend listo
-- dashboard CRM analitico listo
-- exportaciones analiticas listas
+El siguiente paso correcto es ejecutar `P0` bajo coordinación del Orquestador, usando la matriz de skills y agentes definida en [SKILLS.md](/C:/dev/1_ruta/SKILLS.md).

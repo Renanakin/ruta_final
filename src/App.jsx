@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { X, Sparkles } from 'lucide-react';
 
-const sumCartItems = (items) =>
-  (items || []).reduce((acc, item) => acc + Number(item.quantity || 0), 0);
+const AUTH_SESSION_HINT_KEY = 'rdn_auth_session_hint';
 
 import {
   API_BASE_URL,
@@ -11,8 +10,7 @@ import {
   PRICE_PLACEHOLDER,
   PRODUCTS,
   WHATSAPP_NUMBER,
-  createSessionId,
-  cn
+  createSessionId
 } from './lib/constants';
 import Nav from './components/Nav';
 import AccountPanel from './components/AccountPanel';
@@ -57,10 +55,13 @@ const App = () => {
 
   const [authToken, setAuthToken] = useState('');
   const [authUser, setAuthUser] = useState(null);
+  const [hasAuthSessionHint, setHasAuthSessionHint] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.localStorage.getItem(AUTH_SESSION_HINT_KEY) === '1';
+  });
   const [accountPanelOpen, setAccountPanelOpen] = useState(false);
   const [accountPanelTab, setAccountPanelTab] = useState('profile');
-  const [cartCount, setCartCount] = useState(0);
-  const [useAlchemistV2, setUseAlchemistV2] = useState(true);
+  const [useAlchemistV2] = useState(true);
 
   const [showNewsletter, setShowNewsletter] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -75,7 +76,7 @@ const App = () => {
     if (typeof window === 'undefined') return '';
     return window.sessionStorage.getItem('rdn_alchemist_code') || '';
   });
-  const [codeError, setCodeError] = useState('');
+  const [, setCodeError] = useState('');
   const [chefQuery, setChefQuery] = useState('');
   const [chefLoading, setChefLoading] = useState(false);
   const [chefResult, setChefResult] = useState(null);
@@ -147,6 +148,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (!authToken && !hasAuthSessionHint) return;
+
     fetch(`${API_BASE_URL}/api/auth/me`, {
       credentials: 'include',
       headers: authToken && authToken !== 'cookie' ? { Authorization: `Bearer ${authToken}` } : {}
@@ -156,31 +159,28 @@ const App = () => {
         if (!ok) {
           setAuthToken('');
           setAuthUser(null);
+          setHasAuthSessionHint(false);
+          if (typeof window !== 'undefined') {
+            window.localStorage.removeItem(AUTH_SESSION_HINT_KEY);
+          }
           return;
         }
         setAuthToken((prev) => prev || 'cookie');
         setAuthUser(data.user);
+        setHasAuthSessionHint(true);
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem(AUTH_SESSION_HINT_KEY, '1');
+        }
       })
       .catch(() => {
         setAuthToken('');
         setAuthUser(null);
+        setHasAuthSessionHint(false);
+        if (typeof window !== 'undefined') {
+          window.localStorage.removeItem(AUTH_SESSION_HINT_KEY);
+        }
       });
-  }, [authToken]);
-
-  useEffect(() => {
-    if (!authToken) return;
-    fetch(`${API_BASE_URL}/api/cart`, {
-      credentials: 'include',
-      headers: authToken && authToken !== 'cookie' ? { Authorization: `Bearer ${authToken}` } : {}
-    })
-      .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
-      .then(({ ok, data }) => {
-        if (!ok) return;
-        const totalItems = sumCartItems(data.items);
-        setCartCount(totalItems);
-      })
-      .catch(() => {});
-  }, [authToken]);
+  }, [authToken, hasAuthSessionHint]);
 
   useEffect(() => {
     if (!selectedProduct) return;
@@ -238,6 +238,10 @@ const App = () => {
         if (data.success) {
           setAuthToken('cookie');
           setAuthUser(data.user || null);
+          setHasAuthSessionHint(true);
+          if (typeof window !== 'undefined') {
+            window.localStorage.setItem(AUTH_SESSION_HINT_KEY, '1');
+          }
         }
         window.history.replaceState(null, '', '/');
         setPathname('/');
@@ -256,42 +260,6 @@ const App = () => {
     localStorage.setItem('rdn_social_banner_closed', '1');
   };
 
-  const addToCart = async (qty = 1, productId = null) => {
-    const product = products.find((item) => item.id === Number(productId));
-
-    if (authToken && productId) {
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/cart/items`, {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(authToken && authToken !== 'cookie' ? { Authorization: `Bearer ${authToken}` } : {})
-          },
-          body: JSON.stringify({ product_id: productId, quantity: qty })
-        });
-        const data = await res.json();
-        if (res.ok) {
-          const totalItems = sumCartItems(data.items);
-          setCartCount(totalItems);
-          trackEvent('add_to_cart', {
-            product_id: Number(productId),
-            product_name: product?.name || null,
-            quantity: Number(qty) || 1,
-            unit_price: product?.price || null,
-            cart_count_after: totalItems,
-            currency: 'CLP'
-          });
-          return;
-        }
-      } catch {
-        // fallback local
-      }
-    }
-
-    setCartCount((prev) => prev + qty);
-  };
-
   const openAccountPanel = (tab = 'profile') => {
     setAccountPanelTab(tab);
     setAccountPanelOpen(true);
@@ -300,6 +268,10 @@ const App = () => {
   const handleAuthSuccess = (token, user) => {
     setAuthToken(token || 'cookie');
     setAuthUser(user);
+    setHasAuthSessionHint(true);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(AUTH_SESSION_HINT_KEY, '1');
+    }
   };
 
   const handleLogout = () => {
@@ -309,7 +281,10 @@ const App = () => {
     }).catch(() => {});
     setAuthToken('');
     setAuthUser(null);
-    setCartCount(0);
+    setHasAuthSessionHint(false);
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(AUTH_SESSION_HINT_KEY);
+    }
     setAccountPanelTab('login');
   };
 
@@ -323,8 +298,6 @@ const App = () => {
   };
 
   const handleProductWhatsApp = (productName) => {
-    const product = products.find((item) => item.name === productName);
-    if (product?.id) addToCart(1, product.id);
     handleOrder(productName);
   };
 
@@ -554,7 +527,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen flex flex-col w-full selection:bg-yolk-100 selection:text-brand-900">
-      <a href="#catalogo" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-brand-700 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-bold focus:shadow-lg">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-brand-700 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-bold focus:shadow-lg">
         Ir al contenido principal
       </a>
 
@@ -567,70 +540,70 @@ const App = () => {
         onGoHome={goHome}
         onOpenAlchemist={openAlchemist}
         handleOrder={handleOrder}
-        cartCount={cartCount}
+        cartCount={0}
         onOpenAccount={() => openAccountPanel(authToken ? 'profile' : 'login')}
         onOpenOrders={() => openAccountPanel(authToken ? 'orders' : 'login')}
         onOpenSubscription={() => openAccountPanel(authToken ? 'subscription' : 'login')}
-        onOpenCart={() => openAccountPanel(authToken ? 'cart' : 'login')}
+        onOpenCart={() => handleOrder('Consulta General')}
       />
 
-      {(pathname.startsWith('/alquimista') || activeTab === 'alquimista') ? (
-        <>
-          {useAlchemistV2 ? (
-            <AlchemistViewAnimated
-              isChefUnlocked={isChefUnlocked}
-              accessCode={accessCode}
-              setAccessCode={setAccessCode}
-              validateLogic={validateLogic}
-              onUnlockSuccess={handleUnlockSuccess}
-              chefQuery={chefQuery}
-              setChefQuery={setChefQuery}
-              askChef={askChef}
-              chefLoading={chefLoading}
-              chefResult={chefResult}
-              chefFallbackText={chefFallbackText}
-              chefFallbackActionable={chefFallbackActionable}
-              resetChef={() => { setChefQuery(''); setChefResult(null); setChefFallbackText(''); }}
-            />
-          ) : (
-            <AlchemistView
-              isChefUnlocked={isChefUnlocked}
-              accessCode={accessCode}
-              setAccessCode={setAccessCode}
-              validateLogic={validateLogic}
-              onUnlockSuccess={handleUnlockSuccess}
-              chefQuery={chefQuery}
-              setChefQuery={setChefQuery}
-              askChef={askChef}
-              chefLoading={chefLoading}
-              chefResult={chefResult}
-              chefFallbackText={chefFallbackText}
-              chefFallbackActionable={chefFallbackActionable}
-              resetChef={() => { setChefQuery(''); setChefResult(null); setChefFallbackText(''); }}
-            />
-          )}
-        </>
-      ) : (
-        <>
-          {showTopBanner && (
-            <div className="bg-brand-700 text-beige-100 text-center py-2.5 px-10 text-xs md:text-sm font-semibold tracking-wide border-b border-brand-800 relative">
-              {topBannerMessages[topBannerIndex]}
-              <button onClick={closeTopBanner} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10" aria-label="Cerrar banner">
-                <X size={16} />
-              </button>
-            </div>
-          )}
-          
-          <main className="flex-1 w-full overflow-x-hidden">
+      {!(pathname.startsWith('/alquimista') || activeTab === 'alquimista') && showTopBanner && (
+        <div className="bg-brand-700 text-beige-100 text-center py-2.5 px-10 text-xs md:text-sm font-semibold tracking-wide border-b border-brand-800 relative">
+          {topBannerMessages[topBannerIndex]}
+          <button onClick={closeTopBanner} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10" aria-label="Cerrar banner">
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
+      <main id="main-content" tabIndex="-1" className="flex-1 w-full overflow-x-hidden">
+        {(pathname.startsWith('/alquimista') || activeTab === 'alquimista') ? (
+          <>
+            {useAlchemistV2 ? (
+              <AlchemistViewAnimated
+                isChefUnlocked={isChefUnlocked}
+                accessCode={accessCode}
+                setAccessCode={setAccessCode}
+                validateLogic={validateLogic}
+                onUnlockSuccess={handleUnlockSuccess}
+                chefQuery={chefQuery}
+                setChefQuery={setChefQuery}
+                askChef={askChef}
+                chefLoading={chefLoading}
+                chefResult={chefResult}
+                chefFallbackText={chefFallbackText}
+                chefFallbackActionable={chefFallbackActionable}
+                resetChef={() => { setChefQuery(''); setChefResult(null); setChefFallbackText(''); }}
+              />
+            ) : (
+              <AlchemistView
+                isChefUnlocked={isChefUnlocked}
+                accessCode={accessCode}
+                setAccessCode={setAccessCode}
+                validateLogic={validateLogic}
+                onUnlockSuccess={handleUnlockSuccess}
+                chefQuery={chefQuery}
+                setChefQuery={setChefQuery}
+                askChef={askChef}
+                chefLoading={chefLoading}
+                chefResult={chefResult}
+                chefFallbackText={chefFallbackText}
+                chefFallbackActionable={chefFallbackActionable}
+                resetChef={() => { setChefQuery(''); setChefResult(null); setChefFallbackText(''); }}
+              />
+            )}
+          </>
+        ) : (
+          <>
             <HeroSection scrollTo={scrollTo} handleOrder={handleOrder} />
             <CatalogSection products={products} onSelectProduct={setSelectedProduct} onProductWhatsApp={handleProductWhatsApp} />
             <ValuesSection />
             <AlchemistTeaserSection onOpenAlchemist={openAlchemist} />
             <SocialProof />
             <SubscriptionSection subscriptionEggType={subscriptionEggType} setSubscriptionEggType={setSubscriptionEggType} handleSubscription={handleSubscription} />
-          </main>
-        </>
-      )}
+          </>
+        )}
+      </main>
 
       {verifyEmailMsg && (
         <div className="bg-stone-800 text-white text-center py-2.5 px-10 text-sm font-semibold relative">
@@ -665,15 +638,14 @@ const App = () => {
         authUser={authUser}
         onAuthSuccess={handleAuthSuccess}
         onTrackEvent={trackEvent}
+        onDirectOrder={handleOrder}
         onLogout={handleLogout}
-        onCartCountChange={(count) => setCartCount(count)}
         initialTab={accountPanelTab}
       />
 
       <ProductDetailModal
         selectedProduct={selectedProduct}
         onClose={() => setSelectedProduct(null)}
-        onAddToCart={addToCart}
         onProductWhatsApp={handleProductWhatsApp}
       />
 

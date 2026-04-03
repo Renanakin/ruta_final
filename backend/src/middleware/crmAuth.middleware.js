@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
 import { getDb } from '../config/db.js';
+import { verifyCrmToken } from '../lib/jwt.js';
 import { logger } from '../lib/logger.js';
 
 const normalizeLocalIds = (value) => {
@@ -24,7 +24,7 @@ export const protectCrm = async (req, res, next) => {
       return res.status(401).json({ success: false, error: 'No autorizado, sin token' });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = verifyCrmToken(token);
     const db = getDb();
     const user = await db.get(
       'SELECT id, email, role, local_ids, is_active FROM crm_users WHERE id = ?',

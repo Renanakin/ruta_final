@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { ShoppingBasket } from 'lucide-react';
-import { cn, PRICE_PLACEHOLDER } from '../lib/constants';
+import { MessageSquare } from 'lucide-react';
+import { buildWhatsAppProductUrl, cn, PRICE_PLACEHOLDER } from '../lib/constants';
 
 const formatClp = (value) => {
-  if (value === null || value === undefined) return PRICE_PLACEHOLDER;
+  if (!value) return PRICE_PLACEHOLDER;
   return `$${Number(value).toLocaleString('es-CL')}`;
 };
 
-const CatalogSection = ({ products, onSelectProduct, onProductWhatsApp }) => {
+const CatalogSection = ({ products, onSelectProduct }) => {
   const [activeTab, setActiveTab] = useState('todos');
   
   const categories = [
@@ -15,7 +15,8 @@ const CatalogSection = ({ products, onSelectProduct, onProductWhatsApp }) => {
     { id: 'huevos', label: 'Huevos' },
     { id: 'quesos', label: 'Quesos' },
     { id: 'embutidos', label: 'Embutidos' },
-    { id: 'congelados', label: 'Congelados' }
+    { id: 'congelados', label: 'Congelados' },
+    { id: 'costillares', label: 'Costillares' }
   ];
 
 
@@ -27,7 +28,7 @@ const CatalogSection = ({ products, onSelectProduct, onProductWhatsApp }) => {
           <div className="max-w-xl">
             <span className="text-brand-700 font-black text-xs uppercase tracking-[0.2em] mb-4 block">Línea actual</span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-stone-900 leading-tight">Variedades Seleccionadas</h2>
-            <p className="text-stone-500 mt-4 text-lg italic">Cada producto ha sido curado por El Alquimista por su alma y su origen.</p>
+            <p className="text-stone-600 mt-4 text-lg italic">Cada producto ha sido curado por El Alquimista por su alma y su origen.</p>
           </div>
           
           <div className="flex flex-wrap gap-2 pb-2 overflow-x-auto no-scrollbar max-w-full">
@@ -39,7 +40,7 @@ const CatalogSection = ({ products, onSelectProduct, onProductWhatsApp }) => {
                   "px-6 py-2.5 rounded-full text-sm font-bold transition-all border whitespace-nowrap",
                   activeTab === cat.id 
                     ? "bg-brand-900 text-white border-brand-900 shadow-md scale-105" 
-                    : "bg-white text-stone-500 border-stone-200 hover:border-brand-300 hover:shadow-sm"
+                    : "bg-white text-stone-700 border-stone-200 hover:border-brand-300 hover:shadow-sm"
                 )}
               >
                 {cat.label}
@@ -80,14 +81,16 @@ const CatalogSection = ({ products, onSelectProduct, onProductWhatsApp }) => {
                           <span className={cn('text-xs font-black px-3 py-1 rounded-full', p.inStock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700')}>
                             {p.inStock ? 'En stock' : 'Agotado'}
                           </span>
-                          <span className="text-xs text-stone-500 font-semibold">Del campo directo a tu mesa</span>
+                          <span className="text-xs text-stone-600 font-semibold">Del campo directo a tu mesa</span>
                         </div>
 
                         <div className="flex items-center justify-between pt-5 border-t border-stone-100">
                           <div>
-                            <span className="text-xl sm:text-2xl md:text-3xl font-black text-brand-950 leading-tight">{formatClp(p.price)}</span>
-                            <span className="text-[11px] text-stone-500 block font-black uppercase tracking-widest mt-1">
-                              {p.price ? 'Precio vigente' : 'Lanzamiento próximo'}
+                            <span className="text-xl sm:text-2xl md:text-3xl font-black text-brand-950 leading-tight">
+                              {(p.coming_soon || p.comingSoon) ? PRICE_PLACEHOLDER : formatClp(p.price)}
+                            </span>
+                            <span className="text-[11px] text-stone-600 block font-black uppercase tracking-widest mt-1">
+                              {(p.coming_soon || p.comingSoon || !p.price) ? 'Lanzamiento próximo' : 'Precio vigente'}
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
@@ -97,13 +100,16 @@ const CatalogSection = ({ products, onSelectProduct, onProductWhatsApp }) => {
                             >
                               Detalle
                             </button>
-                            <button
-                              onClick={() => onProductWhatsApp(p.name)}
-                              className="bg-brand-700 hover:bg-brand-800 text-white p-4 rounded-3xl shadow-premium transition-all active:scale-90"
+                            <a
+                              href={buildWhatsAppProductUrl(p.name)}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white px-4 py-3 rounded-2xl shadow-premium transition-all active:scale-90 font-black text-sm"
                               aria-label={`Pedir ${p.name} por WhatsApp`}
                             >
-                              <ShoppingBasket size={22} strokeWidth={3} />
-                            </button>
+                              <MessageSquare size={18} strokeWidth={2.5} />
+                              <span className="hidden sm:inline">WhatsApp</span>
+                            </a>
                           </div>
                         </div>
                       </div>

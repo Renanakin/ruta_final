@@ -1,0 +1,208 @@
+- generic [ref=e3]:
+  - link "Ir al contenido principal" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e5]:
+    - generic [ref=e7]:
+      - img "Ruta del Nido" [ref=e10] [cursor=pointer]
+      - generic [ref=e11]:
+        - button "Productos" [ref=e12]
+        - button "Suscripciones" [ref=e13]
+        - button "El Alquimista" [ref=e14]
+      - generic [ref=e15]:
+        - button "0" [ref=e16]:
+          - img [ref=e17]
+          - generic [ref=e21]: "0"
+        - button [ref=e23]:
+          - img [ref=e24]
+        - link "Instagram" [ref=e28] [cursor=pointer]:
+          - /url: https://www.instagram.com/rutadelnido/
+          - img [ref=e29]
+          - text: Instagram
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img "Fogón de la Ruta" [ref=e36]
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - img [ref=e61]
+            - text: Inteligencia Culinaria
+          - heading "Alquimia Real." [level=1] [ref=e64]:
+            - text: Alquimia
+            - text: Real.
+          - paragraph [ref=e66]: "\"Fusionamos los mejores tesoros de nuestra ruta con lo que tienes en casa para crear salud y sabor.\""
+          - generic [ref=e67]:
+            - button "Nuestra Despensa" [ref=e68]:
+              - img [ref=e69]
+              - text: Nuestra Despensa
+            - button "Iniciar Receta" [ref=e72]:
+              - img [ref=e73]
+              - text: Iniciar Receta
+              - img [ref=e75]
+            - link "Pedir por WhatsApp" [ref=e77] [cursor=pointer]:
+              - /url: https://wa.me/56947529379
+              - img [ref=e78]
+              - text: Pedir por WhatsApp
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - generic [ref=e85]:
+            - generic [ref=e88]: El Secreto del Sabor
+            - heading "Tus ingredientes, Nuestra Maestría." [level=2] [ref=e89]:
+              - text: Tus ingredientes,
+              - text: Nuestra Maestría.
+            - paragraph [ref=e90]: El Alquimista no solo cocina; analiza la calidad de los productos Ruta del Nido para ofrecerte el máximo valor nutricional posible.
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - img [ref=e94]
+              - heading "Huevos de Autor" [level=3] [ref=e97]
+              - paragraph [ref=e98]: Ruta del Nido
+            - generic [ref=e99]:
+              - img [ref=e101]
+              - heading "Mares de Chile" [level=3] [ref=e104]
+              - paragraph [ref=e105]: Salmón & Mariscos
+            - generic [ref=e106]:
+              - img [ref=e108]
+              - heading "Quesos del Nido" [level=3] [ref=e110]
+              - paragraph [ref=e111]: Artesanales
+            - generic [ref=e112]:
+              - img [ref=e114]
+              - heading "Tu Despensa" [level=3] [ref=e117]
+              - paragraph [ref=e118]: Lo que tienes en casa
+        - generic [ref=e120]:
+          - img "Ingredientes Ruta del Nido" [ref=e121]
+          - generic [ref=e124]:
+            - generic [ref=e125]:
+              - img [ref=e126]
+              - img [ref=e128]
+              - img [ref=e130]
+              - img [ref=e132]
+              - img [ref=e134]
+            - paragraph [ref=e136]: “La mejor receta es la que cuida tu cuerpo usando alimentos con origen real.”
+            - generic [ref=e137]:
+              - img [ref=e139]
+              - generic [ref=e141]:
+                - paragraph [ref=e142]: Sello Alquimista
+                - paragraph [ref=e143]: Compromiso Ruta del Nido
+      - generic [ref=e145]:
+        - generic [ref=e146]:
+          - text: Casos de Éxito
+          - heading "Resultados Inspiradores" [level=2] [ref=e147]
+          - paragraph [ref=e148]: Creaciones deliciosas logradas con productos de la Ruta y la sugerencia de nuestro Chef AI.
+        - generic [ref=e149]:
+          - generic [ref=e150]:
+            - img "Huevos de Campo" [ref=e151]
+            - generic [ref=e153]:
+              - heading "Huevos de Campo" [level=3] [ref=e154]
+              - paragraph [ref=e155]: Alquimia de Proteína
+          - generic [ref=e156]:
+            - img "Salmón Premium" [ref=e157]
+            - generic [ref=e159]:
+              - heading "Salmón Premium" [level=3] [ref=e160]
+              - paragraph [ref=e161]: Fuego & Mares
+          - generic [ref=e162]:
+            - img "Queso Licán Ray" [ref=e163]
+            - generic [ref=e165]:
+              - heading "Queso Licán Ray" [level=3] [ref=e166]
+              - paragraph [ref=e167]: Maduración Lenta
+          - generic [ref=e168]:
+            - img "Longaniza Artesanal" [ref=e169]
+            - generic [ref=e171]:
+              - heading "Longaniza Artesanal" [level=3] [ref=e172]
+              - paragraph [ref=e173]: Sabor del Secreto
+      - generic [ref=e174]:
+        - img "Preparación Artesanal" [ref=e176]
+        - generic [ref=e181]:
+          - generic [ref=e182]:
+            - generic [ref=e183]:
+              - heading "Magia en 3 Pasos" [level=3] [ref=e184]
+              - paragraph [ref=e185]: Guía para saborear nuestra tierra
+            - generic [ref=e186]:
+              - generic [ref=e187]:
+                - img [ref=e189]
+                - generic [ref=e193]:
+                  - heading "1. Abre la Puerta" [level=4] [ref=e194]
+                  - paragraph [ref=e195]: Ingresa el código mágico en el letrero interactivo a tu derecha.
+              - generic [ref=e196]:
+                - img [ref=e198]
+                - generic [ref=e201]:
+                  - heading "2. Dinos qué tienes" [level=4] [ref=e202]
+                  - paragraph [ref=e203]: Escríbele al Alquimista los productos que compraste o tienes en la cocina.
+              - generic [ref=e204]:
+                - img [ref=e206]
+                - generic [ref=e208]:
+                  - heading "3. Sorpréndete" [level=4] [ref=e209]
+                  - paragraph [ref=e210]: Presiona el botón luminoso y descubre tu receta paso a paso preparada al instante.
+          - generic [ref=e214]:
+            - img "Sello Alquimista" [ref=e218]
+            - generic [ref=e219]:
+              - heading "Ruta del Nido El Alquimista" [level=2] [ref=e220]:
+                - text: Ruta del Nido
+                - generic [ref=e221]: El Alquimista
+              - paragraph [ref=e223]:
+                - text: No estás ante una receta más, estás en el santuario de nuestra cocina artesanal chilena. Una bóveda donde nuestras maravillas del mar, exquisitos quesos sureños y
+                - strong [ref=e224]: materia prima de excelencia
+                - text: convergen.
+                - text: Ingresa tu sello, cuéntanos qué tienes en tu mesa, y nosotros encenderemos el fogón sagrado.
+            - generic [ref=e226]:
+              - textbox "Revela tu llave aquí..." [ref=e228]
+              - button "Validar llave de acceso" [ref=e229]:
+                - img [ref=e230]
+      - generic [ref=e235]:
+        - heading "Origen, Salud & Tú." [level=2] [ref=e236]:
+          - text: Origen, Salud
+          - text: "& Tú."
+        - generic [ref=e237]:
+          - button "Crear Mi Receta" [ref=e238]:
+            - text: Crear Mi Receta
+            - img [ref=e239]
+          - paragraph [ref=e241]: Ruta del Nido • Alquimia de Autor
+      - link "Pedir por WhatsApp" [ref=e242] [cursor=pointer]:
+        - /url: https://wa.me/56947529379
+        - generic [ref=e243]: Pedir por WhatsApp
+        - img [ref=e245]
+  - contentinfo [ref=e247]:
+    - generic [ref=e248]:
+      - generic [ref=e249]:
+        - img "Ruta del Nido" [ref=e252]
+        - paragraph [ref=e253]: Conectamos origen, nutrición y confianza para que tu hogar se alimente mejor cada semana.
+      - generic [ref=e254]:
+        - generic [ref=e255]:
+          - paragraph [ref=e256]: Explorar
+          - list [ref=e257]:
+            - listitem [ref=e258]:
+              - button "Productos" [ref=e259]
+            - listitem [ref=e260]:
+              - button "Suscripciones" [ref=e261]
+            - listitem [ref=e262]:
+              - button "El Alquimista" [ref=e263]
+        - generic [ref=e264]:
+          - paragraph [ref=e265]: Ayuda
+          - list [ref=e266]:
+            - listitem [ref=e267]:
+              - button "WhatsApp" [ref=e268]
+            - listitem [ref=e269]:
+              - button "Contacto" [ref=e270]
+    - generic "Contador publico de visitas a la tienda" [ref=e272]:
+      - generic [ref=e273]:
+        - generic [ref=e274]: 🐔
+        - generic [ref=e275]:
+          - generic [ref=e276]: "0"
+          - generic [ref=e277]: Visitas registradas este mes · ...
+        - generic [ref=e279]:
+          - generic [ref=e280]: "0"
+          - generic [ref=e281]: Visitas historicas
+      - generic [ref=e282]:
+        - img [ref=e283]
+        - generic [ref=e286]:
+          - text: El contador registra sesiones unicas de visita, sin recopilar datos personales.
+          - strong [ref=e287]: Solo contamos, no identificamos.
+    - link "Comunidad del Nido Síguenos en Instagram para promociones y sabiduría culinaria Seguir" [ref=e289] [cursor=pointer]:
+      - /url: https://www.instagram.com/rutadelnido/
+      - generic [ref=e291]:
+        - img [ref=e293]
+        - generic [ref=e296]:
+          - paragraph [ref=e297]: Comunidad del Nido
+          - paragraph [ref=e298]: Síguenos en Instagram para promociones y sabiduría culinaria
+      - generic [ref=e299]:
+        - text: Seguir
+        - img [ref=e300]
+    - generic [ref=e302]: © 2026 Ruta del Nido • Diseñada, programada y desplegada por HackTeck Design

@@ -481,4 +481,76 @@ router.get('/events', protectCrm, async (req, res, next) => {
   }
 });
 
+// ─── PUBLIC: Contador de visitas ─────────────────────────────────────────────
+// Rate limit dedicado, más permisivo (es solo un ping)
+const visitsLimiter = rateLimit({
+  windowMs: 60_000,
+  max: process.env.NODE_ENV === 'test' ? 1_000 : 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: () => process.env.NODE_ENV === 'test',
+  message: { success: false, error: 'Demasiadas solicitudes al contador de visitas' },
+});
+
+/**
+ * GET /api/analytics/visits
+ * Retorna el conteo del mes actual y el total histórico.
+ * Público, sin autenticación.
+ */
+router.get('/visits', async (_req, res, next) => {
+  try {
+    const db = getDb();
+    const now = new Date();
+    const year = now.getUTCFullYear();
+    const month = now.getUTCMonth() + 1;
+
+    const [monthly, historic] = await Promise.all([
+      db.get(
+        `SELECT count FROM site_visits WHERE year = ? AND month = ?`,
+        [year, month]
+      ),
+      db.get(`SELECT COALESCE(SUM(count), 0) AS total FROM site_visits`),
+    ]);
+
+    res.json({
+      success: true,
+      monthly: Number(monthly?.count ?? 0),
+      total: Number(historic?.total ?? 0),
+      period: { year, month },
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * POST /api/analytics/visits/ping
+ * Incrementa el contador del mes actual en 1.
+ * Público — el anti-inflado se maneja en el frontend con sessionStorage.
+ */
+router.post('/visits/ping', visitsLimiter, async (_req, res, next) => {
+  try {
+    const db = getDb();
+    const now = new Date();
+    const year = now.getUTCFullYear();
+    const month = now.getUTCMonth() + 1;
+
+    await db.run(
+      `INSERT INTO site_visits (year, month, count)
+       VALUES (?, ?, 1)
+       ON CONFLICT (year, month) DO UPDATE SET count = count + 1`,
+      [year, month]
+    );
+
+    const row = await db.get(
+      `SELECT count FROM site_visits WHERE year = ? AND month = ?`,
+      [year, month]
+    );
+
+    res.status(201).json({ success: true, count: Number(row?.count ?? 1) });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

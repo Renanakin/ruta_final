@@ -30,23 +30,46 @@ envFiles.forEach((path) => {
   dotenv.config({ path, override: true });
 });
 
-const parseOrigins = () =>
-  (process.env.CORS_ORIGINS || 'http://localhost:5173')
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean);
-
 const validateRuntimeConfig = () => {
   if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) {
     throw new Error('JWT_SECRET debe estar configurado y tener al menos 32 caracteres');
   }
 };
 
+const parseAllowedOrigins = () => {
+  const configuredOrigins = String(process.env.CORS_ORIGINS || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  const localOrigins = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:4173',
+    'http://127.0.0.1:4173',
+  ];
+
+  const canonicalOrigins = [
+    'https://rutadelnido.com',
+    'https://www.rutadelnido.com',
+  ];
+
+  return Array.from(
+    new Set([
+      ...canonicalOrigins,
+      ...localOrigins,
+      ...configuredOrigins,
+    ])
+  );
+};
+
 export const createApp = () => {
   validateRuntimeConfig();
 
   const app = express();
-  const allowedOrigins = parseOrigins();
+
+  // 🔥 LISTA FIJA DE ORÍGENES PERMITIDOS (PRODUCCIÓN)
+  const allowedOrigins = parseAllowedOrigins();
 
   app.set('trust proxy', process.env.TRUST_PROXY === 'true' ? 1 : false);
   app.disable('x-powered-by');
@@ -64,14 +87,17 @@ export const createApp = () => {
     message: { success: false, error: 'Demasiadas solicitudes, intenta de nuevo mas tarde' },
   }));
 
+  // 🔥 CORS CORREGIDO
   app.use(cors({
     origin(origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-      return callback(new Error('Not allowed by CORS'));
+      return callback(new Error(`Not allowed by CORS: ${origin}`));
     },
     credentials: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    optionsSuccessStatus: 204,
   }));
 
   app.use(express.json({ limit: process.env.JSON_BODY_LIMIT || '1mb' }));
@@ -102,7 +128,7 @@ export const createApp = () => {
 export const startServer = async () => {
   await initDb();
   const app = createApp();
-  const port = Number(process.env.PORT || 3001);
+  const port = Number(process.env.PORT || 3004);
   const host = process.env.HOST || undefined;
 
   app.listen(port, host, () => {

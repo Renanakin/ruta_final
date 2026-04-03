@@ -1,5 +1,7 @@
 import { ArrowRight, Instagram } from 'lucide-react';
 import { cn, INSTAGRAM_URL } from '../lib/constants';
+import VisitorCounter from './VisitorCounter';
+
 
 const Footer = ({ scrollTo, onOpenAlchemist, handleOrder, activeTab }) => {
   const isAlchemist = activeTab === 'alquimista';
@@ -29,7 +31,7 @@ const Footer = ({ scrollTo, onOpenAlchemist, handleOrder, activeTab }) => {
         </div>
         <div className="grid grid-cols-2 gap-16 text-sm">
           <div>
-            <h5 className={cn("font-black uppercase tracking-[0.3em] mb-8", isAlchemist ? "text-white/80" : "text-stone-900")}>Explorar</h5>
+            <p className={cn("font-black uppercase tracking-[0.3em] mb-8", isAlchemist ? "text-white/85" : "text-stone-900")}>Explorar</p>
             <ul className="space-y-5 font-bold tracking-widest uppercase text-[10px]">
               <li><button onClick={() => scrollTo('catalogo')} className="hover:text-yolk-500 transition-colors">Productos</button></li>
               <li><button onClick={() => scrollTo('suscripciones')} className="hover:text-yolk-500 transition-colors">Suscripciones</button></li>
@@ -37,7 +39,7 @@ const Footer = ({ scrollTo, onOpenAlchemist, handleOrder, activeTab }) => {
             </ul>
           </div>
           <div>
-            <h5 className={cn("font-black uppercase tracking-[0.3em] mb-8", isAlchemist ? "text-white/80" : "text-stone-900")}>Ayuda</h5>
+            <p className={cn("font-black uppercase tracking-[0.3em] mb-8", isAlchemist ? "text-white/85" : "text-stone-900")}>Ayuda</p>
             <ul className="space-y-5 font-bold tracking-widest uppercase text-[10px]">
               <li><button onClick={() => handleOrder('Preguntas')} className="hover:text-yolk-500 transition-colors">WhatsApp</button></li>
               <li><button onClick={() => handleOrder('Soporte')} className="hover:text-yolk-500 transition-colors">Contacto</button></li>
@@ -45,7 +47,13 @@ const Footer = ({ scrollTo, onOpenAlchemist, handleOrder, activeTab }) => {
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 mt-20">
+
+      {/* ── Visitor Counter ─────────────────────────────────────────────────── */}
+      <div className="max-w-7xl mx-auto px-4 mt-14">
+        <VisitorCounter isAlchemist={isAlchemist} />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 mt-8">
         <a
           href={INSTAGRAM_URL}
           target="_blank"
@@ -67,7 +75,7 @@ const Footer = ({ scrollTo, onOpenAlchemist, handleOrder, activeTab }) => {
           </span>
         </a>
       </div>
-      <div className={cn("text-center mt-32 text-[10px] font-bold uppercase tracking-[0.8em]", isAlchemist ? "text-white/30" : "text-stone-600")}>
+      <div className={cn("text-center mt-32 text-[10px] font-bold uppercase tracking-[0.8em]", isAlchemist ? "text-white/60" : "text-stone-600")}>
         © 2026 Ruta del Nido &nbsp;•&nbsp; Diseñada, programada y desplegada por HackTeck Design
       </div>
     </footer>

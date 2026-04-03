@@ -18,7 +18,7 @@ import {
   PanelTop,
   Key
 } from 'lucide-react';
-import { cn, WHATSAPP_NUMBER } from '../lib/constants';
+import { buildWhatsAppContextUrl, cn, FLOATING_WHATSAPP_URL } from '../lib/constants';
 import ExclusiveAccess from './ExclusiveAccess';
 
 const AlchemistView = ({
@@ -121,6 +121,14 @@ const AlchemistView = ({
             >
               <ChefHat size={18} /> Iniciar Receta <ArrowRight size={18} />
             </button>
+            <a
+              href={buildWhatsAppContextUrl('pedido de productos Ruta del Nido')}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-[#25D366] text-white px-7 py-4 sm:px-10 sm:py-5 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-premium-xl hover:scale-105 transition-all active:scale-95 flex items-center gap-3"
+            >
+              <MessageSquare size={18} /> Pedir por WhatsApp
+            </a>
           </div>
         </div>
       </section>
@@ -381,8 +389,7 @@ const AlchemistView = ({
                         {/* Hero tipografico */}
                         <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-stone-900 via-brand-950 to-stone-900 lg:-mx-14 lg:-mt-14 mb-10 shadow-premium-xl">
                           {/* Particulas atmosfericas */}
-                          <div className="absolute inset-x-0 bottom-0 top-0 opacity-10 bg-[url('/images/noise.png')] mix-blend-overlay"></div>
-                          <div className="absolute inset-0 bg-gradient-to-t from-brand-900/60 via-transparent to-stone-900/40" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-brand-900/60 via-transparent to-stone-900/40" />
                           
                           <div className="relative z-10 p-10 md:p-20 flex flex-col items-center justify-center text-center space-y-6">
                             <div className="flex flex-wrap justify-center gap-3 mb-2">
@@ -514,12 +521,14 @@ const AlchemistView = ({
                         </p>
                         <div className="flex flex-col items-center gap-6">
                           {chefFallbackActionable && (
-                            <button 
-                              onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, necesito ayuda con una receta saludable de Ruta del Nido.')}`, '_blank')}
+                            <a
+                                href={buildWhatsAppContextUrl('continuar con El Alquimista')}
+                              target="_blank"
+                              rel="noreferrer"
                               className="inline-flex items-center gap-5 bg-[#25D366] text-white px-12 py-7 rounded-full font-black text-xl shadow-premium-xl hover:scale-105 active:scale-95 transition-all"
                             >
                               <MessageSquare size={28} /> Hablar con el Alquimista
-                            </button>
+                            </a>
                           )}
                           <button
                             onClick={() => {
@@ -559,6 +568,21 @@ const AlchemistView = ({
           </div>
         </div>
       </section>
+
+      <a
+        href={FLOATING_WHATSAPP_URL}
+        target="_blank"
+        rel="noreferrer"
+        className="fixed right-5 bottom-5 z-[70] group"
+        aria-label="Pedir por WhatsApp"
+      >
+        <span className="absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap px-3 py-2 rounded-xl bg-brand-900 text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+          Pedir por WhatsApp
+        </span>
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl border-4 border-white">
+          <MessageSquare size={24} />
+        </span>
+      </a>
 
     </div>
   );

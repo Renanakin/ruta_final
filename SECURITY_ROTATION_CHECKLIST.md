@@ -1,43 +1,58 @@
 # Security Rotation Checklist
 
-Estado actual:
+## Estado actual
 
-- El repo ya no depende de secretos reales en archivos base.
-- `backend/.env.local` contiene los valores locales y esta ignorado por git.
-- `backend/.env` quedo con placeholders.
-- Se regeneraron secretos internos de la app: `JWT_SECRET`, `CRM_ADMIN_TOKEN`, credenciales CRM y `CHEF_ACCESS_CODE`.
+- El repo no debe depender de secretos reales en archivos versionados.
+- Los archivos `*.example` son la única fuente versionada para configuración.
+- Los valores locales deben vivir solo en archivos ignorados por git o en el secret manager del VPS.
+- La separación de JWT entre cliente web y CRM quedó implementada a nivel de claims y audiencia.
+- CORS local y dominio canónico quedaron alineados a `rutadelnido.com`.
 
-Rotacion externa pendiente:
+## Rotación externa pendiente
 
 1. Supabase
-   - Rota la contraseña del usuario `postgres` en el panel de Supabase.
-   - Copia la nueva cadena del `Session pooler`.
-   - Actualiza `DATABASE_URL` en `backend/.env.local` o en tu secret manager.
+   - Rotar la contraseña del usuario `postgres` en Supabase.
+   - Copiar la nueva cadena del `Session pooler`.
+   - Actualizar `DATABASE_URL` solo en el secret manager o en archivos locales ignorados.
 
 2. Gemini
-   - Revoca la API key actual en Google AI Studio o Google Cloud.
-   - Genera una nueva key.
-   - Actualiza `GEMINI_API_KEY`.
+   - Revocar la API key actual en Google AI Studio o Google Cloud.
+   - Generar una nueva key.
+   - Actualizar `GEMINI_API_KEY`.
 
 3. Resend
-   - Si luego activas correo real, genera una nueva API key.
-   - Actualiza `RESEND_API_KEY`.
+   - Si se activará correo real, generar una nueva API key.
+   - Actualizar `RESEND_API_KEY`.
 
 4. Variables de despliegue
-   - Configura todos los secretos en el proveedor de hosting o VPS.
-   - No copies `backend/.env.local` al repositorio.
-   - Mantén `DEBUG_ERRORS=false` en ambientes no locales.
+   - Configurar todos los secretos en el VPS o proveedor de hosting.
+   - No copiar archivos `.env` locales al repositorio.
+   - Mantener `DEBUG_ERRORS=false` fuera de local.
+   - Definir:
+     - `JWT_AUDIENCE=ruta-fresca-clients`
+     - `CRM_JWT_AUDIENCE=ruta-fresca-crm`
+     - `CORS_ORIGINS=https://rutadelnido.com,https://www.rutadelnido.com`
+     - `APP_BASE_URL=https://rutadelnido.com`
 
 5. Credenciales CRM
-   - Los valores internos ya fueron regenerados localmente.
-   - Si quieres forzar sincronizacion una sola vez, usa `CRM_BOOTSTRAP_MODE=sync`, inicia el backend y luego vuelve a `create_missing`.
+   - Rotar `CRM_LOGIN_PASSWORD` y `CRM_OPERATOR_PASSWORD`.
+   - Verificar que no queden credenciales reutilizadas entre local y producción.
 
-6. Validacion post-rotacion
-   - Ejecuta `cd backend && npm test`
-   - Levanta el backend y valida:
-     - `GET /api/health`
-     - `POST /api/crm/login`
-     - `POST /api/auth/register`
-     - `POST /api/auth/login`
-     - `POST /api/cart/items`
-     - `POST /api/cart/checkout`
+## Validación post-rotación
+
+- Ejecutar:
+  - `npm audit --audit-level=high`
+  - `npm run lint`
+  - `npm run build`
+  - `cd backend && npm test`
+- Validar localmente:
+  - `GET /api/health`
+  - `POST /api/crm/login`
+  - `POST /api/auth/register`
+  - `POST /api/auth/login`
+  - `POST /api/cart/items`
+  - `POST /api/cart/checkout`
+- Validar en el VPS:
+  - `curl -I https://rutadelnido.com`
+  - `curl -I https://www.rutadelnido.com`
+  - `curl http://127.0.0.1:3004/api/health`

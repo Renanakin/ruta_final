@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import {
-  ShoppingCart,
   Menu,
   X,
   ArrowRight,
   UserCircle,
-  Instagram
+  Instagram,
+  MessageSquare
 } from 'lucide-react';
 import { cn, INSTAGRAM_URL } from '../lib/constants';
 
@@ -17,7 +17,6 @@ const Nav = ({
   onGoHome,
   onOpenAlchemist,
   handleOrder,
-  cartCount,
   onOpenAccount,
   onOpenOrders,
   onOpenSubscription,
@@ -26,7 +25,7 @@ const Nav = ({
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 transition-all duration-500 bg-[#fdfbf7]/90 backdrop-blur-xl border-b border-stone-200/60 shadow-sm">
+    <nav className="sticky top-0 z-50 isolate transition-all duration-500 bg-[#fdfbf7]/90 backdrop-blur-xl border-b border-stone-200/60 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center gap-3">
           <div className="flex items-center cursor-pointer group" onClick={onGoHome}>
@@ -66,14 +65,12 @@ const Nav = ({
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <button 
-              onClick={onOpenCart} 
-              className="relative p-3 rounded-2xl border transition-all border-beige-200 bg-white hover:bg-beige-100"
+            <button
+              onClick={onOpenCart}
+              className="p-3 rounded-2xl border transition-all border-beige-200 bg-white hover:bg-beige-100"
+              aria-label="Pedir por WhatsApp"
             >
-              <ShoppingCart size={20} className="text-brand-700" />
-              <span className="absolute -top-1 -right-1 min-w-[20px] h-[20px] px-1 rounded-full bg-yolk-500 text-brand-950 text-[10px] font-black flex items-center justify-center border-2 border-brand-950">
-                {cartCount}
-              </span>
+              <MessageSquare size={20} className="text-brand-700" />
             </button>
 
             <div className="relative">
@@ -114,6 +111,7 @@ const Nav = ({
           <button
             className="md:hidden p-3 rounded-2xl transition-all text-stone-900 hover:bg-stone-100"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
           >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -121,10 +119,10 @@ const Nav = ({
       </div>
 
       <div className={cn(
-        "md:hidden overflow-hidden transition-all duration-300 bg-white border-b border-beige-200",
-        mobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+        "md:hidden relative z-[60] overflow-hidden transition-all duration-300 bg-white border-b border-beige-200",
+        mobileMenuOpen ? "max-h-[500px] opacity-100 pointer-events-auto" : "max-h-0 opacity-0 pointer-events-none"
       )}>
-        <div className="p-6 space-y-2">
+        <div className="relative z-[61] p-6 space-y-2">
             <button onClick={() => { scrollTo('catalogo'); setMobileMenuOpen(false) }} className="w-full text-left py-4 text-xs font-black uppercase tracking-widest text-stone-700">Productos</button>
             <button onClick={() => { scrollTo('suscripciones'); setMobileMenuOpen(false) }} className="w-full text-left py-4 text-xs font-black uppercase tracking-widest text-stone-700">Suscripciones</button>
             <button onClick={() => { onOpenAlchemist(); setMobileMenuOpen(false) }} className={cn("w-full text-left py-4 text-xs font-black uppercase tracking-widest", activeTab === 'alquimista' ? "text-yolk-500" : "text-stone-700")}>El Alquimista</button>
@@ -132,8 +130,8 @@ const Nav = ({
           
           <div className="pt-6 grid grid-cols-2 gap-4">
             <button onClick={() => { onOpenCart(); setMobileMenuOpen(false); }} className="relative flex flex-col items-center justify-center gap-2 py-4 rounded-2xl border font-black text-[10px] uppercase tracking-widest border-beige-200 bg-white text-stone-700">
-              <ShoppingCart size={20} className="text-brand-700" />
-              Carrito ({cartCount})
+              <MessageSquare size={20} className="text-brand-700" />
+              WhatsApp
             </button>
             <button onClick={() => { onOpenAccount(); setMobileMenuOpen(false); }} className="flex flex-col items-center justify-center gap-2 py-4 rounded-2xl border font-black text-[10px] uppercase tracking-widest border-beige-200 bg-white text-stone-700">
               <UserCircle size={20} className="text-brand-700" />

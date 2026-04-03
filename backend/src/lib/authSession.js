@@ -1,5 +1,5 @@
 import { getDb } from '../config/db.js';
-import { verifyToken } from './jwt.js';
+import { verifyCustomerToken } from './jwt.js';
 import { logger } from './logger.js';
 
 const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME || 'rdn_auth_token';
@@ -85,7 +85,7 @@ export const resolveAuthenticatedUser = async (req, { requireVerified = true } =
   }
 
   try {
-    const decoded = verifyToken(token);
+    const decoded = verifyCustomerToken(token);
     const db = getDb();
     const user = await db.get(
       'SELECT id, email, full_name, phone, email_verified FROM users WHERE id = ?',

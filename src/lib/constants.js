@@ -11,10 +11,10 @@ export const PRODUCTS = [
       name: 'Huevo de Gallina Feliz Premium',
       category: 'huevos',
       description: 'Yema naranja, sabor intenso y real de campo. Libres de jaulas, alimentadas con granos naturales.',
-      price: 6700,
+      price: 8400,
       image: '/images/EGGS_EPIC.png',
-      badge: 'Agotado',
-      inStock: false,
+      badge: 'Premium',
+      inStock: true,
       extendedDescription: 'Nuestros huevos provienen de gallinas libres de estrés. Verás la diferencia en el color de la yema y la textura de tus preparaciones.',
       nutrition: ['Proteína de alta calidad', 'Yema de color intenso', 'Sin hormonas'],
       origin: 'Granjas del Valle Central, Chile',
@@ -29,7 +29,7 @@ export const PRODUCTS = [
     name: 'Huevo Blanco Extra (Bandeja 30 un)',
     category: 'huevos',
     description: 'Calibre Superior (61g - 68g). Yema de color intenso y clara densa para resultados gourmet.',
-    price: 5700,
+    price: 7900,
     image: '/images/HUEVOS_EXTRA_TRAY.png',
     badge: 'Extra Grande',
     inStock: true,
@@ -149,17 +149,90 @@ export const PRODUCTS = [
       'Muy buena relación precio calidad.',
       'Perfectos para tener siempre en el freezer.'
     ]
+  },
+  {
+    id: 9,
+    name: 'Longaniza de Capitán Pastene',
+    category: 'embutidos',
+    description: 'Receta tradicional italiana, ahumada con madera nativa de Nahuelbuta. 100% cerdo y artesanal.',
+    price: 0, // Precio pendiente - Aparecerá como "Próximamente"
+    image: '/images/LONGANIZA_PASTENE.jpg',
+    badge: 'NUEVA LLEGADA | RECETA ITALIANA',
+    inStock: true,
+    extendedDescription: 'Una verdadera joya gastronómica del sur. Esta longaniza artesanal rescata la herencia de los colonos italianos de Módena. Elaborada con carne y tocino 100% de cerdo, aliñada con especias seleccionadas y ahumada lentamente con madera nativa de Nahuelbuta. Su perfil es superior: más magra y proteica que las opciones industriales. Tradición, sabor y calidad premium en cada bocado.',
+    nutrition: [
+      '78 kcal por porción (45g)',
+      '7.3g Proteínas por porción',
+      'Perfil Magro: 5.2g grasas',
+      '0g Carbohidratos (Artesanal)'
+    ],
+    origin: 'Capitán Pastene, Región de La Araucanía, Chile',
+    reviews: [
+      'Se nota de inmediato el ahumado natural, un sabor profundo y muy distinto a lo común.',
+      'Muy superior a cualquier longaniza tradicional, textura firme y nada de grasa en exceso.',
+      'Producto con identidad real del sur, fue la estrella de mi último asado.'
+    ]
+  },
+  {
+    id: 10,
+    name: 'Costillar de Cerdo Nacional',
+    category: 'costillares',
+    description: 'Costillar de criaderos artesanales del sur. Carne de alta calidad con excelente infiltración.',
+    price: 0,
+    image: '/images/COSTILLAR_NACIONAL.png',
+    badge: 'NUEVO',
+    inStock: true,
+    comingSoon: true,
+    extendedDescription: 'Costillar proveniente de criaderos artesanales del sur de Chile. Carne de cerdo de alta calidad, no industrial, con excelente infiltración y sabor natural. Un producto de origen artesanal, no masivo, directo de los campos del sur.',
+    nutrition: ['220 Kcal por 100g', '18g Proteína', '16g Grasas', 'Natural, sin marinado industrial'],
+    origin: 'Sur de Chile',
+    reviews: [
+      'Llegó muy bien sellado.',
+      'Se nota que es nacional de verdad.',
+      'Calidad superior.'
+    ]
+  },
+  {
+    id: 11,
+    name: 'Costillar Ahumado Capitán Pastene',
+    category: 'costillares',
+    description: 'Ahumado 48H con madera nativa. Receta tradicional de influencia italiana. Sabor incomparable.',
+    price: 0,
+    image: '/images/COSTILLAR_AHUMADO.png',
+    badge: 'AHUMADO PREMIUM',
+    inStock: true,
+    comingSoon: true,
+    extendedDescription: 'Costillar ahumado durante 48 horas, aliñado con sal y orégano. Receta tradicional de Capitán Pastene con influencia italiana. Disponible en piezas de 1KG al vacío o costillar completo de aproximadamente 5KG.',
+    nutrition: ['250 Kcal por 100g', '20g Proteína', 'Textura tierna', 'Ahumado Natural'],
+    origin: 'Capitán Pastene, Chile',
+    reviews: [
+      'El mejor costillar ahumado que he probado.',
+      'Sabor artesanal incomparable.',
+      'Perfecto para calentar y servir.'
+    ]
   }
 ];
 
 export const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '56947529379';
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3004';
 export const BRAND_NAME = 'Ruta del Nido';
 export const BRAND_FULL_NAME = 'Ruta del Nido - Alimentos Naturales';
 export const PRICE_PLACEHOLDER = 'Proximamente';
 export const FLOATING_WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 export const INSTAGRAM_URL = 'https://www.instagram.com/rutadelnido/';
 export const ANALYTICS_SCHEMA_VERSION = '1.0';
+
+export function buildWhatsAppUrl(message) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
+
+export function buildWhatsAppProductUrl(productName) {
+  return buildWhatsAppUrl(`Hola ${BRAND_NAME}, me estoy contactando desde su sitio web. Estoy interesado/a en: ${productName}.`);
+}
+
+export function buildWhatsAppContextUrl(contextLabel) {
+  return buildWhatsAppUrl(`Hola ${BRAND_NAME}, me estoy contactando desde su sitio web. Quiero ayuda con: ${contextLabel}.`);
+}
 
 export function createSessionId() {
   if (typeof window === 'undefined') return 'server';

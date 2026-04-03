@@ -1,8 +1,8 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
 import { getDb } from '../../config/db.js';
+import { signCrmToken } from '../../lib/jwt.js';
 import { logger } from '../../lib/logger.js';
 import { protectCrm, protectCrmAdmin } from '../../middleware/crmAuth.middleware.js';
 import { validateBody } from '../../middleware/validate.middleware.js';
@@ -52,15 +52,7 @@ router.post('/login', validateBody(CrmLoginSchema), async (req, res, next) => {
       return res.status(401).json({ success: false, error: 'Credenciales invalidas' });
     }
 
-    const token = jwt.sign(
-      { id: user.id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.CRM_JWT_EXPIRES || '8h',
-        issuer: process.env.JWT_ISSUER || 'ruta-fresca-backend',
-        audience: process.env.JWT_AUDIENCE || 'ruta-fresca-clients',
-      }
-    );
+    const token = signCrmToken({ id: user.id });
 
     return res.json({
       success: true,

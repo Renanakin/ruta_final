@@ -57,7 +57,7 @@ const SocialProof = () => (
           {STATS.map((stat) => (
             <div key={stat.label} className="bg-white md:rounded-2xl md:border md:border-beige-200 py-5 px-4">
               <div className="text-4xl font-black text-brand-800">{stat.value}</div>
-              <div className="text-sm text-stone-500 font-semibold">{stat.label}</div>
+              <div className="text-sm text-stone-600 font-semibold">{stat.label}</div>
             </div>
           ))}
         </div>

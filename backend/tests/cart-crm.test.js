@@ -24,6 +24,7 @@ const createTestApp = () => {
 let app;
 let db;
 let token;
+let testProduct;
 const TEST_EMAIL = `cart_crm_${Date.now()}@test.com`;
 const TEST_PASSWORD = 'Test1234!';
 
@@ -39,6 +40,7 @@ beforeAll(async () => {
     await initDb();
     db = getDb();
     app = createTestApp();
+    testProduct = await db.get('SELECT id, name FROM products WHERE in_stock = 1 ORDER BY id ASC LIMIT 1');
 
     await request(app)
         .post('/api/auth/register')
@@ -75,7 +77,7 @@ describe('Cart and Checkout', () => {
         const addFirst = await request(app)
             .post('/api/cart/items')
             .set(headers)
-            .send({ product_id: 1, quantity: 1 });
+            .send({ product_id: testProduct.id, quantity: 1 });
         expect(addFirst.status).toBe(200);
         expect(addFirst.body.items).toHaveLength(1);
         expect(addFirst.body.items[0].quantity).toBe(1);
@@ -84,7 +86,7 @@ describe('Cart and Checkout', () => {
         const addSecond = await request(app)
             .post('/api/cart/items')
             .set(headers)
-            .send({ product_id: 1, quantity: 2 });
+            .send({ product_id: testProduct.id, quantity: 2 });
         expect(addSecond.status).toBe(200);
         expect(addSecond.body.items[0].quantity).toBe(3);
 
@@ -119,7 +121,7 @@ describe('Cart and Checkout', () => {
         expect(orders.status).toBe(200);
         expect(orders.body.orders.length).toBeGreaterThan(0);
         expect(orders.body.orders[0].quantity).toBe(2);
-        expect(orders.body.orders[0].product_name).toBe('Huevo Blanco Extra');
+        expect(orders.body.orders[0].product_name).toBe(testProduct.name);
     });
 
     it('permite actualizar suscripciones con PATCH para mantener compatibilidad con el frontend publico', async () => {
@@ -175,6 +177,16 @@ describe('CRM and Reporting', () => {
         expect(crmLogin.status).toBe(200);
         const crmToken = crmLogin.body.token;
         const crmHeaders = { Authorization: `Bearer ${crmToken}` };
+
+        const customerTokenInCrm = await request(app)
+            .get('/api/crm/me')
+            .set({ Authorization: `Bearer ${token}` });
+        expect(customerTokenInCrm.status).toBe(401);
+
+        const crmTokenInCustomer = await request(app)
+            .get('/api/cart')
+            .set(crmHeaders);
+        expect(crmTokenInCustomer.status).toBe(401);
 
         const executive = await request(app)
             .get('/api/crm/reports/executive-weekly')

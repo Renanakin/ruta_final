@@ -19,8 +19,10 @@ import {
   PanelTop,
   Key
 } from 'lucide-react';
-import { cn, WHATSAPP_NUMBER } from '../lib/constants';
+import { buildWhatsAppContextUrl, cn, FLOATING_WHATSAPP_URL } from '../lib/constants';
 import ExclusiveAccess from './ExclusiveAccess';
+
+void motion;
 
 const containerVariant = {
   hidden: { opacity: 0, scale: 0.95 },
@@ -40,16 +42,6 @@ const itemVariant = {
     y: 0,
     opacity: 1,
     transition: { type: 'spring', stiffness: 200, damping: 15 }
-  }
-};
-
-const imageVariant = {
-  hidden: { opacity: 0, scale: 1.1, filter: 'grayscale(100%)' },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    filter: 'grayscale(0%)',
-    transition: { duration: 1.2, ease: "easeOut" }
   }
 };
 
@@ -153,6 +145,14 @@ const AlchemistViewAnimated = ({
             >
               <ChefHat size={18} /> Iniciar Receta <ArrowRight size={18} />
             </button>
+            <a
+              href={buildWhatsAppContextUrl('pedido de productos Ruta del Nido')}
+              target="_blank"
+              rel="noreferrer"
+              className="bg-[#25D366] text-brand-950 px-7 py-4 sm:px-10 sm:py-5 rounded-full font-black text-xs uppercase tracking-[0.2em] shadow-premium-xl hover:scale-105 transition-all active:scale-95 flex items-center gap-3"
+            >
+              <MessageSquare size={18} /> Pedir por WhatsApp
+            </a>
           </div>
         </div>
       </section>
@@ -190,8 +190,8 @@ const AlchemistViewAnimated = ({
                     <div className={cn("w-14 h-14 rounded-2xl bg-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm", item.color === 'brand-500' ? 'text-brand-600' : (item.color === 'yolk-500' ? 'text-yolk-600' : 'text-stone-600'))}>
                       {item.icon}
                     </div>
-                    <h4 className="font-serif font-black text-stone-900 text-2xl">{item.name}</h4>
-                    <p className="text-stone-500 text-[10px] font-black uppercase tracking-widest mt-2">{item.sub}</p>
+                    <h3 className="font-serif font-black text-stone-900 text-2xl">{item.name}</h3>
+                    <p className="text-stone-600 text-[10px] font-black uppercase tracking-widest mt-2">{item.sub}</p>
                   </div>
                 ))}
               </div>
@@ -256,7 +256,7 @@ const AlchemistViewAnimated = ({
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-900/20 to-transparent"></div>
                 
                 <div className="absolute bottom-10 left-10 right-10 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 text-white drop-shadow-lg">
-                   <h4 className="text-2xl font-serif font-black mb-2">{item.product}</h4>
+                   <h3 className="text-2xl font-serif font-black mb-2">{item.product}</h3>
                    <p className="text-yolk-400 font-black text-[11px] uppercase tracking-[0.3em]">{item.tag}</p>
                 </div>
               </div>
@@ -373,6 +373,7 @@ const AlchemistViewAnimated = ({
                       <button
                         onClick={askChef}
                         disabled={chefLoading}
+                        aria-label="Generar receta con El Alquimista"
                         className="w-full md:w-auto bg-gradient-to-r from-yolk-500 to-amber-600 text-stone-900 font-bold px-12 py-6 rounded-[2.5rem] uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 shadow-xl shadow-yolk-500/20 flex items-center justify-center gap-4 border border-yolk-400/50"
                       >
                         {chefLoading ? <Loader2 className="animate-spin text-stone-900" size={24} /> : <><Flame size={24} strokeWidth={2.5} /> Cocinar</>}
@@ -426,7 +427,6 @@ const AlchemistViewAnimated = ({
                           {/* Hero tipografico */}
                           <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-stone-900 via-brand-950 to-stone-900 lg:-mx-14 lg:-mt-14 mb-10 shadow-premium-xl">
                             {/* Particulas atmosfericas */}
-                            <div className="absolute inset-x-0 bottom-0 top-0 opacity-10 bg-[url('/images/noise.png')] mix-blend-overlay"></div>
                             <div className="absolute inset-0 bg-gradient-to-t from-brand-900/60 via-transparent to-stone-900/40" />
                             
                             <div className="relative z-10 p-10 md:p-20 flex flex-col items-center justify-center text-center space-y-6">
@@ -574,12 +574,14 @@ const AlchemistViewAnimated = ({
                           </p>
                           <div className="flex flex-col items-center gap-6">
                             {chefFallbackActionable && (
-                              <button 
-                                onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hola, necesito ayuda con una receta saludable de Ruta del Nido.')}`, '_blank')}
-                                className="inline-flex items-center gap-5 bg-[#25D366] text-white px-12 py-7 rounded-full font-black text-xl shadow-premium-xl hover:scale-105 active:scale-95 transition-all"
+                              <a
+                                href={buildWhatsAppContextUrl('continuar con El Alquimista')}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-5 bg-[#25D366] text-brand-950 px-12 py-7 rounded-full font-black text-xl shadow-premium-xl hover:scale-105 active:scale-95 transition-all"
                               >
                                 <MessageSquare size={28} /> Hablar con el Alquimista
-                              </button>
+                              </a>
                             )}
                             <button
                               onClick={() => {
@@ -616,10 +618,25 @@ const AlchemistViewAnimated = ({
              >
                 Crear Mi Receta <ArrowRight size={40} className="inline-block ml-6" />
             </button>
-            <p className="text-stone-400 font-black tracking-[1em] text-[10px] uppercase">Ruta del Nido • Alquimia de Autor</p>
+            <p className="text-stone-600 font-black tracking-[1em] text-[10px] uppercase">Ruta del Nido • Alquimia de Autor</p>
           </div>
         </div>
       </section>
+
+      <a
+        href={FLOATING_WHATSAPP_URL}
+        target="_blank"
+        rel="noreferrer"
+        className="fixed right-5 bottom-5 z-[70] group"
+        aria-label="Pedir por WhatsApp"
+      >
+        <span className="absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap px-3 py-2 rounded-xl bg-brand-900 text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+          Pedir por WhatsApp
+        </span>
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl border-4 border-white">
+          <MessageSquare size={24} />
+        </span>
+      </a>
 
     </div>
   );

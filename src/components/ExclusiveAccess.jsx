@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Flame } from 'lucide-react';
 import { cn } from '../lib/constants';
 
+void motion;
+
 export default function ExclusiveAccess({
   validateLogic,
   onUnlockSuccess
@@ -141,10 +143,11 @@ export default function ExclusiveAccess({
                 )}
               />
               
-              <button
-                type="submit"
-                disabled={status === 'validating' || status === 'success'}
-                className={cn(
+               <button
+                 type="submit"
+                 disabled={status === 'validating' || status === 'success'}
+                 aria-label="Validar llave de acceso"
+                 className={cn(
                   "absolute right-3 top-1/2 -translate-y-1/2 h-14 w-14 rounded-full flex items-center justify-center transition-all duration-500 shadow-[0_0_20px_rgba(244,199,57,0.5)]",
                   "bg-gradient-to-br from-yolk-300 to-amber-600 text-stone-900 hover:scale-110 active:scale-95",
                   "disabled:opacity-0 disabled:scale-50 disabled:cursor-not-allowed pointer-events-auto",

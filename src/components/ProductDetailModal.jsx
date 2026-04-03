@@ -1,4 +1,7 @@
-const ProductDetailModal = ({ selectedProduct, onClose, onAddToCart, onProductWhatsApp }) => {
+import { MessageSquare } from 'lucide-react';
+import { buildWhatsAppProductUrl } from '../lib/constants';
+
+const ProductDetailModal = ({ selectedProduct, onClose }) => {
   if (!selectedProduct) return null;
 
   const nutrition = Array.isArray(selectedProduct.nutrition) ? selectedProduct.nutrition : [];
@@ -45,7 +48,15 @@ const ProductDetailModal = ({ selectedProduct, onClose, onAddToCart, onProductWh
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2">
-              <button onClick={() => onProductWhatsApp(selectedProduct.name)} className="px-4 py-3 rounded-xl bg-yolk-500 text-brand-900 font-black">Pedir por WhatsApp</button>
+              <a
+                href={buildWhatsAppProductUrl(selectedProduct.name)}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-[#25D366] text-white font-black"
+              >
+                <MessageSquare size={18} />
+                Pedir por WhatsApp
+              </a>
               <button onClick={onClose} className="px-4 py-3 rounded-xl border border-stone-200 font-black text-stone-600">Cerrar</button>
             </div>
           </div>
