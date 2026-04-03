@@ -1,25 +1,35 @@
-# Documentación General
+# Documentacion Viva
 
-En esta carpeta cada equipo debe documentar:
-- Avances y decisiones técnicas.
-- Estado actual de su sección (frontend, backend, alchemist, shared).
-- APIs, endpoints, flujos, modelos, prompts, etc.
-- Problemas encontrados y soluciones.
-- Roadmap y tareas pendientes.
+Esta carpeta conserva solo la documentacion que sigue sirviendo para:
 
-## Estructura sugerida
+- operacion del proyecto
+- release
+- mejora futura del producto
+- handoff al ingeniero que actualizara el VPS
 
-- frontend.md
-- backend.md
-- alchemist.md
-- shared.md
-- arquitectura.md
-- decisiones.md
+## Documentos activos
 
-Cada archivo debe mantenerse actualizado por el equipo correspondiente.
+- [release/phase-p0.md](C:/dev/1_ruta/docs/release/phase-p0.md)
+  Evidencia local y estado actual de la fase P0.
 
-## Estado vigente
+- [release/pre-release-checklist.md](C:/dev/1_ruta/docs/release/pre-release-checklist.md)
+  Checklist de salida antes de tocar produccion.
 
-- Ver `docs/ESTADO_ACTUAL.md` para el estado funcional consolidado y el siguiente paso orientado a ajustes visuales.
-- Ver `docs/COMO_EJECUTAR_LA_WEB.md` para levantar frontend + backend + alquimista en local.
-- Ver `docs/PROPUESTA_ALQUIMISTA_CODIGOS.md` para la propuesta de codigos unicos por compra y panel interno del operador.
+- [release/2026-04-03-vps-update-handoff.md](C:/dev/1_ruta/docs/release/2026-04-03-vps-update-handoff.md)
+  Handoff operativo para actualizar la preview ya existente del VPS.
+
+- [COMO_EJECUTAR_LA_WEB.md](C:/dev/1_ruta/docs/COMO_EJECUTAR_LA_WEB.md)
+  Referencia para levantar el proyecto localmente.
+
+- [PROPUESTA_ALQUIMISTA_CODIGOS.md](C:/dev/1_ruta/docs/PROPUESTA_ALQUIMISTA_CODIGOS.md)
+  Propuesta futura que sigue siendo util para mejoras del Alquimista.
+
+## Criterio de limpieza
+
+Se eliminaron documentos legacy que:
+
+- describian un estado ya superado
+- proponian una arquitectura o roadmap contradictorio con el estado actual
+- documentaban rollback o pruebas viejas ya no vigentes
+
+Si se agrega documentacion nueva, debe ayudar a operar, mantener o mejorar la web actual.
