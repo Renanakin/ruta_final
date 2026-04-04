@@ -1,4 +1,4 @@
-import { Sparkles, Lock } from 'lucide-react';
+import { Sparkles, Clock } from 'lucide-react';
 import { buildWhatsAppContextUrl } from '../lib/constants';
 
 const SubscriptionSection = () => (
@@ -21,30 +21,50 @@ const SubscriptionSection = () => (
 
     <div className="mx-auto max-w-4xl text-center">
       <span className="inline-flex items-center gap-2 rounded-full border border-yolk-300/40 bg-black/35 px-4 py-2 text-xs font-black uppercase tracking-[0.2em] text-yolk-300 backdrop-blur-sm">
-        <Sparkles size={14} />
-        Stock Limitado
+        <Clock size={14} />
+        Cupos limitados cada semana
       </span>
 
       <h2 className="mt-6 text-4xl font-serif font-black md:text-6xl">
-        Haz tu pedido hoy
+        Asegura tu mesa cada mes.
       </h2>
       <p className="mt-3 text-xl font-serif italic text-yolk-400 drop-shadow-sm">
-        Directo del campo y el mar, sin intermediarios.
+        Menos improvisacion, mas sabor real en casa.
       </p>
-      
+
+      <p className="mt-6 text-white/75 font-medium max-w-xl mx-auto leading-relaxed">
+        Reserva tu suscripcion con cupos limitados y recibe una seleccion constante de productos frescos, honestos y listos para tu rutina.
+      </p>
+
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+        <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3">
+          <p className="text-[10px] uppercase tracking-[0.25em] font-black text-yolk-300">Continuidad</p>
+          <p className="mt-1 text-sm font-semibold text-white/90">Tu mesa resuelta cada mes, con menos improvisacion.</p>
+        </div>
+        <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3">
+          <p className="text-[10px] uppercase tracking-[0.25em] font-black text-yolk-300">Coordinacion</p>
+          <p className="mt-1 text-sm font-semibold text-white/90">Atencion directa por WhatsApp para ajustar tu pedido.</p>
+        </div>
+        <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3">
+          <p className="text-[10px] uppercase tracking-[0.25em] font-black text-yolk-300">Despacho local</p>
+          <p className="mt-1 text-sm font-semibold text-white/90">Cobertura en Santiago y coordinacion por disponibilidad semanal.</p>
+        </div>
+      </div>
+
       <div className="mt-10">
-        <a 
+        <a
           href={buildWhatsAppContextUrl('suscripciones y pedidos')}
-          target="_blank" 
+          target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-yolk-500 text-brand-900 px-12 py-6 rounded-[2rem] font-black text-2xl hover:scale-105 active:scale-95 transition-all shadow-premium hover:bg-yolk-400"
         >
-          Pedir por WhatsApp
+          Quiero asegurar mi cupo
         </a>
       </div>
 
-      <p className="mt-8 text-white/80 font-bold tracking-wide">
-        ⭐ Calidad superior garantizada en cada entrega.
+      <p className="mt-8 text-white/60 font-bold tracking-wide text-sm">
+        <Sparkles className="inline-block mr-1.5 text-yolk-400" size={14} />
+        Familias de Santiago repiten por la continuidad, el sabor y la atencion cercana.
       </p>
     </div>
 

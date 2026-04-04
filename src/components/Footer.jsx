@@ -1,5 +1,5 @@
-import { ArrowRight, Instagram } from 'lucide-react';
-import { cn, INSTAGRAM_URL } from '../lib/constants';
+import { ArrowRight, Instagram, MessageSquare } from 'lucide-react';
+import { cn, INSTAGRAM_URL, buildWhatsAppContextUrl } from '../lib/constants';
 import VisitorCounter from './VisitorCounter';
 
 
@@ -45,6 +45,27 @@ const Footer = ({ scrollTo, onOpenAlchemist, handleOrder, activeTab }) => {
               <li><button onClick={() => handleOrder('Soporte')} className="hover:text-yolk-500 transition-colors">Contacto</button></li>
             </ul>
           </div>
+        </div>
+      </div>
+
+      {/* ── Closing CTA ──────────────────────────────────────────────────── */}
+      <div className="max-w-7xl mx-auto px-4 mt-14">
+        <div className={cn(
+          "rounded-[3rem] p-8 md:p-14 text-center",
+          isAlchemist ? "bg-white/5 border border-white/10" : "bg-brand-900 text-white"
+        )}>
+          <h2 className="font-serif font-black text-3xl md:text-5xl text-white mb-4">Haz tu pedido hoy.</h2>
+          <p className="text-white/70 text-lg max-w-xl mx-auto mb-8 font-medium leading-relaxed">
+            Compra por WhatsApp, revisa la disponibilidad de esta semana y lleva a tu mesa productos con sabor real, origen claro y una experiencia más cercana.
+          </p>
+          <a
+            href={buildWhatsAppContextUrl('pedido')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-yolk-500 text-brand-900 px-10 py-5 rounded-full font-black text-lg hover:scale-105 active:scale-95 transition-all shadow-xl hover:bg-yolk-400"
+          >
+            <MessageSquare size={22} /> Quiero pedir ahora
+          </a>
         </div>
       </div>
 
