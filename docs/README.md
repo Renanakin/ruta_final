@@ -9,6 +9,9 @@ Esta carpeta conserva solo la documentacion que sigue sirviendo para:
 
 ## Documentos activos
 
+- [conversion/README.md](C:/dev/1_ruta/docs/conversion/README.md)
+  Base de diagnostico, plan, matriz y propuesta de trabajo para mejorar conversion en Ruta del Nido.
+
 - [release/phase-p0.md](C:/dev/1_ruta/docs/release/phase-p0.md)
   Evidencia local y estado actual de la fase P0.
 
