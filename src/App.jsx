@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { X, Sparkles } from 'lucide-react';
+import { X, Sparkles, ChevronUp } from 'lucide-react';
 
 const AUTH_SESSION_HINT_KEY = 'rdn_auth_session_hint';
 
@@ -52,6 +52,7 @@ const App = () => {
     return localStorage.getItem('rdn_social_banner_closed') !== '1';
   });
   const [topBannerIndex, setTopBannerIndex] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const [authToken, setAuthToken] = useState('');
   const [authUser, setAuthUser] = useState(null);
@@ -128,6 +129,14 @@ const App = () => {
     }, 4000);
     return () => clearInterval(id);
   }, [showTopBanner]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const onScroll = () => setShowBackToTop(window.scrollY > 700);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     // Newsletter popup desactivado
@@ -258,6 +267,11 @@ const App = () => {
   const closeTopBanner = () => {
     setShowTopBanner(false);
     localStorage.setItem('rdn_social_banner_closed', '1');
+  };
+
+  const scrollToTop = () => {
+    if (typeof window === 'undefined') return;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const openAccountPanel = (tab = 'profile') => {
@@ -550,7 +564,7 @@ const App = () => {
       {!(pathname.startsWith('/alquimista') || activeTab === 'alquimista') && showTopBanner && (
         <div className="bg-brand-700 text-beige-100 text-center py-2.5 px-10 text-xs md:text-sm font-semibold tracking-wide border-b border-brand-800 relative">
           {topBannerMessages[topBannerIndex]}
-          <button onClick={closeTopBanner} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10" aria-label="Cerrar banner">
+          <button onClick={closeTopBanner} className="absolute right-2 top-1/2 -translate-y-1/2 p-2 min-h-10 min-w-10 rounded-full hover:bg-white/10 flex items-center justify-center" aria-label="Cerrar banner">
             <X size={16} />
           </button>
         </div>
@@ -660,6 +674,16 @@ const App = () => {
       />
 
       <Footer scrollTo={scrollTo} onOpenAlchemist={openAlchemist} handleOrder={handleOrder} activeTab={activeTab} />
+
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 left-4 sm:left-6 z-[80] inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-900 text-white shadow-2xl border border-white/20 hover:scale-105 active:scale-95 transition-all"
+          aria-label="Volver arriba"
+        >
+          <ChevronUp size={20} />
+        </button>
+      )}
     </div>
   );
 };

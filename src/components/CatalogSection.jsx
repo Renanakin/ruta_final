@@ -37,7 +37,7 @@ const CATEGORY_VALUE = {
 
 const CatalogSection = ({ products, onSelectProduct }) => {
   const [activeTab, setActiveTab] = useState('todos');
-  
+
   const categories = [
     { id: 'todos', label: 'Todos' },
     { id: 'huevos', label: 'Huevos' },
@@ -47,39 +47,41 @@ const CatalogSection = ({ products, onSelectProduct }) => {
     { id: 'costillares', label: 'Costillares' }
   ];
 
-
   return (
     <section id="catalogo" className="py-24 px-4 bg-[#fdfbf7] relative overflow-hidden transition-colors duration-500">
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-stone-100 to-transparent"></div>
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
           <div className="max-w-xl">
-            <span className="text-brand-700 font-black text-xs uppercase tracking-[0.2em] mb-4 block">Línea actual</span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-stone-900 leading-tight">Variedades Seleccionadas</h2>
-            <p className="text-stone-600 mt-4 text-lg italic">Cada producto ha sido curado por El Alquimista por su alma y su origen.</p>
+            <span className="text-brand-700 font-black text-xs uppercase tracking-[0.2em] mb-4 block">Linea actual</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-stone-900 leading-tight">Variedades seleccionadas</h2>
+            <p className="text-stone-600 mt-4 text-lg italic">Cada producto fue curado por El Alquimista por su origen y uso real.</p>
           </div>
-          
-          <div className="flex flex-wrap gap-2 pb-2 overflow-x-auto no-scrollbar max-w-full">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveTab(cat.id)}
-                className={cn(
-                  "px-6 py-2.5 rounded-full text-sm font-bold transition-all border whitespace-nowrap",
-                  activeTab === cat.id 
-                    ? "bg-brand-900 text-white border-brand-900 shadow-md scale-105" 
-                    : "bg-white text-stone-700 border-stone-200 hover:border-brand-300 hover:shadow-sm"
-                )}
-              >
-                {cat.label}
-              </button>
-            ))}
+
+          <div className="w-full md:w-auto">
+            <div className="flex gap-2 pb-2 overflow-x-auto no-scrollbar max-w-full snap-x snap-mandatory">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveTab(cat.id)}
+                  className={cn(
+                    'px-6 py-2.5 rounded-full text-sm font-bold transition-all border whitespace-nowrap snap-start shrink-0',
+                    activeTab === cat.id
+                      ? 'bg-brand-900 text-white border-brand-900 shadow-md scale-105'
+                      : 'bg-white text-stone-700 border-stone-200 hover:border-brand-300 hover:shadow-sm'
+                  )}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+            <p className="md:hidden text-[11px] text-stone-500 font-bold uppercase tracking-wide mt-1">Desliza para ver mas categorias</p>
           </div>
         </div>
 
         <div className="space-y-16">
-          {categories.filter(c => c.id !== 'todos').map(cat => {
-            const categoryProducts = products.filter(p => p.category === cat.id);
+          {categories.filter((c) => c.id !== 'todos').map((cat) => {
+            const categoryProducts = products.filter((p) => p.category === cat.id);
             if (activeTab !== 'todos' && activeTab !== cat.id) return null;
             if (categoryProducts.length === 0) return null;
 
@@ -96,12 +98,19 @@ const CatalogSection = ({ products, onSelectProduct }) => {
                   <p className="text-sm md:text-base text-stone-900 font-black">{CATEGORY_VALUE[cat.id]?.benefit}</p>
                   <p className="text-xs md:text-sm text-stone-600 font-semibold mt-1.5">{CATEGORY_VALUE[cat.id]?.useCase}</p>
                 </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10">
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-9">
                   {categoryProducts.map((p) => (
                     <div key={p.id} className="group flex flex-col">
                       <div className="relative aspect-[4/5] rounded-[2.25rem] overflow-hidden bg-stone-100 mb-7">
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" width={800} height={1000} loading="lazy" />
+                        <img
+                          src={p.image}
+                          alt={p.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          width={800}
+                          height={1000}
+                          loading="lazy"
+                        />
                         <div className="absolute top-5 left-5 bg-white/95 backdrop-blur px-3 py-1.5 rounded-full text-[11px] font-black text-stone-900 shadow-premium">
                           {p.badge}
                         </div>
@@ -121,19 +130,19 @@ const CatalogSection = ({ products, onSelectProduct }) => {
                           {CATEGORY_VALUE[p.category]?.socialSnippet}
                         </p>
 
-                        <div className="flex items-center justify-between pt-5 border-t border-stone-100">
+                        <div className="flex items-center justify-between pt-5 border-t border-stone-100 gap-2">
                           <div>
                             <span className="text-xl sm:text-2xl md:text-3xl font-black text-brand-950 leading-tight">
                               {(p.coming_soon || p.comingSoon) ? PRICE_PLACEHOLDER : formatClp(p.price)}
                             </span>
                             <span className="text-[11px] text-stone-600 block font-black uppercase tracking-widest mt-1">
-                              {(p.coming_soon || p.comingSoon || !p.price) ? 'Lanzamiento próximo' : 'Precio vigente'}
+                              {(p.coming_soon || p.comingSoon || !p.price) ? 'Lanzamiento proximo' : 'Precio vigente'}
                             </span>
                           </div>
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 w-full sm:w-auto">
                             <button
                               onClick={() => onSelectProduct(p)}
-                              className="px-4 py-2 rounded-xl border border-brand-200 text-brand-700 font-bold text-sm hover:bg-brand-50"
+                              className="hidden sm:inline-flex px-4 py-2 rounded-xl border border-brand-200 text-brand-700 font-bold text-sm hover:bg-brand-50"
                             >
                               Detalle
                             </button>
@@ -141,11 +150,11 @@ const CatalogSection = ({ products, onSelectProduct }) => {
                               href={buildWhatsAppProductUrl(p.name)}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white px-4 py-3 rounded-2xl shadow-premium transition-all active:scale-90 font-black text-sm"
+                              className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white px-4 py-3 min-h-12 rounded-2xl shadow-premium transition-all active:scale-90 font-black text-sm w-full sm:w-auto"
                               aria-label={`Pedir ${p.name} por WhatsApp`}
                             >
                               <MessageSquare size={18} strokeWidth={2.5} />
-                              <span className="hidden sm:inline">WhatsApp</span>
+                              <span>WhatsApp</span>
                             </a>
                           </div>
                         </div>

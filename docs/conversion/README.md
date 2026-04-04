@@ -26,6 +26,9 @@ Convertir mas visitas en pedidos desde la home y los bloques de decision, con fo
 - `SPRINT_3_CIERRE.md`
   Cierre formal de implementacion del Sprint 3 con foco en El Alquimista, puente receta -> producto y CTA de compra.
 
+- `SPRINT_4_RESPONSIVE_FIXES.md`
+  Cierre de arreglos responsive UX/UI para mobile y tablet con foco en conversion y usabilidad tactil.
+
 ## Principios transversales
 
 - Vender sin sonar agresivo.
