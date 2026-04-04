@@ -262,6 +262,56 @@ const AlchemistViewAnimated = ({
               </div>
             ))}
           </div>
+
+          <div className="mt-10 rounded-[2.5rem] border border-brand-100 bg-white p-6 md:p-8 shadow-lg">
+            <div className="text-center mb-6">
+              <p className="text-brand-700 text-xs font-black uppercase tracking-[0.35em]">Recetas accionables</p>
+              <h3 className="text-2xl md:text-3xl font-serif font-black text-stone-900 mt-2">Inspira, elige y pide en el mismo paso</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                {
+                  title: 'Tortilla cremosa con yema naranja',
+                  product: 'Huevo de Gallina Feliz Premium',
+                  proof: 'Muy pedida para desayunos y rutina semanal.'
+                },
+                {
+                  title: 'Salmon al sarten con ajo y mantequilla',
+                  product: 'Salmon porcionado 500g',
+                  proof: 'Top para cenas rapidas con calidad.'
+                },
+                {
+                  title: 'Tabla templada para compartir',
+                  product: 'Queso Mantecoso de Lican Ray Pieza de 500g',
+                  proof: 'Elegida para reuniones y fines de semana.'
+                },
+                {
+                  title: 'Salteado rustico con vegetales',
+                  product: 'Longaniza Artesanal de Contulmo (Baja en Grasa)',
+                  proof: 'Alta recompra por sabor y practicidad.'
+                }
+              ].map((recipe) => (
+                <div key={recipe.title} className="rounded-2xl border border-stone-200 bg-stone-50 p-4">
+                  <p className="text-stone-900 font-black">{recipe.title}</p>
+                  <p className="text-sm text-stone-600 font-semibold mt-1">{recipe.product}</p>
+                  <p className="text-[11px] uppercase tracking-wide text-brand-700 font-bold mt-2">{recipe.proof}</p>
+                  <a
+                    href={buildWhatsAppContextUrl(`pedido de ${recipe.product}`)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 inline-flex items-center justify-center w-full rounded-xl bg-[#25D366] text-white px-4 py-2.5 text-sm font-black hover:bg-[#20ba5a] transition-colors"
+                  >
+                    Pedir este producto por WhatsApp
+                  </a>
+                </div>
+              ))}
+            </div>
+            <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3 text-sm font-semibold text-stone-700">
+              <p>Despacho local en Santiago con coordinacion por WhatsApp.</p>
+              <p>Disponibilidad semanal segun stock real por origen.</p>
+              <p>Si algo se agota, sugerimos reemplazo equivalente.</p>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -23,6 +23,9 @@ Convertir mas visitas en pedidos desde la home y los bloques de decision, con fo
 - `SPRINT_2_CIERRE.md`
   Cierre formal de implementacion del Sprint 2 con cambios aplicados, verificacion y pendientes.
 
+- `SPRINT_3_CIERRE.md`
+  Cierre formal de implementacion del Sprint 3 con foco en El Alquimista, puente receta -> producto y CTA de compra.
+
 ## Principios transversales
 
 - Vender sin sonar agresivo.
