@@ -599,7 +599,7 @@ const App = () => {
             <CatalogSection products={products} onSelectProduct={setSelectedProduct} onProductWhatsApp={handleProductWhatsApp} />
             <ValuesSection />
             <AlchemistTeaserSection onOpenAlchemist={openAlchemist} />
-            <SocialProof />
+            <SocialProof onOrderNow={() => handleOrder('Consulta General')} />
             <SubscriptionSection subscriptionEggType={subscriptionEggType} setSubscriptionEggType={setSubscriptionEggType} handleSubscription={handleSubscription} />
           </>
         )}

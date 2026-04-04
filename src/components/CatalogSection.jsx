@@ -7,6 +7,34 @@ const formatClp = (value) => {
   return `$${Number(value).toLocaleString('es-CL')}`;
 };
 
+const CATEGORY_VALUE = {
+  huevos: {
+    benefit: 'Mas sabor y mejor textura para tu cocina diaria.',
+    useCase: 'Ideal para desayunos, reposteria y platos de todos los dias.',
+    socialSnippet: 'Categoria con alta recompra semanal en Santiago.'
+  },
+  quesos: {
+    benefit: 'Seleccion curada para compartir, regalar o elevar una comida simple.',
+    useCase: 'Perfectos para tablas, aperitivos y cenas especiales en casa.',
+    socialSnippet: 'Muy elegidos para reuniones y mesas de fin de semana.'
+  },
+  embutidos: {
+    benefit: 'Sabor artesanal con practicidad para asados y comidas rapidas.',
+    useCase: 'Listos para resolver una comida con mejor calidad en poco tiempo.',
+    socialSnippet: 'Clientes valoran su sabor real y textura firme.'
+  },
+  congelados: {
+    benefit: 'Formato practico para comer mejor sin improvisar en la semana.',
+    useCase: 'Productos listos para cocinar con buena relacion tiempo-calidad.',
+    socialSnippet: 'Una de las categorias mas pedidas por familias ocupadas.'
+  },
+  costillares: {
+    benefit: 'Cortes con origen y proceso cuidado para ocasiones memorables.',
+    useCase: 'Pensados para compartir en mesas especiales o celebraciones.',
+    socialSnippet: 'Alta expectativa y reservas tempranas cuando hay disponibilidad.'
+  }
+};
+
 const CatalogSection = ({ products, onSelectProduct }) => {
   const [activeTab, setActiveTab] = useState('todos');
   
@@ -58,11 +86,16 @@ const CatalogSection = ({ products, onSelectProduct }) => {
             return (
               <div key={cat.id} className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
                 {activeTab === 'todos' && (
-                  <div className="flex items-center gap-4 mb-8">
+                  <div className="flex items-center gap-4 mb-5">
                     <h3 className="text-2xl font-serif font-black text-stone-900">{cat.label}</h3>
                     <div className="h-px flex-1 bg-stone-200"></div>
                   </div>
                 )}
+
+                <div className="rounded-3xl border border-brand-100 bg-white/80 backdrop-blur px-5 py-4 mb-8">
+                  <p className="text-sm md:text-base text-stone-900 font-black">{CATEGORY_VALUE[cat.id]?.benefit}</p>
+                  <p className="text-xs md:text-sm text-stone-600 font-semibold mt-1.5">{CATEGORY_VALUE[cat.id]?.useCase}</p>
+                </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-10">
                   {categoryProducts.map((p) => (
@@ -81,8 +114,12 @@ const CatalogSection = ({ products, onSelectProduct }) => {
                           <span className={cn('text-xs font-black px-3 py-1 rounded-full', p.inStock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700')}>
                             {p.inStock ? 'En stock' : 'Agotado'}
                           </span>
-                          <span className="text-xs text-stone-600 font-semibold">Del campo directo a tu mesa</span>
+                          <span className="text-xs text-stone-600 font-semibold">Despacho local y coordinacion por WhatsApp</span>
                         </div>
+
+                        <p className="mb-4 text-[11px] font-bold uppercase tracking-wide text-brand-700">
+                          {CATEGORY_VALUE[p.category]?.socialSnippet}
+                        </p>
 
                         <div className="flex items-center justify-between pt-5 border-t border-stone-100">
                           <div>
