@@ -31,12 +31,12 @@ const Nav = ({
               <img
                 src="/images/RUTA_DEL_NIDO_LOGO.svg"
                 alt="Ruta del Nido"
-                className="h-10 md:h-12 w-auto"
+                className="h-10 lg:h-12 w-auto"
               />
             </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-5">
+          <div className="hidden lg:flex items-center space-x-5">
             <button
               onClick={() => scrollTo('catalogo')}
               className="text-stone-700 hover:text-brand-700 focus-visible:text-brand-700 text-xs font-black uppercase tracking-[0.2em] transition-colors"
@@ -62,7 +62,7 @@ const Nav = ({
             </button>
           </div>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             <button
               onClick={() => handleOrder('Consulta General')}
               className="inline-flex items-center gap-2 p-3 rounded-2xl border transition-all border-beige-200 bg-white hover:bg-beige-100 text-stone-700 font-black text-[10px] uppercase tracking-wider"
@@ -109,7 +109,7 @@ const Nav = ({
           </div>
 
           <button
-            className="md:hidden p-3 min-h-12 min-w-12 rounded-2xl transition-all text-stone-900 hover:bg-stone-100"
+            className="lg:hidden p-3 min-h-12 min-w-12 rounded-2xl transition-all text-stone-900 hover:bg-stone-100"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
           >
@@ -119,7 +119,7 @@ const Nav = ({
       </div>
 
       <div className={cn(
-        'md:hidden relative z-[60] overflow-hidden transition-all duration-300 bg-white border-b border-beige-200',
+        'lg:hidden relative z-[60] overflow-hidden transition-all duration-300 bg-white border-b border-beige-200',
         mobileMenuOpen ? 'max-h-[520px] opacity-100 pointer-events-auto' : 'max-h-0 opacity-0 pointer-events-none'
       )}>
         <div className="relative z-[61] p-6 space-y-2">

@@ -1,4 +1,4 @@
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, X } from 'lucide-react';
 import { buildWhatsAppProductUrl } from '../lib/constants';
 
 const ProductDetailModal = ({ selectedProduct, onClose }) => {
@@ -11,7 +11,16 @@ const ProductDetailModal = ({ selectedProduct, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[80] bg-black/60 backdrop-blur-sm p-4 md:p-8" onClick={onClose}>
-      <div className="max-w-4xl mx-auto bg-white rounded-[2rem] overflow-hidden border border-stone-200 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      <div className="relative max-w-4xl mx-auto bg-white rounded-[2rem] overflow-hidden border border-stone-200 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 z-10 inline-flex items-center gap-2 min-h-12 px-4 rounded-xl bg-brand-900 text-white font-black text-sm shadow-lg hover:bg-brand-800 active:scale-95 transition-all"
+          aria-label="Cerrar detalle del producto"
+        >
+          <X size={20} />
+          Cerrar
+        </button>
+
         <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="bg-stone-100">
             <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover min-h-[340px]" width={800} height={1000} loading="lazy" />
@@ -57,7 +66,7 @@ const ProductDetailModal = ({ selectedProduct, onClose }) => {
                 <MessageSquare size={18} />
                 Pedir por WhatsApp
               </a>
-              <button onClick={onClose} className="px-4 py-3 rounded-xl border border-stone-200 font-black text-stone-600">Cerrar</button>
+              <button onClick={onClose} className="px-4 py-3 min-h-12 rounded-xl border border-stone-200 font-black text-stone-600">Cerrar</button>
             </div>
           </div>
         </div>

@@ -678,7 +678,7 @@ const App = () => {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 left-4 sm:left-6 z-[80] inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-900 text-white shadow-2xl border border-white/20 hover:scale-105 active:scale-95 transition-all"
+          className="fixed sm:hidden bottom-20 right-4 z-[80] inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-900 text-white shadow-2xl border border-white/20 hover:scale-105 active:scale-95 transition-all"
           aria-label="Volver arriba"
         >
           <ChevronUp size={20} />
