@@ -211,7 +211,7 @@ const PRODUCTS = [
 
 async function syncDb() {
   const db = await open({
-    filename: './database.sqlite',
+    filename: process.env.SQLITE_PATH || './database_dev_local.sqlite',
     driver: sqlite3.Database
   });
 

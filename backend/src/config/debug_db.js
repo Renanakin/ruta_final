@@ -7,7 +7,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 async function check() {
-  const db = await open({ filename: join(__dirname, '..', '..', 'database.sqlite'), driver: sqlite3.Database });
+  const filename = process.env.SQLITE_PATH
+    ? join(__dirname, '..', '..', process.env.SQLITE_PATH)
+    : join(__dirname, '..', '..', 'database_dev_local.sqlite');
+  const db = await open({ filename, driver: sqlite3.Database });
   const products = await db.all('SELECT id, name FROM products');
   console.log('--- DB PRODUCTS ---');
   products.forEach(p => console.log(`${p.id}: ${p.name}`));

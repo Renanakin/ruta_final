@@ -23,10 +23,10 @@ const resolveDbPath = () => {
     const workerId = process.env.VITEST_POOL_ID || process.env.VITEST_WORKER_ID || String(process.pid);
     const tempDir = path.resolve(__dirname, `../../.tmp/vitest-${workerId}`);
     fs.mkdirSync(tempDir, { recursive: true });
-    return path.join(tempDir, 'database.sqlite');
+    return path.join(tempDir, 'database_test.sqlite');
   }
 
-  return path.resolve(__dirname, '../../database.sqlite');
+  return path.resolve(__dirname, '../../database_dev_local.sqlite');
 };
 
 const ensureColumn = async (db, tableName, columnName, definition) => {
@@ -348,18 +348,18 @@ export const initDb = async () => {
           'Granja Ruta del Nido, Chile',
           '["El tamaño es increíble, muy frescos.","La yema es realmente naranja, como los de campo.","Excelente promoción por caja, conviene mucho."]'),
 
-        (4, 'Queso Chanco de Licán Ray Pieza de 500g', 'quesos',
-          'Queso artesanal directamente de la zona sur del país. Textura mantecosa y sabor auténtico.',
-          8500, '/images/QUESO_LICANRAY_FINAL.jpg', 'Artesanal Sur', 1,
-          'Queso mantecoso artesanal producido en Licán Ray. Caracterizado por su suavidad y proceso tradicional. Ideal para tablas, sándwiches o simplemente disfrutar solo.',
+        (4, 'Queso Chanco de Lican Ray', 'quesos',
+          'Queso artesanal del sur, de textura cremosa y sabor autentico.',
+          4250, '/images/QUESO_LICANRAY_FINAL.jpg', 'Referencia $4.250 / 1/4 kg', 1,
+          'Queso chanco artesanal producido en Lican Ray, elaborado con metodo tradicional para lograr una textura suave, cremosa y de excelente fundido. Ideal para tablas, sandwiches y cocina diaria.',
           '["359 Kcal Energía por 100g","24.0g Proteína por 100g","26.0g Grasas por 100g","Sodio: 1.8%"]',
           'Licán Ray, IX Región, Chile',
           '["El sabor del sur en mi casa, espectacular.","Muy cremoso, se nota la diferencia artesanal.","Calidad superior, 100% recomendado."]'),
 
-        (6, 'Queso Mantecoso de Púa (Horma)', 'quesos',
-          'Queso artesanal maduro del sur de Chile. Textura firme, sabor intenso y terroso curado con la técnica tradicional de púas.',
-          8500, '/images/QUESO_RUEDA_FINAL.jpg', 'Selección Nido', 1,
-          'El Queso de Púa es una joya de la quesería artesanal chilena. Su nombre proviene de la técnica tradicional de perforar la horma con finas púas o agujas, creando canales internos que permiten una maduración profunda y un desarrollo de sabores único. De textura firme y ligeramente abierta, ofrece un perfil de sabor intenso, terroso y ligeramente picante. Un producto de herencia campesina del sur de Chile, elaborado en lotes pequeños y curado con dedicación artesanal.',
+        (6, 'Queso Mantecoso de Pua (Horma)', 'quesos',
+          'Queso mantecoso artesanal, cremoso y de sabor intenso del sur de Chile.',
+          4250, '/images/QUESO_RUEDA_FINAL.jpg', 'Referencia $4.250 / 1/4 kg', 1,
+          'Queso mantecoso de Pua elaborado en lotes artesanales, con maduracion cuidada para lograr cremosidad, buena estructura al corte y sabor persistente. Excelente para compartir o elevar cualquier preparacion.',
           '["359 Kcal Energía por 100g","24.0g Proteína por 100g","Textura Cremosa","Sodio: 1.8%"]',
           'Campos del Sur de Chile',
           '["Increíble presentación y sabor único.","El favorito de la familia.","Sabor artesanal incomparable."]'),
@@ -438,3 +438,4 @@ export const closeDb = async () => {
   dbInstance = null;
   initPromise = null;
 };
+

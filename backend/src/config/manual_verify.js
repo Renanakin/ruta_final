@@ -13,7 +13,10 @@ async function generateManualToken() {
   const hashedToken = crypto.createHash('sha256').update(rawToken).digest('hex');
   const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
-  const dbPath = path.resolve(__dirname, '../../database.sqlite');
+  const configuredPath = String(process.env.SQLITE_PATH || '').trim();
+  const dbPath = configuredPath
+    ? path.resolve(__dirname, '../../', configuredPath)
+    : path.resolve(__dirname, '../../database_dev_local.sqlite');
   const db = await open({
     filename: dbPath,
     driver: sqlite3.Database

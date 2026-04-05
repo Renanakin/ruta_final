@@ -7,7 +7,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 async function checkTokens() {
-  const dbPath = path.resolve(__dirname, '../../database.sqlite');
+  const configuredPath = String(process.env.SQLITE_PATH || '').trim();
+  const dbPath = configuredPath
+    ? path.resolve(__dirname, '../../', configuredPath)
+    : path.resolve(__dirname, '../../database_dev_local.sqlite');
   const db = await open({
     filename: dbPath,
     driver: sqlite3.Database
