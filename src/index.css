@@ -46,6 +46,18 @@
   --color-organic-500: oklch(0.45 0.12 150);
   --color-organic-600: oklch(0.35 0.12 150);
 
+  /* Alchemist Layer - Copper / Ember */
+  --color-alchemy-50: oklch(0.98 0.02 72);
+  --color-alchemy-100: oklch(0.95 0.04 70);
+  --color-alchemy-200: oklch(0.9 0.08 66);
+  --color-alchemy-300: oklch(0.82 0.13 60);
+  --color-alchemy-400: oklch(0.73 0.16 54);
+  --color-alchemy-500: oklch(0.62 0.16 47);
+  --color-alchemy-600: oklch(0.52 0.14 43);
+  --color-alchemy-700: oklch(0.44 0.11 38);
+  --color-alchemy-800: oklch(0.35 0.08 34);
+  --color-alchemy-900: oklch(0.27 0.05 30);
+
   /* Typography */
   --font-serif: "Fraunces", serif;
   --font-sans: "Manrope", sans-serif;

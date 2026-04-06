@@ -78,7 +78,7 @@ export default function ExclusiveAccess({
         animate={status}
         className={cn(
           "relative z-10 w-full max-w-[55rem] p-10 md:p-20 rounded-[3rem] md:rounded-[4rem] backdrop-blur-[30px] bg-stone-900/40 border-2 border-yolk-500/20",
-          status === 'error' && "border-red-900/50 bg-stone-900/80"
+          status === 'error' && "border-amber-700/50 bg-stone-900/80"
         )}
       >
         <div className="flex flex-col items-center text-center space-y-12 w-full">
@@ -87,22 +87,22 @@ export default function ExclusiveAccess({
           <motion.div 
              animate={{ y: [-8, 8, -8] }} 
              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-             className="relative w-36 h-36 mx-auto group -mt-28 md:-mt-36"
+             className="relative w-40 h-40 mx-auto group -mt-28 md:-mt-36"
           >
              {/* Destello del Nido */}
              <div className="absolute inset-0 bg-gradient-to-b from-yolk-400 to-orange-500 rounded-full blur-[40px] opacity-70 group-hover:opacity-100 transition-opacity duration-1000"></div>
-             <div className="relative w-full h-full rounded-full flex items-center justify-center bg-stone-950/50 p-4 border-2 border-yolk-400/30 shadow-[0_0_50px_rgba(244,199,57,0.4)]">
-               <img src="/images/RUTA_DEL_NIDO_EMBLEM.svg" alt="Sello Alquimista" className="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(244,199,57,0.9)]" />
+             <div className="relative w-full h-full rounded-full flex items-center justify-center bg-stone-950/50 p-3 border-2 border-yolk-400/30 shadow-[0_0_50px_rgba(244,199,57,0.4)]">
+               <img src="/images/ALQUIMISTA.png" alt="Avatar del Alquimista" className="w-full h-full object-cover rounded-full filter drop-shadow-[0_0_20px_rgba(244,199,57,0.9)]" />
              </div>
           </motion.div>
 
           {/* Textos Monumentales y Storytelling */}
           <div className="space-y-8 max-w-4xl mx-auto w-full">
             <h2 className="text-5xl md:text-7xl lg:text-8xl font-serif text-stone-100 tracking-tight font-black leading-none drop-shadow-[0_0_30px_rgba(244,199,57,0.4)]">
-              Ruta del Nido
+              El Alquimista
               <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-b from-yolk-200 via-yolk-400 to-amber-600 block mt-2 filter drop-shadow-[0_0_20px_rgba(244,199,57,0.6)]">
-                El Alquimista
+                Ruta del Nido
               </span>
             </h2>
 
@@ -138,7 +138,7 @@ export default function ExclusiveAccess({
                   "relative w-full px-8 py-6 rounded-[2.5rem] bg-stone-950/80 text-yolk-100 font-serif text-2xl md:text-3xl text-center outline-none transition-all duration-500 shadow-inner",
                   "border-2 border-yolk-500/40 focus:border-yolk-300 focus:bg-stone-900",
                   "placeholder:text-stone-500 placeholder:italic",
-                  status === 'error' && "text-red-400 border-red-800/60 bg-red-950/40",
+                  status === 'error' && "text-amber-200 border-amber-700/60 bg-amber-950/25",
                   (status === 'validating' || status === 'success') && "opacity-50 cursor-not-allowed"
                 )}
               />
@@ -163,7 +163,7 @@ export default function ExclusiveAccess({
                 {status === 'error' && (
                   <motion.p
                     initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-                    className="text-sm md:text-base text-red-400 font-bold tracking-widest uppercase bg-red-950/50 px-6 py-2 rounded-full border border-red-900/50"
+                    className="text-sm md:text-base text-amber-200 font-bold tracking-widest uppercase bg-amber-950/45 px-6 py-2 rounded-full border border-amber-800/50"
                   >
                     {errorMsg}
                   </motion.p>
