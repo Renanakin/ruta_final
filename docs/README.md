@@ -9,6 +9,12 @@ Esta carpeta conserva solo la documentacion que sigue sirviendo para:
 
 ## Documentos activos
 
+- [alquimista-avatar/README.md](C:/dev/1_ruta/docs/alquimista-avatar/README.md)
+  Plan de ejecucion por fases para integrar la nueva identidad del avatar del Alquimista.
+
+- [alquimista-avatar/SKILLS.md](C:/dev/1_ruta/docs/alquimista-avatar/SKILLS.md)
+  Matriz de roles, skills y gates para ejecutar el proyecto del avatar del Alquimista.
+
 - [conversion/README.md](C:/dev/1_ruta/docs/conversion/README.md)
   Base de diagnostico, plan, matriz y propuesta de trabajo para mejorar conversion en Ruta del Nido.
 

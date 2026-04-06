@@ -167,7 +167,8 @@ const PRODUCTS = [
       'Se nota de inmediato el ahumado natural, un sabor profundo y muy distinto a lo común.',
       'Muy superior a cualquier longaniza tradicional, textura firme y nada de grasa en exceso.',
       'Producto con identidad real del sur, fue la estrella de mi último asado.'
-    ]
+    ],
+    comingSoon: true
   },
   {
     id: 10,
@@ -211,7 +212,7 @@ const PRODUCTS = [
 
 async function syncDb() {
   const db = await open({
-    filename: './database.sqlite',
+    filename: process.env.SQLITE_PATH || './database_dev_local.sqlite',
     driver: sqlite3.Database
   });
 

@@ -19,7 +19,7 @@ COPY alchemist/ /app/alchemist/
 
 # Ensure the database file isn't overwritten if mounted, 
 # but provide a base if needed. 
-# Note: database.sqlite should typically be a volume.
+# Note: database_* .sqlite files should typically be mounted as volumes per environment.
 
 # Expose backend port
 EXPOSE 3002

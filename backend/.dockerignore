@@ -4,4 +4,4 @@ npm-debug.log
 .env.local
 .git
 dist
-database.sqlite
+database*.sqlite

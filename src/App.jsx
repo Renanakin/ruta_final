@@ -28,6 +28,7 @@ import NewsletterPopup from './components/NewsletterPopup';
 import CrmUnavailableView from './components/CrmUnavailableView';
 import ResetPassword from './components/ResetPassword';
 import ValuesSection from './components/ValuesSection';
+import AlquimistaSalesAssistant from './components/sales-assistant/AlquimistaSalesAssistant';
 
 const App = () => {
   const [pathname, setPathname] = useState(() => {
@@ -673,12 +674,21 @@ const App = () => {
         handleNewsletterSubmit={handleNewsletterSubmit}
       />
 
+      <AlquimistaSalesAssistant
+        enabled={import.meta.env.VITE_ENABLE_SALES_ASSISTANT === 'true'}
+        pathname={pathname}
+        products={products}
+        currentProduct={selectedProduct}
+        onTrackEvent={trackEvent}
+        onDirectOrder={handleOrder}
+      />
+
       <Footer scrollTo={scrollTo} onOpenAlchemist={openAlchemist} handleOrder={handleOrder} activeTab={activeTab} />
 
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 left-4 sm:left-6 z-[80] inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-900 text-white shadow-2xl border border-white/20 hover:scale-105 active:scale-95 transition-all"
+          className="fixed sm:hidden bottom-20 right-4 z-[80] inline-flex items-center justify-center h-12 w-12 rounded-full bg-brand-900 text-white shadow-2xl border border-white/20 hover:scale-105 active:scale-95 transition-all"
           aria-label="Volver arriba"
         >
           <ChevronUp size={20} />

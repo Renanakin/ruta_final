@@ -51,14 +51,14 @@ const CatalogSection = ({ products, onSelectProduct }) => {
     <section id="catalogo" className="py-24 px-4 bg-[#fdfbf7] relative overflow-hidden transition-colors duration-500">
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-stone-100 to-transparent"></div>
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
+        <div className="mb-14">
           <div className="max-w-xl">
             <span className="text-brand-700 font-black text-xs uppercase tracking-[0.2em] mb-4 block">Linea actual</span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-black text-stone-900 leading-tight">Variedades seleccionadas</h2>
             <p className="text-stone-600 mt-4 text-lg italic">Cada producto fue curado por El Alquimista por su origen y uso real.</p>
           </div>
 
-          <div className="w-full md:w-auto">
+          <div className="w-full max-w-xl mt-6">
             <div className="flex gap-2 pb-2 overflow-x-auto no-scrollbar max-w-full snap-x snap-mandatory">
               {categories.map((cat) => (
                 <button
@@ -99,9 +99,9 @@ const CatalogSection = ({ products, onSelectProduct }) => {
                   <p className="text-xs md:text-sm text-stone-600 font-semibold mt-1.5">{CATEGORY_VALUE[cat.id]?.useCase}</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-9">
+                <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6 sm:gap-8 md:gap-9">
                   {categoryProducts.map((p) => (
-                    <div key={p.id} className="group flex flex-col">
+                    <div key={p.id} className="group flex flex-col min-w-0">
                       <div className="relative aspect-[4/5] rounded-[2.25rem] overflow-hidden bg-stone-100 mb-7">
                         <img
                           src={p.image}
@@ -116,7 +116,7 @@ const CatalogSection = ({ products, onSelectProduct }) => {
                         </div>
                       </div>
 
-                      <div className="px-1">
+                      <div className="px-1 min-w-0">
                         <h3 className="text-xl font-serif font-black text-stone-900 mb-2">{p.name}</h3>
                         <p className="text-stone-600 text-sm leading-relaxed mb-4 font-medium">{p.description}</p>
                         <div className="flex items-center gap-2 mb-4">
@@ -130,19 +130,25 @@ const CatalogSection = ({ products, onSelectProduct }) => {
                           {CATEGORY_VALUE[p.category]?.socialSnippet}
                         </p>
 
-                        <div className="flex items-center justify-between pt-5 border-t border-stone-100 gap-2">
-                          <div>
-                            <span className="text-xl sm:text-2xl md:text-3xl font-black text-brand-950 leading-tight">
+                        <div className="pt-5 border-t border-stone-100">
+                          <div className="mb-3">
+                            <span className="text-2xl sm:text-3xl font-black text-brand-950 leading-tight">
                               {(p.coming_soon || p.comingSoon) ? PRICE_PLACEHOLDER : formatClp(p.price)}
                             </span>
-                            <span className="text-[11px] text-stone-600 block font-black uppercase tracking-widest mt-1">
-                              {(p.coming_soon || p.comingSoon || !p.price) ? 'Lanzamiento proximo' : 'Precio vigente'}
-                            </span>
+                            {p.category === 'quesos' ? (
+                              <span className="text-[11px] text-stone-600 block font-black uppercase tracking-widest mt-1">
+                                Valor referencia 1/4 kg | final segun peso real
+                              </span>
+                            ) : (
+                              <span className="text-[11px] text-stone-600 block font-black uppercase tracking-widest mt-1">
+                                {(p.coming_soon || p.comingSoon || !p.price) ? 'Lanzamiento proximo' : 'Precio vigente'}
+                              </span>
+                            )}
                           </div>
-                          <div className="flex items-center gap-2 w-full sm:w-auto">
+                          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
                             <button
                               onClick={() => onSelectProduct(p)}
-                              className="hidden sm:inline-flex px-4 py-2 rounded-xl border border-brand-200 text-brand-700 font-bold text-sm hover:bg-brand-50"
+                              className="inline-flex items-center justify-center px-4 py-3 min-h-12 rounded-xl border border-brand-200 text-brand-700 font-bold text-sm hover:bg-brand-50 w-full sm:w-auto"
                             >
                               Detalle
                             </button>
@@ -150,7 +156,7 @@ const CatalogSection = ({ products, onSelectProduct }) => {
                               href={buildWhatsAppProductUrl(p.name)}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white px-4 py-3 min-h-12 rounded-2xl shadow-premium transition-all active:scale-90 font-black text-sm w-full sm:w-auto"
+                              className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba5a] text-white px-4 py-3 min-h-12 rounded-2xl shadow-premium transition-all active:scale-90 font-black text-sm w-full sm:flex-1"
                               aria-label={`Pedir ${p.name} por WhatsApp`}
                             >
                               <MessageSquare size={18} strokeWidth={2.5} />

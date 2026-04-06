@@ -31,7 +31,9 @@ npm run dev
 
 ## Runtime real
 
-- El runtime actual usa SQLite en `backend/database.sqlite`.
+- El runtime actual usa SQLite con separacion por entorno:
+  - Produccion: `backend/database_prod_rutadelnido_2026_04.sqlite`
+  - Desarrollo: `backend/database_dev_local.sqlite`
 - `DATABASE_URL` no participa del flujo publico diario; queda solo como soporte para migraciones o validaciones manuales.
 - El catalogo publico, auth de clientes, carrito, pedidos, newsletter y suscripciones salen de esta base SQLite.
 
