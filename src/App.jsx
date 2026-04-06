@@ -28,6 +28,7 @@ import NewsletterPopup from './components/NewsletterPopup';
 import CrmUnavailableView from './components/CrmUnavailableView';
 import ResetPassword from './components/ResetPassword';
 import ValuesSection from './components/ValuesSection';
+import AlquimistaSalesAssistant from './components/sales-assistant/AlquimistaSalesAssistant';
 
 const App = () => {
   const [pathname, setPathname] = useState(() => {
@@ -671,6 +672,15 @@ const App = () => {
         newsletterMsg={newsletterMsg}
         newsletterLoading={newsletterLoading}
         handleNewsletterSubmit={handleNewsletterSubmit}
+      />
+
+      <AlquimistaSalesAssistant
+        enabled={import.meta.env.VITE_ENABLE_SALES_ASSISTANT === 'true'}
+        pathname={pathname}
+        products={products}
+        currentProduct={selectedProduct}
+        onTrackEvent={trackEvent}
+        onDirectOrder={handleOrder}
       />
 
       <Footer scrollTo={scrollTo} onOpenAlchemist={openAlchemist} handleOrder={handleOrder} activeTab={activeTab} />

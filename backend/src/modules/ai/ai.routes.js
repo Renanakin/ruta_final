@@ -2,13 +2,15 @@ import express from 'express';
 import { protect } from '../../middleware/auth.middleware.js';
 import { requireAILimit } from '../../middleware/aiLimit.middleware.js';
 import { validateBody } from '../../middleware/validate.middleware.js';
-import { AiOrderSchema, ChefQuerySchema, ChefVerifySchema } from '../../../validators.js';
+import { AiOrderSchema, ChefQuerySchema, ChefVerifySchema, SalesAssistantMessageSchema } from '../../../validators.js';
 import { logger } from '../../lib/logger.js';
 import {
   AlchemistError,
   createChefService,
   createGeminiTextGenerator,
+  createSalesAssistantService,
 } from '../../../alchemist/src/index.js';
+import { getSalesCatalogSnapshot } from '../catalog/catalog.service.js';
 
 const CHEF_AI_LIMIT = 3;
 const ORDERS_AI_LIMIT = 3;
@@ -36,10 +38,33 @@ const createDefaultChefService = () =>
     logger,
   });
 
-export const createAiRoutes = ({ chefService } = {}) => {
+const createDefaultSalesService = () =>
+  createSalesAssistantService({
+    textGenerator: createGeminiTextGenerator({
+      apiKey: process.env.GEMINI_API_KEY,
+      model: process.env.ALCHEMIST_GEMINI_MODEL || 'gemini-2.5-flash',
+    }),
+    logger,
+  });
+
+const mapProductContext = (product) => ({
+  id: product.id,
+  name: product.name,
+  category: product.category,
+  description: product.description,
+  price: typeof product.price === 'number' ? product.price : 0,
+  priceLabel: product.priceLabel,
+  badge: product.badge,
+  inStock: Boolean(product.inStock),
+  comingSoon: product.commercialState === 'coming_soon',
+  salesNote: product.salesNote,
+});
+
+export const createAiRoutes = ({ chefService, salesService } = {}) => {
   const router = express.Router();
   const chefAccessMiddleware = createChefAccessMiddleware();
-  const resolvedChefService = chefService || createDefaultChefService();
+  const resolvedChefService = chefService;
+  const resolvedSalesService = salesService;
 
   router.post('/chef/verify', validateBody(ChefVerifySchema), (req, res) => {
     const codeStr = String(req.body.code).replace(/\s+/g, '').toUpperCase();
@@ -50,7 +75,7 @@ export const createAiRoutes = ({ chefService } = {}) => {
 
   router.post('/chef', validateBody(ChefQuerySchema), chefAccessMiddleware, async (req, res, next) => {
     try {
-      const recipe = await resolvedChefService.generateRecipe({
+      const recipe = await (resolvedChefService || createDefaultChefService()).generateRecipe({
         query: req.body.query,
         locale: req.body.locale || 'es-CL',
       });
@@ -58,6 +83,53 @@ export const createAiRoutes = ({ chefService } = {}) => {
       return res.status(200).json({
         success: true,
         data: recipe,
+      });
+    } catch (error) {
+      if (error instanceof AlchemistError) {
+        return res.status(error.statusCode || 500).json({
+          success: false,
+          error: error.message,
+          ...(error.details ? { details: error.details } : {}),
+        });
+      }
+
+      return next(error);
+    }
+  });
+
+  router.post('/sales/message', validateBody(SalesAssistantMessageSchema), async (req, res, next) => {
+    try {
+      const snapshot = await getSalesCatalogSnapshot();
+      const catalog = snapshot.catalog.map(mapProductContext);
+      const currentProduct = req.body.currentProductId
+        ? catalog.find((product) => product.id === req.body.currentProductId) || null
+        : null;
+
+      const recentProducts = Array.isArray(req.body.recentProductIds)
+        ? req.body.recentProductIds
+          .map((id) => catalog.find((product) => product.id === id))
+          .filter(Boolean)
+        : [];
+
+      const salesReply = await (resolvedSalesService || createDefaultSalesService()).generateReply({
+        message: req.body.message,
+        pagePath: req.body.pagePath || '/',
+        locale: req.body.locale || 'es-CL',
+        currentProduct,
+        recentProducts,
+        sessionContext: req.body.sessionContext || null,
+        quickReply: req.body.quickReply || null,
+        catalog: catalog.slice(0, 12),
+      });
+
+      return res.status(200).json({
+        success: true,
+        data: salesReply,
+        meta: {
+          catalogVerifiedAt: snapshot.verifiedAt,
+          sellableProducts: snapshot.sellableProducts,
+          totalProducts: snapshot.totalProducts,
+        },
       });
     } catch (error) {
       if (error instanceof AlchemistError) {

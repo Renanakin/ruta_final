@@ -103,6 +103,16 @@ const ensureUsersSchema = async (db) => {
 
 const ensureProductsSchema = async (db) => {
   await ensureColumn(db, 'products', 'coming_soon', 'BOOLEAN DEFAULT 0');
+  await db.run(
+    `UPDATE products
+     SET coming_soon = 1
+     WHERE name IN (?, ?, ?)`,
+    [
+      'Longaniza de Capitán Pastene',
+      'Costillar de Cerdo Nacional',
+      'Costillar Ahumado Capitán Pastene',
+    ]
+  );
 };
 
 const ensureOrdersSchema = async (db) => {

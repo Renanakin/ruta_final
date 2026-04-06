@@ -1,14 +1,15 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import express from 'express';
 import request from 'supertest';
 import { createAiRoutes } from '../src/modules/ai/ai.routes.js';
 import { errorHandler } from '../src/middleware/errorHandler.js';
 import { AlchemistProviderError, AlchemistValidationError, createChefService } from '../../alchemist/src/index.js';
+import { closeDb, initDb } from '../src/config/db.js';
 
-const createTestApp = ({ chefService } = {}) => {
+const createTestApp = ({ chefService, salesService } = {}) => {
   const app = express();
   app.use(express.json());
-  app.use('/api/ai', createAiRoutes({ chefService }));
+  app.use('/api/ai', createAiRoutes({ chefService, salesService }));
   app.use(errorHandler);
   return app;
 };
@@ -18,6 +19,14 @@ describe('AI routes', () => {
     process.env.NODE_ENV = 'test';
     process.env.JWT_SECRET = 'test_secret_min_32_chars_for_vitest_ok';
     process.env.CHEF_ACCESS_CODE = 'RUTA-NIDO-2026';
+  });
+
+  beforeAll(async () => {
+    await initDb();
+  });
+
+  afterAll(async () => {
+    await closeDb();
   });
 
   it('valida el codigo de acceso del chef', async () => {
@@ -110,5 +119,83 @@ describe('AI routes', () => {
     expect(response.status).toBe(502);
     expect(response.body.success).toBe(false);
     expect(response.body.error).toContain('receta incompleta');
+  });
+
+  it('responde desde la IA de ventas con estructura comercial valida', async () => {
+    const app = createTestApp({
+      salesService: {
+        async generateReply(input) {
+          return {
+            message: 'Si quieres una compra mas completa, te sugiero combinar huevos con queso y longaniza.',
+            quickReplies: [
+              {
+                label: 'Arma un pack para mi',
+                intent: 'build_bundle',
+                payload: { topic: 'recommendation', prompt: 'Arma un pack para mi' },
+              },
+              {
+                label: 'Que combina con huevos',
+                intent: 'continue_topic',
+                payload: {
+                  topic: 'catalog',
+                  prompt: 'Que combina con huevos',
+                  currentProductId: input.currentProduct?.id || null,
+                },
+              },
+            ],
+            recommendedProducts: [
+              { name: 'Huevo Blanco Extra (Bandeja 30 un)', reason: 'Base versatil para desayuno o cocina diaria.' },
+              { name: 'Queso Chanco de Lican Ray', reason: 'Aporta complemento directo para tostadas y desayunos.' },
+            ],
+            suggestedBundle: {
+              title: 'Pack desayuno del nido',
+              summary: 'Una base simple para una mesa mas completa.',
+              items: ['Huevo Blanco Extra (Bandeja 30 un)', 'Queso Chanco de Lican Ray'],
+              intent: 'bundle',
+            },
+            nextStep: 'preclose',
+            handoffSummary: 'Cliente interesado en avanzar con pack desayuno.',
+            shouldHighlightHuman: false,
+            sessionContext: {
+              topic: 'recommendation',
+              category: 'huevos',
+              currentProductId: input.currentProduct?.id || null,
+              comparedProductIds: [],
+              lastIntent: 'needs_recommendation',
+              lastUserMessage: input.message,
+            },
+          };
+        },
+      },
+    });
+
+    const response = await request(app)
+      .post('/api/ai/sales/message')
+      .send({
+        message: 'Quiero algo para desayuno',
+        pagePath: '/',
+        recentProductIds: [8, 4],
+        sessionContext: {
+          topic: 'catalog',
+          category: 'huevos',
+          currentProductId: 8,
+          comparedProductIds: [],
+          lastIntent: 'show_recommendations',
+          lastUserMessage: 'Estoy viendo huevos',
+        },
+        quickReply: {
+          label: 'Ayudame a elegir',
+          intent: 'show_recommendations',
+          payload: { topic: 'recommendation', prompt: 'Ayudame a elegir' },
+        },
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.nextStep).toBe('preclose');
+    expect(response.body.data.recommendedProducts.length).toBeGreaterThan(0);
+    expect(response.body.data.quickReplies[0].label).toBe('Arma un pack para mi');
+    expect(response.body.data.sessionContext.topic).toBe('recommendation');
+    expect(response.body.data.sessionContext.lastUserMessage).toBe('Quiero algo para desayuno');
   });
 });

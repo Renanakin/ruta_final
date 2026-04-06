@@ -107,6 +107,40 @@ export const ChefQuerySchema = z.object({
   code: z.string().max(120).optional(),
 });
 
+const SalesAssistantSessionContextSchema = z.object({
+  topic: z.enum(['recommendation', 'catalog', 'comparison', 'handoff', 'unknown']).optional().nullable(),
+  category: z.string().min(2).max(80).optional().nullable(),
+  currentProductId: z.number().int().positive().optional().nullable(),
+  comparedProductIds: z.array(z.number().int().positive()).max(4).optional(),
+  lastIntent: z.string().min(2).max(60).optional().nullable(),
+  lastUserMessage: z.string().min(1).max(600).optional().nullable(),
+});
+
+const SalesAssistantQuickReplyPayloadSchema = z.object({
+  prompt: z.string().min(2).max(120).optional(),
+  topic: z.enum(['recommendation', 'catalog', 'comparison', 'handoff', 'unknown']).optional().nullable(),
+  category: z.string().min(2).max(80).optional().nullable(),
+  currentProductId: z.number().int().positive().optional().nullable(),
+  comparedProductIds: z.array(z.number().int().positive()).max(4).optional(),
+  highlightHuman: z.boolean().optional(),
+}).partial();
+
+const SalesAssistantQuickReplySchema = z.object({
+  label: z.string().min(2).max(80),
+  intent: z.string().min(2).max(60),
+  payload: SalesAssistantQuickReplyPayloadSchema.optional(),
+});
+
+export const SalesAssistantMessageSchema = z.object({
+  message: z.string().min(1, 'El mensaje es requerido').max(600, 'El mensaje es demasiado largo'),
+  pagePath: z.string().max(140).optional(),
+  locale: z.string().max(10).optional(),
+  currentProductId: z.number().int().positive().optional().nullable(),
+  recentProductIds: z.array(z.number().int().positive()).max(6).optional(),
+  sessionContext: SalesAssistantSessionContextSchema.optional().nullable(),
+  quickReply: SalesAssistantQuickReplySchema.optional().nullable(),
+});
+
 export const AiOrderSchema = z.object({
   message: z.string().min(1, 'El mensaje es requerido').max(1000),
 });
