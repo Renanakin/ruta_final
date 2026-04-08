@@ -112,6 +112,9 @@ const SalesAssistantSessionContextSchema = z.object({
   category: z.string().min(2).max(80).optional().nullable(),
   currentProductId: z.number().int().positive().optional().nullable(),
   comparedProductIds: z.array(z.number().int().positive()).max(4).optional(),
+  useContext: z.string().min(2).max(120).optional().nullable(),
+  locationHint: z.string().min(2).max(120).optional().nullable(),
+  urgencyHint: z.string().min(2).max(120).optional().nullable(),
   lastIntent: z.string().min(2).max(60).optional().nullable(),
   lastUserMessage: z.string().min(1).max(600).optional().nullable(),
 });
@@ -135,10 +138,29 @@ export const SalesAssistantMessageSchema = z.object({
   message: z.string().min(1, 'El mensaje es requerido').max(600, 'El mensaje es demasiado largo'),
   pagePath: z.string().max(140).optional(),
   locale: z.string().max(10).optional(),
+  conversationId: z.string().min(8).max(120).optional().nullable(),
   currentProductId: z.number().int().positive().optional().nullable(),
   recentProductIds: z.array(z.number().int().positive()).max(6).optional(),
   sessionContext: SalesAssistantSessionContextSchema.optional().nullable(),
   quickReply: SalesAssistantQuickReplySchema.optional().nullable(),
+});
+
+export const SalesAssistantPilotEligibilitySchema = z.object({
+  sessionId: z.string().min(2).max(120),
+  pagePath: z.string().max(140).optional().nullable(),
+  currentProductId: z.number().int().positive().optional().nullable(),
+  previewMode: z.enum(['force', 'off']).optional().nullable(),
+  previewToken: z.string().min(2).max(120).optional().nullable(),
+});
+
+export const CrmSalesAssistantPilotUpdateSchema = z.object({
+  enabled: z.boolean(),
+  rollout_percentage: z.number().int().min(0).max(100),
+  allowlist_enabled: z.boolean(),
+  allowlist_tokens: z.array(z.string().min(2).max(120)).max(50).default([]),
+  qa_force_enabled: z.boolean(),
+  page_scope: z.enum(['all', 'product_only']),
+  notes: z.string().max(500).optional().nullable(),
 });
 
 export const AiOrderSchema = z.object({

@@ -4,6 +4,7 @@
 
 - completar `/.env.production.example` en el servidor o en el gestor de secretos
 - completar `backend/.env.production.example` en el servidor o en el gestor de secretos
+- confirmar `VITE_ENABLE_SALES_ASSISTANT=true` solo si se operara el piloto desde CRM
 - no copiar archivos `.env` locales del desarrollo
 - respaldar `backend/database.sqlite` o la base real activa
 - validar `npm audit --audit-level=high`
@@ -11,6 +12,11 @@
 - validar `npm run build`
 - validar `cd backend && npm test`
 - validar smoke local de `/` y `/alquimista`
+- validar smoke del piloto de ventas con:
+  - `enabled=off`
+  - `qa force`
+  - `rollout 10%`
+  - `kill switch`
 
 ## Infraestructura
 
@@ -33,6 +39,10 @@
 - confirmar que no exista flujo publico de carrito o checkout online
 - `/crm` bloqueado
 - alquimista operativo si sus variables estan cargadas
+- sales assistant oculto cuando el piloto esta en `off`
+- sales assistant visible con `?salesAssistantPilot=force` si `qa_force_enabled=on`
+- sales assistant visible solo en el scope configurado
+- dashboard CRM muestra metricas `sales assistant` y trazas recientes
 - `robots.txt`
 - `sitemap.xml`
 
@@ -43,6 +53,7 @@
 - reconstruir frontend
 - reiniciar backend
 - recargar Nginx
+- en CRM dejar `Sales Assistant: Piloto Controlado` en `off`
 
 ## Cierre de pruebas y secretos
 

@@ -27,7 +27,7 @@ const SalesAssistantPanel = ({
             <img
               src="/images/AVATAR_CHAT.png"
               alt="Avatar del asistente de ventas"
-              className="mt-0.5 h-12 w-12 shrink-0 rounded-full border border-yolk-400/40 object-cover"
+              className="mt-0.5 h-14 w-14 shrink-0 object-contain drop-shadow-[0_4px_14px_rgba(0,0,0,0.35)]"
             />
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.28em] text-yolk-300">Asistente de ventas</p>
@@ -75,7 +75,7 @@ const SalesAssistantPanel = ({
               )}
               {message.handoffSummary && (
                 <button
-                  onClick={() => onHumanHandoff?.(message.handoffSummary)}
+                  onClick={() => onHumanHandoff?.(message)}
                   className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-2.5 text-xs font-black uppercase tracking-[0.18em] text-brand-950"
                 >
                   <MessageSquareText size={16} />

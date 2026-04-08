@@ -20,6 +20,8 @@ import {
 } from './analytics.helpers.js';
 
 const router = express.Router();
+const SALES_ASSISTANT_TURN_EVENTS = ['sales_assistant_engaged', 'sales_assistant_fallback'];
+const SALES_ASSISTANT_TRACE_EVENTS = [...SALES_ASSISTANT_TURN_EVENTS, 'sales_assistant_handoff'];
 
 const analyticsIngressLimiter = rateLimit({
   windowMs: Number(process.env.ANALYTICS_RATE_LIMIT_WINDOW_MS || 60_000),
@@ -164,6 +166,32 @@ const buildWhereClause = (query) => {
   };
 };
 
+const buildSalesAssistantWhereClause = (query, eventNames) => {
+  const filters = [`event_name IN (${eventNames.map(() => '?').join(', ')})`];
+  const params = [...eventNames];
+  const dateRange = parseDateRange(query);
+
+  if (dateRange.clause) {
+    filters.push(dateRange.clause.replace(/^WHERE /, ''));
+    params.push(...dateRange.params);
+  }
+
+  if (query.page_path) {
+    filters.push('page_path = ?');
+    params.push(query.page_path);
+  }
+
+  if (query.source) {
+    filters.push('source = ?');
+    params.push(query.source);
+  }
+
+  return {
+    clause: `WHERE ${filters.join(' AND ')}`,
+    params,
+  };
+};
+
 router.post('/events', analyticsIngressLimiter, async (req, res) => {
   try {
     const db = getDb();
@@ -284,6 +312,137 @@ router.get('/summary', protectCrm, async (req, res, next) => {
         top_products: topProducts.map((row) => ({ product_name: row.product_name, total: toNumber(row.total) })),
         top_pages: topPages.map((row) => ({ page_path: row.page_path || '/', total: toNumber(row.total) })),
       }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/sales-assistant/summary', protectCrm, async (req, res, next) => {
+  try {
+    const db = getDb();
+    const turnsWhere = buildSalesAssistantWhereClause(req.query, SALES_ASSISTANT_TURN_EVENTS);
+    const tracesWhere = buildSalesAssistantWhereClause(req.query, SALES_ASSISTANT_TRACE_EVENTS);
+
+    const [totals, resolvedBy, intents, handoffClicks] = await Promise.all([
+      db.get(
+        `SELECT
+          COUNT(*) AS total_turns,
+          COUNT(DISTINCT session_id) AS unique_sessions,
+          COUNT(DISTINCT COALESCE(json_extract(payload, '$.conversation_id'), session_id)) AS unique_conversations,
+          SUM(CASE WHEN event_name = 'sales_assistant_fallback' OR COALESCE(json_extract(payload, '$.fallback'), 0) = 1 THEN 1 ELSE 0 END) AS fallback_turns,
+          SUM(CASE WHEN COALESCE(json_extract(payload, '$.handoff'), 0) = 1 THEN 1 ELSE 0 END) AS handoff_turns,
+          SUM(CASE WHEN json_extract(payload, '$.message_source') = 'quick_reply' THEN 1 ELSE 0 END) AS quick_reply_turns,
+          SUM(CASE WHEN json_extract(payload, '$.message_source') = 'free_text' THEN 1 ELSE 0 END) AS free_text_turns,
+          AVG(CAST(COALESCE(json_extract(payload, '$.latency_ms'), json_extract(payload, '$.roundtrip_ms')) AS REAL)) AS avg_latency_ms
+         FROM analytics_events
+         ${turnsWhere.clause}`,
+        turnsWhere.params,
+      ),
+      db.all(
+        `SELECT
+          COALESCE(json_extract(payload, '$.resolved_by'), 'unknown') AS resolved_by,
+          COUNT(*) AS total
+         FROM analytics_events
+         ${turnsWhere.clause}
+         GROUP BY resolved_by
+         ORDER BY total DESC`,
+        turnsWhere.params,
+      ),
+      db.all(
+        `SELECT
+          COALESCE(json_extract(payload, '$.detected_intent'), json_extract(payload, '$.quick_reply_intent'), 'unknown') AS intent,
+          COUNT(*) AS total
+         FROM analytics_events
+         ${turnsWhere.clause}
+         GROUP BY intent
+         ORDER BY total DESC
+         LIMIT 8`,
+        turnsWhere.params,
+      ),
+      db.get(
+        `SELECT COUNT(*) AS total
+         FROM analytics_events
+         WHERE event_name = 'sales_assistant_handoff'
+           ${tracesWhere.clause.replace(/^WHERE event_name IN \(\?, \?, \?\)/, '')}`,
+        tracesWhere.params.filter((_, index) => index >= SALES_ASSISTANT_TRACE_EVENTS.length),
+      ),
+    ]);
+
+    const totalTurns = toNumber(totals?.total_turns);
+    const fallbackTurns = toNumber(totals?.fallback_turns);
+    const handoffTurns = toNumber(totals?.handoff_turns);
+    const safePct = (count) => (totalTurns > 0 ? Number(((count / totalTurns) * 100).toFixed(2)) : 0);
+
+    res.json({
+      success: true,
+      summary: {
+        total_turns: totalTurns,
+        unique_sessions: toNumber(totals?.unique_sessions),
+        unique_conversations: toNumber(totals?.unique_conversations),
+        fallback_turns: fallbackTurns,
+        handoff_turns: handoffTurns,
+        handoff_clicks: toNumber(handoffClicks?.total),
+        quick_reply_turns: toNumber(totals?.quick_reply_turns),
+        free_text_turns: toNumber(totals?.free_text_turns),
+        avg_latency_ms: Number((Number(totals?.avg_latency_ms) || 0).toFixed(1)),
+        fallback_rate_pct: safePct(fallbackTurns),
+        handoff_rate_pct: safePct(handoffTurns),
+        resolved_by: resolvedBy.map((row) => ({
+          resolved_by: row.resolved_by,
+          total: toNumber(row.total),
+        })),
+        top_intents: intents.map((row) => ({
+          intent: row.intent,
+          total: toNumber(row.total),
+        })),
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/sales-assistant/traces', protectCrm, async (req, res, next) => {
+  try {
+    const db = getDb();
+    const limit = Math.min(Math.max(Number(req.query.limit || 25), 1), 100);
+    const where = buildSalesAssistantWhereClause(req.query, SALES_ASSISTANT_TRACE_EVENTS);
+    const rows = await db.all(
+      `SELECT
+        id,
+        event_name,
+        session_id,
+        page_path,
+        source,
+        created_at,
+        json_extract(payload, '$.conversation_id') AS conversation_id,
+        json_extract(payload, '$.message_source') AS message_source,
+        json_extract(payload, '$.quick_reply_intent') AS quick_reply_intent,
+        json_extract(payload, '$.detected_intent') AS detected_intent,
+        json_extract(payload, '$.resolved_by') AS resolved_by,
+        json_extract(payload, '$.next_step') AS next_step,
+        json_extract(payload, '$.handoff') AS handoff,
+        json_extract(payload, '$.fallback') AS fallback,
+        json_extract(payload, '$.latency_ms') AS latency_ms,
+        json_extract(payload, '$.roundtrip_ms') AS roundtrip_ms,
+        json_extract(payload, '$.lead_temperature') AS lead_temperature
+       FROM analytics_events
+       ${where.clause}
+       ORDER BY created_at DESC, id DESC
+       LIMIT ?`,
+      [...where.params, limit],
+    );
+
+    res.json({
+      success: true,
+      traces: rows.map((row) => ({
+        ...row,
+        handoff: Boolean(row.handoff),
+        fallback: Boolean(row.fallback),
+        latency_ms: row.latency_ms == null ? null : Number(row.latency_ms),
+        roundtrip_ms: row.roundtrip_ms == null ? null : Number(row.roundtrip_ms),
+      })),
     });
   } catch (error) {
     next(error);

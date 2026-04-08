@@ -10,16 +10,16 @@ const SalesBubble = ({ open, onClick, teaser }) => (
     )}
     <button
       onClick={onClick}
-      className="group inline-flex h-15 w-15 items-center justify-center rounded-full border-4 border-white bg-gradient-to-br from-brand-700 to-alchemy-700 text-white shadow-2xl transition-transform hover:scale-105"
+      className="group inline-flex items-center justify-center bg-transparent text-white transition-transform hover:scale-105"
       aria-label="Abrir asistente de ventas"
     >
-      <span className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full">
+      <span className="relative flex items-center justify-center">
         <img
           src="/images/AVATAR_CHAT.png"
           alt="Avatar del asistente de ventas"
-          className="h-full w-full object-cover"
+          className="h-16 w-16 object-contain drop-shadow-[0_6px_18px_rgba(0,0,0,0.45)]"
         />
-        <Sparkles size={12} className="absolute right-1 top-1 text-yolk-300 drop-shadow" />
+        <Sparkles size={12} className="absolute right-0 top-0 text-yolk-300 drop-shadow" />
       </span>
     </button>
   </div>

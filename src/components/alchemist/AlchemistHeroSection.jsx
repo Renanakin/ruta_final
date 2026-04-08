@@ -47,11 +47,11 @@ const AlchemistHeroSection = () => (
 
         <div className="relative mx-auto w-full max-w-md lg:max-w-none">
           <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-alchemy-400/30 via-yolk-400/20 to-brand-500/25 blur-2xl" />
-          <div className="relative overflow-hidden rounded-[3rem] border border-white/60 bg-white/70 p-3 shadow-premium-xl backdrop-blur-xl">
+          <div className="relative p-0">
             <img
               src="/images/ALQUIMISTA.png"
               alt="Avatar oficial del Alquimista"
-              className="h-[24rem] w-full rounded-[2.4rem] object-cover sm:h-[28rem] lg:h-[32rem]"
+              className="h-[24rem] w-full object-contain drop-shadow-[0_18px_40px_rgba(0,0,0,0.28)] sm:h-[28rem] lg:h-[32rem]"
             />
           </div>
         </div>

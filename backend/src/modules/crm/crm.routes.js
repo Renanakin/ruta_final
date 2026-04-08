@@ -7,12 +7,17 @@ import { logger } from '../../lib/logger.js';
 import { protectCrm, protectCrmAdmin } from '../../middleware/crmAuth.middleware.js';
 import { validateBody } from '../../middleware/validate.middleware.js';
 import {
+  CrmSalesAssistantPilotUpdateSchema,
   CrmLoginSchema,
   CrmPasswordResetSchema,
   CrmUserCreateSchema,
   EmailSchema,
 } from '../../../validators.js';
 import { sendPasswordResetEmail } from '../../../services/email.js';
+import {
+  getSalesAssistantPilotConfig,
+  updateSalesAssistantPilotConfig,
+} from '../sales-assistant-pilot/salesAssistantPilot.service.js';
 
 const router = express.Router();
 
@@ -144,6 +149,24 @@ router.get('/users', protectCrm, protectCrmAdmin, async (_req, res, next) => {
         local_ids: normalizeLocalIds(user.local_ids),
       })),
     });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get('/sales-assistant/pilot', protectCrm, protectCrmAdmin, async (_req, res, next) => {
+  try {
+    const config = await getSalesAssistantPilotConfig();
+    return res.json({ success: true, config });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.put('/sales-assistant/pilot', protectCrm, protectCrmAdmin, validateBody(CrmSalesAssistantPilotUpdateSchema), async (req, res, next) => {
+  try {
+    const config = await updateSalesAssistantPilotConfig(req.body, req.crmUser?.email || 'crm_admin');
+    return res.json({ success: true, config });
   } catch (error) {
     return next(error);
   }

@@ -19,6 +19,12 @@ const buildQuickReply = (label, intent, payload = {}) => ({
   payload,
 });
 
+const normalizeLabel = (value = '') => value
+  .split(/\s+/)
+  .filter(Boolean)
+  .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+  .join(' ');
+
 const buildRecommendation = (product, reason) => ({
   name: product.name,
   reason,
@@ -57,6 +63,10 @@ const CATEGORY_USAGE_GUIDES = {
 };
 
 const getFormatLabel = (product) => {
+  if (product.category === 'quesos') {
+    return '400 a 500 gr';
+  }
+
   const sources = [
     product.badge,
     product.description,
@@ -67,9 +77,9 @@ const getFormatLabel = (product) => {
   const patterns = [
     /bandeja\s*\d+\s*un/i,
     /contenido\s*\d+\s*(kg|g)/i,
+    /1\/4\s*kg/i,
     /\d+\s*(kg|g)\b/i,
     /\b\d+\s*un\b/i,
-    /1\/4\s*kg/i,
     /formato iqf/i,
     /horma/i,
     /porcionado\s*500g/i,
@@ -177,6 +187,54 @@ const CATEGORY_USE_SIGNALS = {
   },
 };
 
+const PRODUCT_FAMILY_PROFILES = [
+  {
+    match: (product) => normalizeText(product.name).includes('huevo de gallina feliz premium'),
+    summary: 'huevo premium de campo con foco en sabor y yema marcada',
+    useCases: ['desayuno', 'cocina_diaria'],
+  },
+  {
+    match: (product) => normalizeText(product.name).includes('huevo blanco extra'),
+    summary: 'bandeja extra de calibre grande y perfil practico para volumen',
+    useCases: ['desayuno', 'reposteria', 'cocina_diaria'],
+  },
+  {
+    match: (product) => normalizeText(product.name).includes('queso chanco'),
+    summary: 'queso chanco artesanal con perfil versatil para tabla y sandwich',
+    useCases: ['tabla', 'sandwich'],
+  },
+  {
+    match: (product) => normalizeText(product.name).includes('queso mantecoso'),
+    summary: 'queso mantecoso en horma con perfil mas cremoso para fundir',
+    useCases: ['fundir', 'sandwich'],
+  },
+  {
+    match: (product) => normalizeText(product.name).includes('longaniza artesanal de contulmo'),
+    summary: 'longaniza artesanal con perfil mas liviano o baja en grasa',
+    useCases: ['asado', 'sandwich'],
+  },
+  {
+    match: (product) => normalizeText(product.name).includes('longaniza de capitan pastene'),
+    summary: 'longaniza de perfil ahumado y tradicional para asado o tabla',
+    useCases: ['asado', 'tabla'],
+  },
+  {
+    match: (product) => normalizeText(product.name).includes('salmon porcionado'),
+    summary: 'salmon porcionado premium, practico para almuerzo o cocina rapida',
+    useCases: ['almuerzo', 'cocina_diaria'],
+  },
+  {
+    match: (product) => normalizeText(product.name).includes('camaron cocido pelado'),
+    summary: 'camaron pelado listo para usar, muy practico para pasta o preparaciones rapidas',
+    useCases: ['pasta', 'almuerzo', 'ceviche'],
+  },
+  {
+    match: (product) => normalizeText(product.name).includes('surtido de mariscos premium mix'),
+    summary: 'mix surtido pensado para preparaciones marinas con varias especies',
+    useCases: ['almuerzo', 'ceviche'],
+  },
+];
+
 const buildProductSearchText = (product) => normalizeText([
   product.name,
   product.badge,
@@ -189,6 +247,7 @@ const buildProductSearchText = (product) => normalizeText([
 const scoreProductForUse = (product, useCase) => {
   const searchText = buildProductSearchText(product);
   const signals = CATEGORY_USE_SIGNALS[product.category]?.[useCase] || [];
+  const profile = PRODUCT_FAMILY_PROFILES.find((entry) => entry.match(product)) || null;
   let score = product.commercialState === 'available' ? 3 : (product.commercialState === 'coming_soon' ? -1 : -3);
 
   signals.forEach((signal) => {
@@ -202,6 +261,7 @@ const scoreProductForUse = (product, useCase) => {
   if (useCase === 'desayuno' && (searchText.includes('yema') || searchText.includes('clara'))) score += 2;
   if (useCase === 'asado' && (searchText.includes('ahumad') || searchText.includes('parrilla'))) score += 2;
   if (useCase === 'pasta' && (searchText.includes('porcion') || searchText.includes('pelado'))) score += 2;
+  if (profile?.useCases?.includes(useCase)) score += 3;
 
   return score;
 };
@@ -336,6 +396,7 @@ const findComparisonProducts = (request) => {
 
 const detectDeterministicIntent = (request) => {
   const quickIntent = request.quickReply?.intent;
+  if (quickIntent === 'human_handoff') return 'human_handoff';
   if (quickIntent === 'show_price') return 'show_price';
   if (quickIntent === 'show_availability') return 'show_availability';
   if (quickIntent === 'show_category') return 'show_category';
@@ -348,6 +409,10 @@ const detectDeterministicIntent = (request) => {
   const normalizedMessage = normalizeText(request.message);
   const hasCategory = Boolean(findCategoryTarget(request));
   const hasProduct = Boolean(findTargetProduct(request));
+
+  if (/hablar con una persona|hablar con alguien|pasame con alguien|pasame con una persona|mejor pasame con alguien|mejor pasame con una persona|quiero una persona|quiero hablar con una persona|whatsapp|humano|humana/.test(normalizedMessage)) {
+    return 'human_handoff';
+  }
 
   if (/(^| )vs( |$)|compar|diferenc|cual conviene|que cambia/.test(normalizedMessage)) {
     return 'compare_products';
@@ -399,6 +464,149 @@ const buildFamilyFactsLine = (product) => {
   const facts = getFamilyFacts(product);
   if (!facts.length) return null;
   return `Hechos visibles: ${facts.join(', ')}.`;
+};
+
+const buildFamilyProfileLine = (product) => {
+  const profile = PRODUCT_FAMILY_PROFILES.find((entry) => entry.match(product));
+  return profile ? `Perfil visible: ${profile.summary}.` : null;
+};
+
+const buildFamilyComparisonLine = (firstProduct, secondProduct) => {
+  if (firstProduct.category !== secondProduct.category) return null;
+
+  const firstProfile = PRODUCT_FAMILY_PROFILES.find((entry) => entry.match(firstProduct));
+  const secondProfile = PRODUCT_FAMILY_PROFILES.find((entry) => entry.match(secondProduct));
+  if (!firstProfile && !secondProfile) return null;
+
+  if (firstProduct.category === 'quesos') {
+    return `Dentro de quesos, ${firstProduct.name} va mas hacia ${firstProfile?.summary || 'su perfil visible'} y ${secondProduct.name} hacia ${secondProfile?.summary || 'su perfil visible'}.`;
+  }
+
+  if (firstProduct.category === 'embutidos') {
+    return `Dentro de embutidos, ${firstProduct.name} muestra ${firstProfile?.summary || 'un perfil propio'} y ${secondProduct.name} ${secondProfile?.summary || 'otro perfil visible'}.`;
+  }
+
+  if (firstProduct.category === 'congelados') {
+    return `Dentro de congelados, ${firstProduct.name} se ve mas orientado a ${firstProfile?.summary || 'su formato visible'} y ${secondProduct.name} a ${secondProfile?.summary || 'su ficha visible'}.`;
+  }
+
+  if (firstProduct.category === 'huevos') {
+    return `Dentro de huevos, ${firstProduct.name} muestra ${firstProfile?.summary || 'un perfil visible'} y ${secondProduct.name} ${secondProfile?.summary || 'otro perfil visible'}.`;
+  }
+
+  return null;
+};
+
+const extractOutsideCatalogCandidates = (message) => {
+  const normalized = normalizeText(message)
+    .replace(/tienen|hay|me muestras|busco|quiero|venden|manejan|trabajan con|de campo|artesanal/g, ' ')
+    .replace(/[?.,!]/g, ' ')
+    .split(/\s+o\s+|\s+y\s+|,/)
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .filter((part) => part.length >= 3)
+    .slice(0, 3);
+
+  return [...new Set(normalized)].map(normalizeLabel);
+};
+
+const resolveOutsideCatalogResponse = (request) => {
+  const candidates = extractOutsideCatalogCandidates(request.message);
+  const visibleCategories = [...new Set(request.catalog.map((product) => product.category).filter(Boolean))].slice(0, 4);
+  const categoryLabel = visibleCategories.join(', ');
+  const candidateLabel = candidates.length ? candidates.join(' y ') : 'ese producto';
+
+  return {
+    message: `No veo ${candidateLabel} dentro del catalogo visible que tengo ahora. En este momento si puedo ayudarte con categorias visibles como ${categoryLabel}. Si quieres, te muestro una alternativa cercana o te paso con una persona para revisar opciones fuera de catalogo.`,
+    quickReplies: [
+      buildQuickReply('Ver productos visibles', 'show_category', {
+        prompt: `Que productos visibles tienen hoy`,
+        topic: 'catalog',
+      }),
+      buildQuickReply('Hablar con una persona', 'human_handoff', {
+        prompt: `Quiero revisar ${candidateLabel} con una persona`,
+        topic: 'handoff',
+        highlightHuman: true,
+      }),
+    ],
+    recommendedProducts: request.catalog.slice(0, 2).map((product) => buildRecommendation(
+      product,
+      'Alternativa visible cercana mientras revisamos catalogo publicado.',
+    )),
+    nextStep: 'assist',
+    detectedIntent: 'outside_catalog',
+    handoffSummary: null,
+    shouldHighlightHuman: false,
+    sessionContext: {
+      topic: 'catalog',
+      category: null,
+      currentProductId: null,
+      comparedProductIds: [],
+      lastIntent: 'outside_catalog',
+      lastUserMessage: request.message,
+    },
+  };
+};
+
+const resolveDirectHandoffResponse = (request) => {
+  const currentProduct = request.currentProduct || null;
+  const recentProducts = uniqueById([
+    ...(currentProduct ? [currentProduct] : []),
+    ...(request.recentProducts || []),
+  ]).slice(0, 3);
+  const useContext = request.sessionContext?.useContext
+    || (request.sessionContext?.category ? `compra enfocada en ${request.sessionContext.category}` : 'uso por confirmar');
+  const locationHint = request.sessionContext?.locationHint || null;
+  const urgencyHint = request.sessionContext?.urgencyHint || null;
+
+  return {
+    message: 'Perfecto. Te dejo el paso humano listo para continuar el cierre por WhatsApp con el equipo.',
+    quickReplies: [
+      buildQuickReply('Continuar con una persona', 'human_handoff', {
+        prompt: 'Continuar con una persona',
+        topic: 'handoff',
+        currentProductId: currentProduct?.id || null,
+        highlightHuman: true,
+      }),
+      buildQuickReply('Antes, dame una propuesta', 'continue_topic', {
+        prompt: 'Antes, dame una propuesta',
+        topic: 'recommendation',
+        currentProductId: currentProduct?.id || null,
+      }),
+    ],
+    recommendedProducts: recentProducts.map((product) => buildRecommendation(
+      product,
+      'Producto reciente relevante para continuar el cierre humano.',
+    )),
+    nextStep: 'handoff',
+    detectedIntent: 'buy_specific',
+    handoffSummary: `Cliente pide continuar con una persona${recentProducts.length ? ` tras revisar ${recentProducts.map((product) => product.name).join(', ')}` : ''}.`,
+    shouldHighlightHuman: true,
+    handoffDetails: {
+      customerNeed: 'cliente solicita apoyo humano directo',
+      useContext,
+      locationHint,
+      urgencyHint,
+      handoffReason: 'solicitud explicita de cierre con una persona',
+      channel: 'web_widget',
+      lastCustomerMessage: request.message,
+      proposedProducts: recentProducts.map((product) => product.name),
+      bundleTitle: null,
+      leadTemperature: 'caliente',
+      nextAction: 'continuar cierre por WhatsApp con una persona',
+    },
+    sessionContext: {
+      topic: 'handoff',
+      category: request.sessionContext?.category || currentProduct?.category || null,
+      currentProductId: currentProduct?.id || request.sessionContext?.currentProductId || null,
+      comparedProductIds: request.sessionContext?.comparedProductIds || [],
+      useContext,
+      locationHint,
+      urgencyHint,
+      lastIntent: 'human_handoff',
+      lastUserMessage: request.message,
+    },
+  };
 };
 
 const buildClarifyResponse = (request, reason) => {
@@ -599,6 +807,7 @@ const resolveDetailsResponse = (request, product) => {
     `Formato visible: ${getFormatLabel(product)}.`,
     product.origin ? `Origen: ${product.origin}.` : null,
     buildFamilyFactsLine(product),
+    buildFamilyProfileLine(product),
     product.salesNote ? `Nota comercial: ${product.salesNote}` : null,
   ].filter(Boolean).join(' ');
 
@@ -685,7 +894,7 @@ const resolveUsageResponse = (request, product) => {
   const familyFactsLine = buildFamilyFactsLine(product);
 
   return {
-    message: `${product.name}: ${usageGuide || 'Por lo visible en su ficha, este producto funciona bien dentro de su categoria.'} ${summarizeDescription(product)} Formato visible: ${getFormatLabel(product)}. ${familyFactsLine || ''}`.trim(),
+    message: `${product.name}: ${usageGuide || 'Por lo visible en su ficha, este producto funciona bien dentro de su categoria.'} ${summarizeDescription(product)} Formato visible: ${getFormatLabel(product)}. ${familyFactsLine || ''} ${buildFamilyProfileLine(product) || ''}`.trim(),
     quickReplies: [
       buildQuickReply('Ver detalles del producto', 'show_details', {
         prompt: `Quiero mas detalles de ${product.name}`,
@@ -797,6 +1006,11 @@ const resolveComparisonResponse = (request, products) => {
     lines.push(`Hechos de familia: ${firstProduct.name} -> ${firstFacts.join(', ') || 'sin hechos especificos'}; ${secondProduct.name} -> ${secondFacts.join(', ') || 'sin hechos especificos'}.`);
   }
 
+  const familyComparisonLine = buildFamilyComparisonLine(firstProduct, secondProduct);
+  if (familyComparisonLine) {
+    lines.push(familyComparisonLine);
+  }
+
   if (firstProduct.salesNote || secondProduct.salesNote) {
     lines.push(`Ojo comercial: ${firstProduct.name} -> ${firstProduct.salesNote}; ${secondProduct.name} -> ${secondProduct.salesNote}`);
   }
@@ -855,10 +1069,14 @@ export const resolveDeterministicSalesReply = (request) => {
   const intent = detectDeterministicIntent(request);
   if (!intent) return null;
 
+  if (intent === 'human_handoff') {
+    return resolveDirectHandoffResponse(request);
+  }
+
   if (intent === 'show_category') {
     const category = findCategoryTarget(request);
     if (!category) {
-      return buildClarifyResponse(request, 'catalog');
+      return resolveOutsideCatalogResponse(request);
     }
 
     return resolveCategoryResponse(request, category);
@@ -889,6 +1107,9 @@ export const resolveDeterministicSalesReply = (request) => {
 
   const targetProduct = findTargetProduct(request);
   if (!targetProduct) {
+    if (!findCategoryTarget(request)) {
+      return resolveOutsideCatalogResponse(request);
+    }
     return buildClarifyResponse(request, 'catalog');
   }
 

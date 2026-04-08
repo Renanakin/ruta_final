@@ -144,6 +144,7 @@ describe('Sales deterministic resolver', () => {
     expect(reply.message).toContain('Origen');
     expect(reply.message).toContain('Hechos visibles');
     expect(reply.message).toContain('perfil chanco');
+    expect(reply.message).toContain('Perfil visible');
     expect(reply.quickReplies[1].intent).toBe('show_format');
   });
 
@@ -162,6 +163,23 @@ describe('Sales deterministic resolver', () => {
     expect(reply.message).toContain('Bandeja');
     expect(reply.sessionContext.lastIntent).toBe('show_format');
     expect(reply.quickReplies[0].intent).toBe('show_details');
+  });
+
+  it('muestra formato correcto en quesos sin convertir 1/4 kg a 4 kg', () => {
+    const reply = resolveDeterministicSalesReply({
+      message: 'Que formato tiene el queso mantecoso de pua?',
+      locale: 'es-CL',
+      pagePath: '/',
+      currentProduct: null,
+      recentProducts: [],
+      sessionContext: null,
+      quickReply: null,
+      catalog,
+    });
+
+    expect(reply.message).toContain('formato 400 a 500 gr');
+    expect(reply.message).not.toContain('formato 4 kg');
+    expect(reply.sessionContext.lastIntent).toBe('show_format');
   });
 
   it('resuelve uso visible de un producto por categoria', () => {
@@ -258,5 +276,37 @@ describe('Sales deterministic resolver', () => {
     expect(reply.message).toContain('Descripcion visible');
     expect(reply.message).toContain('Hechos de familia');
     expect(reply.sessionContext.comparedProductIds).toEqual([8, 4]);
+  });
+
+  it('agrega comparacion especializada cuando los productos son de la misma familia', () => {
+    const reply = resolveDeterministicSalesReply({
+      message: 'Comparalos para fundir',
+      locale: 'es-CL',
+      pagePath: '/',
+      currentProduct: catalog[1],
+      recentProducts: [catalog[3]],
+      sessionContext: {
+        topic: 'comparison',
+        category: 'quesos',
+        currentProductId: 4,
+        comparedProductIds: [4, 6],
+        lastIntent: 'compare_products',
+        lastUserMessage: 'Quiero comparar quesos',
+      },
+      quickReply: {
+        label: 'Comparar opciones',
+        intent: 'compare_products',
+        payload: {
+          topic: 'comparison',
+          comparedProductIds: [4, 6],
+          prompt: 'Comparar opciones',
+        },
+      },
+      catalog,
+    });
+
+    expect(reply.message).toContain('Dentro de quesos');
+    expect(reply.message).toContain('queda mejor perfilado');
+    expect(reply.message).toContain('Queso Mantecoso de Pua (Horma)');
   });
 });

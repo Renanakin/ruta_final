@@ -139,6 +139,29 @@ const ensureOperationalSchema = async (db) => {
   `);
 };
 
+const ensureSalesAssistantPilotSchema = async (db) => {
+  await db.exec(`
+    CREATE TABLE IF NOT EXISTS sales_assistant_pilot_config (
+      id INTEGER PRIMARY KEY CHECK (id = 1),
+      enabled BOOLEAN DEFAULT 0,
+      rollout_percentage INTEGER DEFAULT 0,
+      allowlist_enabled BOOLEAN DEFAULT 0,
+      allowlist_tokens TEXT DEFAULT '[]',
+      qa_force_enabled BOOLEAN DEFAULT 1,
+      page_scope TEXT DEFAULT 'product_only',
+      notes TEXT,
+      updated_by TEXT,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+
+  await db.run(
+    `INSERT OR IGNORE INTO sales_assistant_pilot_config
+      (id, enabled, rollout_percentage, allowlist_enabled, allowlist_tokens, qa_force_enabled, page_scope, notes, updated_by)
+     VALUES (1, 0, 0, 0, '[]', 1, 'product_only', '', 'system')`
+  );
+};
+
 const ensureVisitsSchema = async (db) => {
   await db.exec(`
     CREATE TABLE IF NOT EXISTS site_visits (
@@ -415,6 +438,7 @@ export const initDb = async () => {
     await ensureNewsletterSchema(db);
     await ensureAnalyticsSchema(db);
     await ensureOperationalSchema(db);
+    await ensureSalesAssistantPilotSchema(db);
     await ensureVisitsSchema(db);
     await ensureCrmCredentials(db);
     await pruneAnalyticsData(db);

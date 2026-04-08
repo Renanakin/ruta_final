@@ -22,6 +22,10 @@ export const ALLOWED_ANALYTICS_EVENTS = new Set([
   'purchase',
   'ai_unlock',
   'ai_interaction',
+  'sales_assistant_opened',
+  'sales_assistant_engaged',
+  'sales_assistant_fallback',
+  'sales_assistant_handoff',
   'subscription_interest',
   'subscription_start',
 ]);
