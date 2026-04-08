@@ -76,6 +76,10 @@ const CRM = () => {
   const [analyticsProducts, setAnalyticsProducts] = useState([]);
   const [analyticsHeatmap, setAnalyticsHeatmap] = useState({ geographic: [], pages: [] });
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  const [salesAssistantSummary, setSalesAssistantSummary] = useState(null);
+  const [salesAssistantTraces, setSalesAssistantTraces] = useState([]);
+  const [salesAssistantPilotConfig, setSalesAssistantPilotConfig] = useState(null);
+  const [salesAssistantPilotSaving, setSalesAssistantPilotSaving] = useState(false);
   const [analyticsDraftFilters, setAnalyticsDraftFilters] = useState({
     event_name: '',
     product_id: '',
@@ -130,6 +134,10 @@ const CRM = () => {
     { value: 'begin_checkout', label: 'Begin Checkout' },
     { value: 'purchase', label: 'Purchase' },
     { value: 'ai_interaction', label: 'AI Interaction' },
+    { value: 'sales_assistant_opened', label: 'Sales Assistant Opened' },
+    { value: 'sales_assistant_engaged', label: 'Sales Assistant Engaged' },
+    { value: 'sales_assistant_fallback', label: 'Sales Assistant Fallback' },
+    { value: 'sales_assistant_handoff', label: 'Sales Assistant Handoff' },
     { value: 'subscription_interest', label: 'Subscription Interest' },
     { value: 'subscription_start', label: 'Subscription Start' },
   ]), []);
@@ -410,6 +418,52 @@ const CRM = () => {
     }
   }, [crmToken]);
 
+  const fetchSalesAssistantPilotConfig = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/crm/sales-assistant/pilot`, {
+        credentials: 'include',
+        headers: {
+          ...(crmToken && crmToken !== 'cookie' ? { Authorization: `Bearer ${crmToken}` } : {})
+        }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'No se pudo cargar configuracion del piloto');
+      setSalesAssistantPilotConfig(data.config || null);
+    } catch (pilotError) {
+      setError(pilotError.message || 'No se pudo cargar configuracion del piloto');
+    }
+  }, [crmToken]);
+
+  const saveSalesAssistantPilotConfig = useCallback(async () => {
+    try {
+      if (!salesAssistantPilotConfig) return;
+      setSalesAssistantPilotSaving(true);
+      const res = await fetch(`${API_BASE_URL}/api/crm/sales-assistant/pilot`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(crmToken && crmToken !== 'cookie' ? { Authorization: `Bearer ${crmToken}` } : {})
+        },
+        body: JSON.stringify({
+          ...salesAssistantPilotConfig,
+          rollout_percentage: Number(salesAssistantPilotConfig.rollout_percentage || 0),
+          allowlist_tokens: Array.isArray(salesAssistantPilotConfig.allowlist_tokens)
+            ? salesAssistantPilotConfig.allowlist_tokens
+            : [],
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'No se pudo guardar configuracion del piloto');
+      setSalesAssistantPilotConfig(data.config || null);
+      setNotice('Piloto del sales assistant actualizado.');
+    } catch (pilotError) {
+      setError(pilotError.message || 'No se pudo guardar configuracion del piloto');
+    } finally {
+      setSalesAssistantPilotSaving(false);
+    }
+  }, [crmToken, salesAssistantPilotConfig]);
+
   const fetchFunnelStats = useCallback(async () => {
     try {
       const query = new URLSearchParams();
@@ -460,20 +514,24 @@ const CRM = () => {
         ...(crmToken && crmToken !== 'cookie' ? { Authorization: `Bearer ${crmToken}` } : {})
       };
 
-      const [summaryRes, geoRes, pagesRes, productsRes, heatmapRes] = await Promise.all([
+      const [summaryRes, geoRes, pagesRes, productsRes, heatmapRes, salesAssistantSummaryRes, salesAssistantTracesRes] = await Promise.all([
         fetch(`${API_BASE_URL}/api/analytics/summary?${query.toString()}`, { credentials: 'include', headers }),
         fetch(`${API_BASE_URL}/api/analytics/geo?${query.toString()}`, { credentials: 'include', headers }),
         fetch(`${API_BASE_URL}/api/analytics/pages?${query.toString()}`, { credentials: 'include', headers }),
         fetch(`${API_BASE_URL}/api/analytics/products?${query.toString()}`, { credentials: 'include', headers }),
         fetch(`${API_BASE_URL}/api/analytics/heatmap?${query.toString()}`, { credentials: 'include', headers }),
+        fetch(`${API_BASE_URL}/api/analytics/sales-assistant/summary?${query.toString()}`, { credentials: 'include', headers }),
+        fetch(`${API_BASE_URL}/api/analytics/sales-assistant/traces?${query.toString()}`, { credentials: 'include', headers }),
       ]);
 
-      const [summaryData, geoData, pagesData, productsData, heatmapData] = await Promise.all([
+      const [summaryData, geoData, pagesData, productsData, heatmapData, salesAssistantSummaryData, salesAssistantTracesData] = await Promise.all([
         summaryRes.json(),
         geoRes.json(),
         pagesRes.json(),
         productsRes.json(),
         heatmapRes.json(),
+        salesAssistantSummaryRes.json(),
+        salesAssistantTracesRes.json(),
       ]);
 
       if (!summaryRes.ok) throw new Error(summaryData.error || 'No se pudo cargar resumen analitico');
@@ -481,12 +539,16 @@ const CRM = () => {
       if (!pagesRes.ok) throw new Error(pagesData.error || 'No se pudo cargar paginas analiticas');
       if (!productsRes.ok) throw new Error(productsData.error || 'No se pudo cargar productos analiticos');
       if (!heatmapRes.ok) throw new Error(heatmapData.error || 'No se pudo cargar heatmap analitico');
+      if (!salesAssistantSummaryRes.ok) throw new Error(salesAssistantSummaryData.error || 'No se pudo cargar observabilidad del asistente');
+      if (!salesAssistantTracesRes.ok) throw new Error(salesAssistantTracesData.error || 'No se pudo cargar trazas del asistente');
 
       setAnalyticsSummary(summaryData.summary || null);
       setAnalyticsGeo(geoData.geo || { countries: [], cities: [] });
       setAnalyticsPages(pagesData.pages || []);
       setAnalyticsProducts(productsData.products || []);
       setAnalyticsHeatmap(heatmapData.heatmap || { geographic: [], pages: [] });
+      setSalesAssistantSummary(salesAssistantSummaryData.summary || null);
+      setSalesAssistantTraces(salesAssistantTracesData.traces || []);
     } catch (analyticsError) {
       setError(analyticsError.message || 'No se pudo cargar analytics dashboard');
     } finally {
@@ -1849,6 +1911,7 @@ const CRM = () => {
                       fetchAuditLogs();
                       fetchAuditStats();
                       fetchCrmAlerts();
+                      fetchSalesAssistantPilotConfig();
                       fetchFunnelStats();
                       fetchAnalyticsDashboard();
                     }
@@ -1891,6 +1954,10 @@ const CRM = () => {
             fetchAuditLogs={fetchAuditLogs}
             fetchAuditStats={fetchAuditStats}
             fetchCrmAlerts={fetchCrmAlerts}
+            salesAssistantPilotConfig={salesAssistantPilotConfig}
+            setSalesAssistantPilotConfig={setSalesAssistantPilotConfig}
+            saveSalesAssistantPilotConfig={saveSalesAssistantPilotConfig}
+            salesAssistantPilotSaving={salesAssistantPilotSaving}
             fetchFunnelStats={fetchFunnelStats}
             fetchAnalyticsDashboard={fetchAnalyticsDashboard}
             exportAnalyticsCsv={exportAnalyticsCsv}
@@ -1913,6 +1980,8 @@ const CRM = () => {
             analyticsProducts={analyticsProducts}
             analyticsHeatmap={analyticsHeatmap}
             analyticsLoading={analyticsLoading}
+            salesAssistantSummary={salesAssistantSummary}
+            salesAssistantTraces={salesAssistantTraces}
             analyticsDraftFilters={analyticsDraftFilters}
             setAnalyticsDraftFilters={setAnalyticsDraftFilters}
             analyticsAppliedFilters={analyticsAppliedFilters}

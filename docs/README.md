@@ -9,6 +9,9 @@ Esta carpeta conserva solo la documentacion que sigue sirviendo para:
 
 ## Documentos activos
 
+- [qa/README.md](C:/dev/1_ruta/docs/qa/README.md)
+  Convencion oficial para handoff de QA por modulo y plantilla de archivo que debe dejarse al cerrar entregables que requieren prueba manual o conversacional.
+
 - [alquimista-avatar/README.md](C:/dev/1_ruta/docs/alquimista-avatar/README.md)
   Plan de ejecucion por fases para integrar la nueva identidad del avatar del Alquimista.
 
@@ -42,3 +45,11 @@ Se eliminaron documentos legacy que:
 - documentaban rollback o pruebas viejas ya no vigentes
 
 Si se agrega documentacion nueva, debe ayudar a operar, mantener o mejorar la web actual.
+
+## Regla de QA por modulo
+
+Cuando se cierre un modulo que requiera QA manual, visual, conversacional o exploratorio:
+
+- se debe dejar un archivo de handoff en `docs/qa/`
+- ese archivo debe contener los parametros necesarios para que otro agente ejecute el QA
+- el agente que implementa no debe consumir contexto adicional realizando esa fase manual si ya existe el handoff y el usuario decidio delegarla

@@ -2,7 +2,13 @@ import express from 'express';
 import { protect } from '../../middleware/auth.middleware.js';
 import { requireAILimit } from '../../middleware/aiLimit.middleware.js';
 import { validateBody } from '../../middleware/validate.middleware.js';
-import { AiOrderSchema, ChefQuerySchema, ChefVerifySchema, SalesAssistantMessageSchema } from '../../../validators.js';
+import {
+  AiOrderSchema,
+  ChefQuerySchema,
+  ChefVerifySchema,
+  SalesAssistantMessageSchema,
+  SalesAssistantPilotEligibilitySchema,
+} from '../../../validators.js';
 import { logger } from '../../lib/logger.js';
 import {
   AlchemistError,
@@ -11,6 +17,7 @@ import {
   createSalesAssistantService,
 } from '../../../alchemist/src/index.js';
 import { getSalesCatalogSnapshot } from '../catalog/catalog.service.js';
+import { evaluateSalesAssistantPilot } from '../sales-assistant-pilot/salesAssistantPilot.service.js';
 
 const CHEF_AI_LIMIT = 3;
 const ORDERS_AI_LIMIT = 3;
@@ -97,6 +104,32 @@ export const createAiRoutes = ({ chefService, salesService } = {}) => {
     }
   });
 
+  router.post('/sales/pilot/eligibility', validateBody(SalesAssistantPilotEligibilitySchema), async (req, res, next) => {
+    try {
+      const evaluation = await evaluateSalesAssistantPilot({
+        sessionId: req.body.sessionId,
+        pagePath: req.body.pagePath || '/',
+        currentProductId: req.body.currentProductId || null,
+        previewMode: req.body.previewMode || null,
+        previewToken: req.body.previewToken || null,
+      });
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          enabled: evaluation.enabled,
+          eligible: evaluation.eligible,
+          reason: evaluation.reason,
+          cohort: evaluation.cohort,
+          rolloutPercentage: evaluation.config.rollout_percentage,
+          pageScope: evaluation.config.page_scope,
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
+  });
+
   router.post('/sales/message', validateBody(SalesAssistantMessageSchema), async (req, res, next) => {
     try {
       const snapshot = await getSalesCatalogSnapshot();
@@ -110,8 +143,8 @@ export const createAiRoutes = ({ chefService, salesService } = {}) => {
           .map((id) => catalog.find((product) => product.id === id))
           .filter(Boolean)
         : [];
-
-      const salesReply = await (resolvedSalesService || createDefaultSalesService()).generateReply({
+      const activeSalesService = resolvedSalesService || createDefaultSalesService();
+      const salesInput = {
         message: req.body.message,
         pagePath: req.body.pagePath || '/',
         locale: req.body.locale || 'es-CL',
@@ -120,15 +153,22 @@ export const createAiRoutes = ({ chefService, salesService } = {}) => {
         sessionContext: req.body.sessionContext || null,
         quickReply: req.body.quickReply || null,
         catalog: catalog.slice(0, 12),
-      });
+      };
+      const salesResult = typeof activeSalesService.generateReplyResult === 'function'
+        ? await activeSalesService.generateReplyResult(salesInput)
+        : {
+          reply: await activeSalesService.generateReply(salesInput),
+          observability: null,
+        };
 
       return res.status(200).json({
         success: true,
-        data: salesReply,
+        data: salesResult.reply,
         meta: {
           catalogVerifiedAt: snapshot.verifiedAt,
           sellableProducts: snapshot.sellableProducts,
           totalProducts: snapshot.totalProducts,
+          salesAssistant: salesResult.observability,
         },
       });
     } catch (error) {

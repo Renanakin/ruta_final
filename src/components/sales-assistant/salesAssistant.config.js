@@ -1,5 +1,7 @@
 export const SALES_ASSISTANT_STORAGE_KEY = 'rdn_sales_assistant_closed';
 export const SALES_ASSISTANT_SESSION_STORAGE_KEY = 'rdn_sales_assistant_session';
+export const SALES_ASSISTANT_PILOT_PREVIEW_MODE_KEY = 'rdn_sales_assistant_pilot_preview_mode';
+export const SALES_ASSISTANT_PILOT_PREVIEW_TOKEN_KEY = 'rdn_sales_assistant_pilot_preview_token';
 
 export const SALES_ASSISTANT_DEFAULT_WELCOME = {
   id: 'welcome',

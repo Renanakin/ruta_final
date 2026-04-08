@@ -61,12 +61,25 @@ Las reglas del vendedor viven en `C:/dev/1_ruta/alchemist/src/sales/`.
 El modulo debe considerarse hoy como:
 
 - MVP funcional serio
-- no final
-- listo para fase de estabilizacion
+- listo para piloto controlado
+- operable via CRM con rollout por cohorte
+- no abierto aun a release total por defecto
 
 Documento de seguimiento:
 
 - `C:/dev/1_ruta/docs/sales-assistant/2026-04-05-fase-actual-y-cierre-vendedor.md`
+- `C:/dev/1_ruta/docs/qa/sales-assistant-p6-observabilidad.md`
+- `C:/dev/1_ruta/docs/qa/sales-assistant-p7-piloto-controlado.md`
+
+## Activacion para produccion
+
+El modulo tiene dos compuertas:
+
+1. `VITE_ENABLE_SALES_ASSISTANT=true` en frontend
+2. configuracion del piloto en CRM
+
+Sin la primera, el widget no se monta.
+Sin la segunda, el piloto no admite usuarios aunque el bundle lo soporte.
 
 ## Agentes recomendados para evolucion
 

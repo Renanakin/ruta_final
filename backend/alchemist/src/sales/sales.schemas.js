@@ -24,6 +24,9 @@ export const salesAssistantSessionContextSchema = z.object({
   category: z.string().min(2).max(80).transform(normalizeLine).optional().nullable(),
   currentProductId: z.number().int().positive().optional().nullable(),
   comparedProductIds: z.array(z.number().int().positive()).max(4).optional().default([]),
+  useContext: z.string().min(2).max(120).transform(normalizeParagraph).optional().nullable(),
+  locationHint: z.string().min(2).max(120).transform(normalizeParagraph).optional().nullable(),
+  urgencyHint: z.string().min(2).max(120).transform(normalizeParagraph).optional().nullable(),
   lastIntent: z.string().min(2).max(60).transform(normalizeIntentToken).optional().nullable(),
   lastUserMessage: z.string().min(1).max(600).transform(normalizeParagraph).optional().nullable(),
 }).transform((context) => ({
@@ -31,6 +34,9 @@ export const salesAssistantSessionContextSchema = z.object({
   category: context.category ?? null,
   currentProductId: context.currentProductId ?? null,
   comparedProductIds: uniquePositiveIds(context.comparedProductIds, 4),
+  useContext: context.useContext ?? null,
+  locationHint: context.locationHint ?? null,
+  urgencyHint: context.urgencyHint ?? null,
   lastIntent: context.lastIntent ?? null,
   lastUserMessage: context.lastUserMessage ?? null,
 }));
@@ -108,6 +114,20 @@ const salesBundleSchema = z.object({
   intent: z.enum(['cross_sell', 'up_sell', 'bundle']),
 });
 
+const salesHandoffDetailsSchema = z.object({
+  customerNeed: z.string().min(4).max(160).transform(normalizeParagraph),
+  useContext: z.string().min(4).max(120).transform(normalizeParagraph),
+  locationHint: z.string().min(2).max(120).transform(normalizeParagraph).nullable().optional(),
+  urgencyHint: z.string().min(2).max(120).transform(normalizeParagraph).nullable().optional(),
+  handoffReason: z.string().min(4).max(160).transform(normalizeParagraph),
+  channel: z.enum(['web_widget']),
+  lastCustomerMessage: z.string().min(1).max(280).transform(normalizeParagraph),
+  proposedProducts: z.array(z.string().min(2).max(140).transform(normalizeLine)).max(4).default([]),
+  bundleTitle: z.string().min(3).max(120).transform(normalizeLine).nullable().optional(),
+  leadTemperature: z.enum(['frio', 'tibio', 'caliente', 'listo_para_cierre']),
+  nextAction: z.string().min(4).max(140).transform(normalizeParagraph),
+});
+
 export const salesAssistantResponseSchema = z.object({
   message: z.string().min(12).max(480).transform(normalizeParagraph),
   quickReplies: z.array(salesAssistantQuickReplyInputSchema).min(1).max(4),
@@ -127,6 +147,7 @@ export const salesAssistantResponseSchema = z.object({
   ]).optional(),
   leadTemperature: z.enum(['frio', 'tibio', 'caliente', 'listo_para_cierre']).optional(),
   handoffSummary: z.string().min(10).max(280).transform(normalizeParagraph).nullable().optional(),
+  handoffDetails: salesHandoffDetailsSchema.nullable().optional(),
   shouldHighlightHuman: z.boolean().default(false),
   sessionContext: salesAssistantSessionContextSchema.nullable().optional(),
 });

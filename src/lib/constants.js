@@ -229,6 +229,26 @@ export function buildWhatsAppContextUrl(contextLabel) {
   return buildWhatsAppUrl(`Hola ${BRAND_NAME}, me estoy contactando desde su sitio web. Quiero ayuda con: ${contextLabel}.`);
 }
 
+export function buildWhatsAppSalesHandoffUrl({ summary, details } = {}) {
+  const lines = [
+    `Hola ${BRAND_NAME}, me estoy contactando desde su sitio web.`,
+    details?.channel ? `Canal: ${details.channel}` : null,
+    details?.customerNeed ? `Interes: ${details.customerNeed}` : null,
+    details?.useContext ? `Uso: ${details.useContext}` : null,
+    details?.locationHint ? `Ubicacion: ${details.locationHint}` : null,
+    details?.urgencyHint ? `Urgencia: ${details.urgencyHint}` : null,
+    details?.proposedProducts?.length ? `Propuesta: ${details.proposedProducts.join(', ')}` : null,
+    details?.bundleTitle ? `Bundle: ${details.bundleTitle}` : null,
+    details?.leadTemperature ? `Temperatura: ${details.leadTemperature}` : null,
+    details?.handoffReason ? `Motivo de derivacion: ${details.handoffReason}` : null,
+    details?.lastCustomerMessage ? `Ultimo mensaje cliente: ${details.lastCustomerMessage}` : null,
+    details?.nextAction ? `Siguiente paso sugerido: ${details.nextAction}` : null,
+    summary ? `Resumen: ${summary}` : null,
+  ].filter(Boolean);
+
+  return buildWhatsAppUrl(lines.join('\n'));
+}
+
 export function createSessionId() {
   if (typeof window === 'undefined') return 'server';
   if (window.crypto?.randomUUID) return window.crypto.randomUUID();

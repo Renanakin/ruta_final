@@ -25,6 +25,10 @@ const CRMAdminPanel = ({
   fetchAuditLogs,
   fetchAuditStats,
   fetchCrmAlerts,
+  salesAssistantPilotConfig,
+  setSalesAssistantPilotConfig,
+  saveSalesAssistantPilotConfig,
+  salesAssistantPilotSaving,
   fetchFunnelStats,
   fetchAnalyticsDashboard,
   exportAnalyticsCsv,
@@ -47,6 +51,8 @@ const CRMAdminPanel = ({
   analyticsProducts,
   analyticsHeatmap,
   analyticsLoading,
+  salesAssistantSummary,
+  salesAssistantTraces,
   analyticsDraftFilters,
   setAnalyticsDraftFilters,
   analyticsAppliedFilters,
@@ -63,6 +69,43 @@ const CRMAdminPanel = ({
 }) => {
   const geoPoints = analyticsHeatmap?.geographic || [];
   const pageHeat = analyticsHeatmap?.pages || [];
+  const pilotWarnings = [];
+  const pilotReadiness = [];
+
+  if (salesAssistantPilotConfig?.enabled && !salesAssistantPilotConfig?.allowlist_enabled && Number(salesAssistantPilotConfig?.rollout_percentage || 0) === 0) {
+    pilotWarnings.push('El piloto esta activo pero con rollout 0% y sin allowlist; nadie entrara salvo QA force.');
+  }
+
+  if (salesAssistantPilotConfig?.enabled && salesAssistantPilotConfig?.page_scope === 'all' && Number(salesAssistantPilotConfig?.rollout_percentage || 0) > 25) {
+    pilotWarnings.push('Scope completo con rollout alto: conviene subir por etapas antes de abrir todo el sitio.');
+  }
+
+  if ((salesAssistantSummary?.fallback_rate_pct || 0) > 15) {
+    pilotWarnings.push('La tasa de fallback esta sobre 15%; no es una señal ideal para ampliar rollout.');
+  }
+
+  if ((salesAssistantSummary?.avg_latency_ms || 0) > 1500) {
+    pilotWarnings.push('La latencia promedio supera 1500 ms; monitorea antes de abrir mas trafico.');
+  }
+
+  if ((salesAssistantSummary?.fallback_rate_pct || 0) <= 10) {
+    pilotReadiness.push('Fallback controlado');
+  }
+
+  if ((salesAssistantSummary?.handoff_rate_pct || 0) <= 45) {
+    pilotReadiness.push('Handoff dentro de rango inicial');
+  }
+
+  if ((salesAssistantSummary?.avg_latency_ms || 0) > 0 && (salesAssistantSummary?.avg_latency_ms || 0) <= 1200) {
+    pilotReadiness.push('Latencia saludable');
+  }
+
+  const applyPilotPreset = (preset) => {
+    setSalesAssistantPilotConfig?.((current) => ({
+      ...(current || {}),
+      ...preset,
+    }));
+  };
 
   return (
     <div className="mb-6 rounded-3xl border border-brand-200 bg-white p-5 shadow-sm space-y-4">
@@ -141,6 +184,263 @@ const CRMAdminPanel = ({
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="pt-2 border-t border-brand-100">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-sm font-black text-brand-700">Sales Assistant: Piloto Controlado</p>
+          <button
+            onClick={saveSalesAssistantPilotConfig}
+            disabled={!salesAssistantPilotConfig || salesAssistantPilotSaving}
+            className="px-3 py-1.5 rounded-lg bg-brand-700 text-white font-black text-xs disabled:opacity-60"
+          >
+            {salesAssistantPilotSaving ? 'Guardando...' : 'Guardar piloto'}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
+          <div className="rounded-2xl border border-beige-200 bg-white p-3 space-y-3">
+            <div>
+              <p className="text-[11px] uppercase font-black text-brand-700 mb-2">Presets</p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => applyPilotPreset({
+                    enabled: false,
+                    rollout_percentage: 0,
+                    allowlist_enabled: false,
+                    allowlist_tokens: [],
+                    qa_force_enabled: true,
+                    page_scope: 'product_only',
+                    notes: 'Kill switch activado',
+                  })}
+                  className="px-3 py-1.5 rounded-lg bg-stone-100 text-stone-700 font-black text-[11px]"
+                >
+                  Off
+                </button>
+                <button
+                  onClick={() => applyPilotPreset({
+                    enabled: true,
+                    rollout_percentage: 0,
+                    allowlist_enabled: false,
+                    allowlist_tokens: [],
+                    qa_force_enabled: true,
+                    page_scope: 'product_only',
+                    notes: 'Solo QA force',
+                  })}
+                  className="px-3 py-1.5 rounded-lg bg-yolk-100 text-yolk-800 font-black text-[11px]"
+                >
+                  QA only
+                </button>
+                <button
+                  onClick={() => applyPilotPreset({
+                    enabled: true,
+                    rollout_percentage: 10,
+                    allowlist_enabled: false,
+                    allowlist_tokens: [],
+                    qa_force_enabled: true,
+                    page_scope: 'product_only',
+                    notes: 'Piloto 10% en fichas de producto',
+                  })}
+                  className="px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 font-black text-[11px]"
+                >
+                  10% producto
+                </button>
+                <button
+                  onClick={() => applyPilotPreset({
+                    enabled: true,
+                    rollout_percentage: 25,
+                    allowlist_enabled: false,
+                    allowlist_tokens: [],
+                    qa_force_enabled: true,
+                    page_scope: 'product_only',
+                    notes: 'Piloto 25% en fichas de producto',
+                  })}
+                  className="px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 font-black text-[11px]"
+                >
+                  25% producto
+                </button>
+                <button
+                  onClick={() => applyPilotPreset({
+                    enabled: true,
+                    rollout_percentage: 100,
+                    allowlist_enabled: false,
+                    allowlist_tokens: [],
+                    qa_force_enabled: false,
+                    page_scope: 'all',
+                    notes: 'Apertura completa',
+                  })}
+                  className="px-3 py-1.5 rounded-lg bg-green-100 text-green-800 font-black text-[11px]"
+                >
+                  100% full
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <label className="rounded-xl border border-beige-200 bg-stone-50 px-3 py-2 text-xs font-black text-stone-700">
+                Piloto activo
+                <select
+                  value={salesAssistantPilotConfig?.enabled ? 'on' : 'off'}
+                  onChange={(e) => setSalesAssistantPilotConfig?.((current) => ({
+                    ...(current || {}),
+                    enabled: e.target.value === 'on',
+                  }))}
+                  className="mt-1 w-full rounded-lg border border-beige-200 bg-white px-2 py-1 text-xs font-semibold"
+                >
+                  <option value="off">Off</option>
+                  <option value="on">On</option>
+                </select>
+              </label>
+
+              <label className="rounded-xl border border-beige-200 bg-stone-50 px-3 py-2 text-xs font-black text-stone-700">
+                Rollout %
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={salesAssistantPilotConfig?.rollout_percentage ?? 0}
+                  onChange={(e) => setSalesAssistantPilotConfig?.((current) => ({
+                    ...(current || {}),
+                    rollout_percentage: Number(e.target.value || 0),
+                  }))}
+                  className="mt-1 w-full rounded-lg border border-beige-200 bg-white px-2 py-1 text-xs font-semibold"
+                />
+              </label>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <label className="rounded-xl border border-beige-200 bg-stone-50 px-3 py-2 text-xs font-black text-stone-700">
+                Scope
+                <select
+                  value={salesAssistantPilotConfig?.page_scope || 'product_only'}
+                  onChange={(e) => setSalesAssistantPilotConfig?.((current) => ({
+                    ...(current || {}),
+                    page_scope: e.target.value,
+                  }))}
+                  className="mt-1 w-full rounded-lg border border-beige-200 bg-white px-2 py-1 text-xs font-semibold"
+                >
+                  <option value="product_only">Solo producto</option>
+                  <option value="all">Todo el sitio</option>
+                </select>
+              </label>
+
+              <label className="rounded-xl border border-beige-200 bg-stone-50 px-3 py-2 text-xs font-black text-stone-700">
+                QA force
+                <select
+                  value={salesAssistantPilotConfig?.qa_force_enabled ? 'on' : 'off'}
+                  onChange={(e) => setSalesAssistantPilotConfig?.((current) => ({
+                    ...(current || {}),
+                    qa_force_enabled: e.target.value === 'on',
+                  }))}
+                  className="mt-1 w-full rounded-lg border border-beige-200 bg-white px-2 py-1 text-xs font-semibold"
+                >
+                  <option value="on">On</option>
+                  <option value="off">Off</option>
+                </select>
+              </label>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <label className="rounded-xl border border-beige-200 bg-stone-50 px-3 py-2 text-xs font-black text-stone-700">
+                Allowlist
+                <select
+                  value={salesAssistantPilotConfig?.allowlist_enabled ? 'on' : 'off'}
+                  onChange={(e) => setSalesAssistantPilotConfig?.((current) => ({
+                    ...(current || {}),
+                    allowlist_enabled: e.target.value === 'on',
+                  }))}
+                  className="mt-1 w-full rounded-lg border border-beige-200 bg-white px-2 py-1 text-xs font-semibold"
+                >
+                  <option value="off">Off</option>
+                  <option value="on">On</option>
+                </select>
+              </label>
+
+              <div className="rounded-xl border border-beige-200 bg-stone-50 px-3 py-2 text-xs font-black text-stone-700">
+                Ultima actualizacion
+                <p className="mt-2 text-xs font-semibold text-stone-600">
+                  {salesAssistantPilotConfig?.updated_at ? new Date(salesAssistantPilotConfig.updated_at).toLocaleString('es-CL') : 'Sin cambios'}
+                </p>
+                <p className="text-[10px] text-stone-500">{salesAssistantPilotConfig?.updated_by || 'system'}</p>
+              </div>
+            </div>
+
+            <label className="block rounded-xl border border-beige-200 bg-stone-50 px-3 py-2 text-xs font-black text-stone-700">
+              Tokens allowlist
+              <textarea
+                value={(salesAssistantPilotConfig?.allowlist_tokens || []).join(', ')}
+                onChange={(e) => setSalesAssistantPilotConfig?.((current) => ({
+                  ...(current || {}),
+                  allowlist_tokens: e.target.value
+                    .split(',')
+                    .map((token) => token.trim())
+                    .filter(Boolean),
+                }))}
+                rows={3}
+                placeholder="qa-equipo, piloto-comercial, token-demo"
+                className="mt-1 w-full rounded-lg border border-beige-200 bg-white px-2 py-2 text-xs font-semibold"
+              />
+            </label>
+
+            <label className="block rounded-xl border border-beige-200 bg-stone-50 px-3 py-2 text-xs font-black text-stone-700">
+              Notas operativas
+              <textarea
+                value={salesAssistantPilotConfig?.notes || ''}
+                onChange={(e) => setSalesAssistantPilotConfig?.((current) => ({
+                  ...(current || {}),
+                  notes: e.target.value,
+                }))}
+                rows={3}
+                placeholder="Ej: piloto 10% en fichas de producto desde el martes"
+                className="mt-1 w-full rounded-lg border border-beige-200 bg-white px-2 py-2 text-xs font-semibold"
+              />
+            </label>
+          </div>
+
+          <div className="rounded-2xl border border-beige-200 bg-white p-3 space-y-2">
+            <p className="text-[11px] uppercase font-black text-brand-700">Reglas de activacion</p>
+            <p className="rounded-lg bg-stone-50 px-2 py-1.5 text-xs font-semibold text-stone-700">
+              `enabled=off` corta el piloto completo sin redeploy.
+            </p>
+            <p className="rounded-lg bg-stone-50 px-2 py-1.5 text-xs font-semibold text-stone-700">
+              `rollout %` usa cohorte deterministica por sesion.
+            </p>
+            <p className="rounded-lg bg-stone-50 px-2 py-1.5 text-xs font-semibold text-stone-700">
+              `page_scope=product_only` limita el piloto a fichas de producto.
+            </p>
+            <p className="rounded-lg bg-stone-50 px-2 py-1.5 text-xs font-semibold text-stone-700">
+              `qa force` habilita preview con `?salesAssistantPilot=force`.
+            </p>
+            <p className="rounded-lg bg-stone-50 px-2 py-1.5 text-xs font-semibold text-stone-700">
+              `allowlist` habilita acceso con `?salesAssistantPilotToken=...`.
+            </p>
+
+            <div className="pt-2 border-t border-beige-100">
+              <p className="text-[11px] uppercase font-black text-brand-700 mb-2">Lectura de readiness</p>
+              {!!pilotReadiness.length && (
+                <div className="space-y-1 mb-2">
+                  {pilotReadiness.map((item) => (
+                    <p key={item} className="rounded-lg bg-green-50 px-2 py-1.5 text-xs font-semibold text-green-800">
+                      {item}
+                    </p>
+                  ))}
+                </div>
+              )}
+              {!!pilotWarnings.length && (
+                <div className="space-y-1">
+                  {pilotWarnings.map((item) => (
+                    <p key={item} className="rounded-lg bg-red-50 px-2 py-1.5 text-xs font-semibold text-red-700">
+                      {item}
+                    </p>
+                  ))}
+                </div>
+              )}
+              {!pilotWarnings.length && !pilotReadiness.length && (
+                <p className="text-xs text-stone-400">Todavia no hay suficientes senales para una lectura operativa.</p>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="pt-2">
@@ -230,6 +530,116 @@ const CRMAdminPanel = ({
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div className="pt-2 border-t border-brand-100">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-sm font-black text-brand-700">Sales Assistant: Observabilidad Conversacional</p>
+          <button onClick={fetchAnalyticsDashboard} className="px-3 py-1.5 rounded-lg bg-beige-100 text-stone-700 font-black text-xs">
+            {analyticsLoading ? 'Actualizando...' : 'Refrescar trazas'}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-2 mb-3">
+          <div className="rounded-xl border border-beige-200 bg-white px-3 py-2">
+            <p className="text-[10px] uppercase font-black text-stone-500">Turnos</p>
+            <p className="text-lg font-black text-stone-900">{salesAssistantSummary?.total_turns || 0}</p>
+          </div>
+          <div className="rounded-xl border border-beige-200 bg-white px-3 py-2">
+            <p className="text-[10px] uppercase font-black text-stone-500">Conversaciones</p>
+            <p className="text-lg font-black text-stone-900">{salesAssistantSummary?.unique_conversations || 0}</p>
+          </div>
+          <div className="rounded-xl border border-beige-200 bg-white px-3 py-2">
+            <p className="text-[10px] uppercase font-black text-stone-500">Fallback</p>
+            <p className="text-lg font-black text-red-700">{salesAssistantSummary?.fallback_rate_pct || 0}%</p>
+          </div>
+          <div className="rounded-xl border border-beige-200 bg-white px-3 py-2">
+            <p className="text-[10px] uppercase font-black text-stone-500">Handoff</p>
+            <p className="text-lg font-black text-brand-700">{salesAssistantSummary?.handoff_rate_pct || 0}%</p>
+          </div>
+          <div className="rounded-xl border border-beige-200 bg-white px-3 py-2">
+            <p className="text-[10px] uppercase font-black text-stone-500">Clicks handoff</p>
+            <p className="text-lg font-black text-yolk-700">{salesAssistantSummary?.handoff_clicks || 0}</p>
+          </div>
+          <div className="rounded-xl border border-beige-200 bg-white px-3 py-2">
+            <p className="text-[10px] uppercase font-black text-stone-500">Latencia promedio</p>
+            <p className="text-lg font-black text-stone-900">{salesAssistantSummary?.avg_latency_ms || 0} ms</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-3 mb-3">
+          <div className="rounded-2xl border border-beige-200 bg-white p-3">
+            <p className="text-[11px] uppercase font-black text-brand-700 mb-2">Resolucion</p>
+            <div className="space-y-1">
+              {(salesAssistantSummary?.resolved_by || []).map((row) => (
+                <div key={row.resolved_by} className="flex items-center justify-between rounded-lg bg-stone-50 px-2 py-1.5 text-xs font-semibold text-stone-700">
+                  <span>{row.resolved_by}</span>
+                  <span className="font-black">{row.total}</span>
+                </div>
+              ))}
+              {!(salesAssistantSummary?.resolved_by || []).length && <p className="text-xs text-stone-400">Sin eventos todavia.</p>}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-beige-200 bg-white p-3">
+            <p className="text-[11px] uppercase font-black text-brand-700 mb-2">Top intents</p>
+            <div className="space-y-1">
+              {(salesAssistantSummary?.top_intents || []).map((row) => (
+                <div key={row.intent} className="flex items-center justify-between rounded-lg bg-stone-50 px-2 py-1.5 text-xs font-semibold text-stone-700">
+                  <span>{row.intent}</span>
+                  <span className="font-black">{row.total}</span>
+                </div>
+              ))}
+              {!(salesAssistantSummary?.top_intents || []).length && <p className="text-xs text-stone-400">Sin intents registrados.</p>}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-beige-200 bg-white p-3">
+            <p className="text-[11px] uppercase font-black text-brand-700 mb-2">Origen del turno</p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between rounded-lg bg-stone-50 px-2 py-1.5 text-xs font-semibold text-stone-700">
+                <span>Quick reply</span>
+                <span className="font-black">{salesAssistantSummary?.quick_reply_turns || 0}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-lg bg-stone-50 px-2 py-1.5 text-xs font-semibold text-stone-700">
+                <span>Texto libre</span>
+                <span className="font-black">{salesAssistantSummary?.free_text_turns || 0}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-beige-200 bg-white overflow-hidden text-xs">
+          <table className="w-full text-left">
+            <thead className="bg-stone-50 border-b border-beige-200">
+              <tr>
+                <th className="px-3 py-2 font-black text-stone-600">Fecha</th>
+                <th className="px-3 py-2 font-black text-stone-600">Evento</th>
+                <th className="px-3 py-2 font-black text-stone-600">Conversacion</th>
+                <th className="px-3 py-2 font-black text-stone-600">Intent</th>
+                <th className="px-3 py-2 font-black text-stone-600">Resolucion</th>
+                <th className="px-3 py-2 font-black text-stone-600">Fuente</th>
+                <th className="px-3 py-2 font-black text-stone-600">Paso</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-beige-100">
+              {(salesAssistantTraces || []).slice(0, 10).map((trace) => (
+                <tr key={`${trace.id}_${trace.event_name}`} className="hover:bg-stone-50">
+                  <td className="px-3 py-1.5 whitespace-nowrap">{new Date(trace.created_at).toLocaleString('es-CL')}</td>
+                  <td className="px-3 py-1.5 font-bold uppercase text-[10px]">{trace.event_name}</td>
+                  <td className="px-3 py-1.5 font-mono text-[10px]">{trace.conversation_id || trace.session_id || '-'}</td>
+                  <td className="px-3 py-1.5">{trace.detected_intent || trace.quick_reply_intent || '-'}</td>
+                  <td className="px-3 py-1.5">{trace.resolved_by || (trace.fallback ? 'fallback' : '-')}</td>
+                  <td className="px-3 py-1.5">{trace.message_source || '-'}</td>
+                  <td className="px-3 py-1.5">{trace.next_step || (trace.handoff ? 'handoff' : '-')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {!(salesAssistantTraces || []).length && (
+            <div className="px-3 py-4 text-xs text-stone-400">Sin trazas conversacionales todavia.</div>
+          )}
         </div>
       </div>
 

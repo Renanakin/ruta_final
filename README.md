@@ -237,6 +237,28 @@ Cada tarea o subfase cerrada debe añadir:
 - evidencia
 - decisión del Orquestador
 
+Si un módulo cerrado requiere QA manual, conversacional, visual o exploratorio:
+
+- se debe dejar un archivo en `docs/qa/`
+- ese archivo debe permitir que otro agente ejecute el QA sin volver a reconstruir el contexto
+- el agente que cierra el módulo debe preparar el handoff de QA y no consumir contexto adicional ejecutando esa fase manual si el usuario indicó que la realizará otro agente
+
+Contenido mínimo del handoff QA:
+
+- nombre del módulo
+- objetivo del QA
+- alcance exacto
+- precondiciones
+- comandos o entorno necesario
+- casos a probar
+- criterios de aceptación
+- riesgos conocidos
+- evidencia esperada
+
+Formato sugerido de nombre:
+
+- `docs/qa/YYYY-MM-DD-<modulo>-qa-handoff.md`
+
 Formato sugerido:
 
 ```md

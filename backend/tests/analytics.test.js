@@ -258,4 +258,90 @@ describe('Analytics ingestion and aggregates', () => {
     expect(response.status).toBe(201);
     expect(response.body.success).toBe(true);
   });
+
+  it('resume observabilidad del sales assistant y expone trazas recientes', async () => {
+    const conversationId = `sales_conv_${Date.now()}`;
+    const headers = { Authorization: `Bearer ${crmToken}` };
+
+    const salesEvents = [
+      {
+        eventName: 'sales_assistant_engaged',
+        eventId: `evt_sales_engaged_${Date.now()}`,
+        sessionId: TEST_SESSION_ID,
+        anonymousId: 'anon-test-12345678',
+        pagePath: '/catalogo/huevos',
+        source: 'landing',
+        properties: {
+          conversation_id: conversationId,
+          message_source: 'quick_reply',
+          quick_reply_intent: 'show_price',
+          detected_intent: 'price_or_format_doubt',
+          resolved_by: 'deterministic',
+          next_step: 'assist',
+          handoff: false,
+          latency_ms: 42,
+        },
+      },
+      {
+        eventName: 'sales_assistant_fallback',
+        eventId: `evt_sales_fallback_${Date.now() + 1}`,
+        sessionId: TEST_SESSION_ID,
+        anonymousId: 'anon-test-12345678',
+        pagePath: '/catalogo/huevos',
+        source: 'landing',
+        properties: {
+          conversation_id: conversationId,
+          message_source: 'free_text',
+          fallback: true,
+          handoff: true,
+          roundtrip_ms: 610,
+          category: 'huevos',
+        },
+      },
+      {
+        eventName: 'sales_assistant_handoff',
+        eventId: `evt_sales_handoff_${Date.now() + 2}`,
+        sessionId: TEST_SESSION_ID,
+        anonymousId: 'anon-test-12345678',
+        pagePath: '/catalogo/huevos',
+        source: 'landing',
+        properties: {
+          conversation_id: conversationId,
+          handoff_reason: 'cliente solicita apoyo humano',
+          lead_temperature: 'tibio',
+        },
+      },
+    ];
+
+    for (const event of salesEvents) {
+      const response = await request(app)
+        .post('/api/analytics/events')
+        .set('x-forwarded-for', '181.43.22.11')
+        .send(event);
+
+      expect(response.status).toBe(201);
+      expect(response.body.success).toBe(true);
+    }
+
+    const summary = await request(app)
+      .get('/api/analytics/sales-assistant/summary')
+      .set(headers);
+
+    expect(summary.status).toBe(200);
+    expect(summary.body.summary.total_turns).toBeGreaterThanOrEqual(2);
+    expect(summary.body.summary.unique_conversations).toBeGreaterThanOrEqual(1);
+    expect(summary.body.summary.fallback_turns).toBeGreaterThanOrEqual(1);
+    expect(summary.body.summary.handoff_clicks).toBeGreaterThanOrEqual(1);
+    expect(summary.body.summary.resolved_by.some((row) => row.resolved_by === 'deterministic')).toBe(true);
+    expect(summary.body.summary.top_intents.some((row) => row.intent === 'price_or_format_doubt')).toBe(true);
+
+    const traces = await request(app)
+      .get('/api/analytics/sales-assistant/traces?limit=5')
+      .set(headers);
+
+    expect(traces.status).toBe(200);
+    expect(traces.body.traces.length).toBeGreaterThanOrEqual(3);
+    expect(traces.body.traces.some((trace) => trace.conversation_id === conversationId)).toBe(true);
+    expect(traces.body.traces.some((trace) => trace.event_name === 'sales_assistant_handoff')).toBe(true);
+  });
 });

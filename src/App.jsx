@@ -675,10 +675,11 @@ const App = () => {
       />
 
       <AlquimistaSalesAssistant
-        enabled={import.meta.env.VITE_ENABLE_SALES_ASSISTANT === 'true'}
+        enabled={import.meta.env.VITE_ENABLE_SALES_ASSISTANT === 'true' || import.meta.env.DEV}
         pathname={pathname}
         products={products}
         currentProduct={selectedProduct}
+        analyticsSessionId={analyticsSessionId}
         onTrackEvent={trackEvent}
         onDirectOrder={handleOrder}
       />
