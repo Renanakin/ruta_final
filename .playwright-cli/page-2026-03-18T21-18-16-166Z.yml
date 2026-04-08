@@ -1,0 +1,290 @@
+- generic [ref=e3]:
+  - link "Ir al contenido principal" [ref=e4] [cursor=pointer]:
+    - /url: "#catalogo"
+  - navigation [ref=e5]:
+    - generic [ref=e7]:
+      - img "Ruta del Nido - Alimentos Naturales" [ref=e9] [cursor=pointer]
+      - generic [ref=e10]:
+        - button "Productos" [ref=e11]
+        - button "Suscripciones" [ref=e12]
+        - button "El Alquimista" [ref=e13]
+      - generic [ref=e14]:
+        - button "Carrito" [ref=e15]:
+          - img [ref=e16]
+          - generic [ref=e20]: "0"
+        - button "Mi cuenta" [ref=e22]:
+          - img [ref=e23]
+        - button "Comprar Ahora" [ref=e27]
+        - link "Instagram" [ref=e28] [cursor=pointer]:
+          - /url: https://www.instagram.com/rutadelnido/
+          - img [ref=e29]
+          - text: Instagram
+  - generic [ref=e32]:
+    - text: Productos frescos seleccionados para tu mesa
+    - button "Cerrar banner" [ref=e33]:
+      - img [ref=e34]
+  - main [ref=e37]:
+    - generic [ref=e38]:
+      - img "Ruta del Nido" [ref=e40]
+      - generic [ref=e42]:
+        - paragraph [ref=e43]: Del campo directo a tu mesa
+        - heading "Calidad natural para una mesa premium" [level=1] [ref=e44]
+        - paragraph [ref=e45]: Productos frescos, origen natural y una experiencia gourmet accesible.
+        - generic [ref=e46]:
+          - button "Pide ahora por WhatsApp" [ref=e47]:
+            - text: Pide ahora por WhatsApp
+            - img [ref=e48]
+          - button "Ver productos" [ref=e50]:
+            - text: Ver productos
+            - img [ref=e51]
+    - generic [ref=e54]:
+      - heading "Lo que dicen nuestros clientes" [level=2] [ref=e55]
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - generic [ref=e59]: MP
+            - generic [ref=e60]:
+              - paragraph [ref=e61]: María P. — Las Condes
+              - generic [ref=e62]:
+                - generic [ref=e63]: ⭐
+                - generic [ref=e64]: ⭐
+                - generic [ref=e65]: ⭐
+                - generic [ref=e66]: ⭐
+                - generic [ref=e67]: ⭐
+          - paragraph [ref=e68]: Llevamos 3 meses con la suscripción Home Chef y la diferencia en calidad vs el supermercado es increíble. La yema es otro color.
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - generic [ref=e71]: CR
+            - generic [ref=e72]:
+              - paragraph [ref=e73]: Carlos R. — Providencia
+              - generic [ref=e74]:
+                - generic [ref=e75]: ⭐
+                - generic [ref=e76]: ⭐
+                - generic [ref=e77]: ⭐
+                - generic [ref=e78]: ⭐
+                - generic [ref=e79]: ⭐
+          - paragraph [ref=e80]: Pedí por WhatsApp y llegó el mismo día antes de las 14:00. Servicio impecable, los recomiendo 100%.
+        - generic [ref=e81]:
+          - generic [ref=e82]:
+            - generic [ref=e83]: SL
+            - generic [ref=e84]:
+              - paragraph [ref=e85]: Sofía L. — Ñuñoa
+              - generic [ref=e86]:
+                - generic [ref=e87]: ⭐
+                - generic [ref=e88]: ⭐
+                - generic [ref=e89]: ⭐
+                - generic [ref=e90]: ⭐
+                - generic [ref=e91]: ⭐
+          - paragraph [ref=e92]: El queso mantecoso de Púa es sencillamente espectacular. Saber el origen real y artesanal hace toda la diferencia en nuestras tablas de picoteo.
+      - generic [ref=e94]:
+        - generic [ref=e95]:
+          - generic [ref=e96]: 500+
+          - generic [ref=e97]: familias
+        - generic [ref=e98]:
+          - generic [ref=e99]: 98%
+          - generic [ref=e100]: satisfacción
+        - generic [ref=e101]:
+          - generic [ref=e102]: 24h
+          - generic [ref=e103]: despacho
+    - generic [ref=e105]:
+      - generic [ref=e107]:
+        - generic [ref=e108]: Línea Actual
+        - heading "Variedades Seleccionadas" [level=2] [ref=e109]
+        - paragraph [ref=e110]: Huevos de campo como producto insignia, dentro de una propuesta de alimentos naturales con trazabilidad real.
+      - generic [ref=e111]:
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - img "Huevos Blancos" [ref=e114]
+            - generic [ref=e116]: Seleccion de campo
+          - generic [ref=e117]:
+            - heading "Huevos Blancos" [level=3] [ref=e118]
+            - paragraph [ref=e119]: Frescos, nobles y versatiles. Una seleccion ideal para desayunos, reposteria y cocina diaria con origen natural.
+            - paragraph [ref=e120]: Bandeja 30 unidades · ~1.8 kg
+            - generic [ref=e121]:
+              - generic [ref=e122]: En stock
+              - generic [ref=e123]: Despacho hoy si pides antes de las 12:00
+            - generic [ref=e124]:
+              - generic [ref=e125]:
+                - text: Proximamente
+                - generic [ref=e126]: Valor referencial disponible pronto
+                - generic [ref=e127]: Bandeja 30u
+              - generic [ref=e128]:
+                - button "Ver Detalle" [ref=e129]
+                - button [ref=e130]:
+                  - img [ref=e131]
+        - generic [ref=e137]:
+          - generic [ref=e138]:
+            - img "Huevos de Gallina Libre" [ref=e139]
+            - generic [ref=e141]: Premium natural
+          - generic [ref=e142]:
+            - heading "Huevos de Gallina Libre" [level=3] [ref=e143]
+            - paragraph [ref=e144]: Una linea premium de origen natural, con yema intensa y sabor mas expresivo para una experiencia gourmet accesible.
+            - paragraph [ref=e145]: Bandeja 30 unidades · ~1.8 kg
+            - generic [ref=e146]:
+              - generic [ref=e147]: En stock
+              - generic [ref=e148]: Despacho hoy si pides antes de las 12:00
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - text: Proximamente
+                - generic [ref=e151]: Valor referencial disponible pronto
+                - generic [ref=e152]: Bandeja 30u
+              - generic [ref=e153]:
+                - button "Ver Detalle" [ref=e154]
+                - button [ref=e155]:
+                  - img [ref=e156]
+        - generic [ref=e162]:
+          - generic [ref=e163]:
+            - img "Queso Chanco (1/2 kilo)" [ref=e164]
+            - generic [ref=e166]: Artesanal
+          - generic [ref=e167]:
+            - heading "Queso Chanco (1/2 kilo)" [level=3] [ref=e168]
+            - paragraph [ref=e169]: Cremoso, equilibrado y artesanal. Un clasico chileno para tablas, sandwiches y cocina casera con nivel gourmet.
+            - paragraph [ref=e170]: Bandeja 30 unidades · ~1.8 kg
+            - generic [ref=e171]:
+              - generic [ref=e172]: En stock
+              - generic [ref=e173]: Despacho hoy si pides antes de las 12:00
+            - generic [ref=e174]:
+              - generic [ref=e175]:
+                - text: Proximamente
+                - generic [ref=e176]: Valor referencial disponible pronto
+                - generic [ref=e177]: Bandeja 30u
+              - generic [ref=e178]:
+                - button "Ver Detalle" [ref=e179]
+                - button [ref=e180]:
+                  - img [ref=e181]
+        - generic [ref=e187]:
+          - generic [ref=e188]:
+            - img "Queso Mantecoso (1/2 kilo)" [ref=e189]
+            - generic [ref=e191]: Favorito gourmet
+          - generic [ref=e192]:
+            - heading "Queso Mantecoso (1/2 kilo)" [level=3] [ref=e193]
+            - paragraph [ref=e194]: Mantecoso, fundente y elegante. Un imprescindible para quienes disfrutan productos nobles y sabrosos.
+            - paragraph [ref=e195]: Bandeja 30 unidades · ~1.8 kg
+            - generic [ref=e196]:
+              - generic [ref=e197]: En stock
+              - generic [ref=e198]: Despacho hoy si pides antes de las 12:00
+            - generic [ref=e199]:
+              - generic [ref=e200]:
+                - text: Proximamente
+                - generic [ref=e201]: Valor referencial disponible pronto
+                - generic [ref=e202]: Bandeja 30u
+              - generic [ref=e203]:
+                - button "Ver Detalle" [ref=e204]
+                - button [ref=e205]:
+                  - img [ref=e206]
+        - generic [ref=e212]:
+          - generic [ref=e213]:
+            - img "Longaniza Capitan Pastene (1 kilo)" [ref=e214]
+            - generic [ref=e216]: Proximamente
+          - generic [ref=e217]:
+            - heading "Longaniza Capitan Pastene (1 kilo)" [level=3] [ref=e218]
+            - paragraph [ref=e219]: Receta tradicional de gran personalidad. Una pieza de herencia gastronomica que pronto llegara al catalogo.
+            - paragraph [ref=e220]: Bandeja 30 unidades · ~1.8 kg
+            - generic [ref=e221]:
+              - generic [ref=e222]: Agotado
+              - generic [ref=e223]: Despacho hoy si pides antes de las 12:00
+            - generic [ref=e224]:
+              - generic [ref=e225]:
+                - text: Proximamente
+                - generic [ref=e226]: Valor referencial disponible pronto
+                - generic [ref=e227]: Bandeja 30u
+              - generic [ref=e228]:
+                - button "Ver Detalle" [ref=e229]
+                - button [ref=e230]:
+                  - img [ref=e231]
+        - generic [ref=e237]:
+          - generic [ref=e238]:
+            - img "Longaniza Coltauco (1 kilo)" [ref=e239]
+            - generic [ref=e241]: Origen tradicional
+          - generic [ref=e242]:
+            - heading "Longaniza Coltauco (1 kilo)" [level=3] [ref=e243]
+            - paragraph [ref=e244]: Jugosa, sabrosa y con identidad local. Una opcion artesanal para asados, tablas y comidas con caracter.
+            - paragraph [ref=e245]: Bandeja 30 unidades · ~1.8 kg
+            - generic [ref=e246]:
+              - generic [ref=e247]: En stock
+              - generic [ref=e248]: Despacho hoy si pides antes de las 12:00
+            - generic [ref=e249]:
+              - generic [ref=e250]:
+                - text: Proximamente
+                - generic [ref=e251]: Valor referencial disponible pronto
+                - generic [ref=e252]: Bandeja 30u
+              - generic [ref=e253]:
+                - button "Ver Detalle" [ref=e254]
+                - button [ref=e255]:
+                  - img [ref=e256]
+      - generic [ref=e262]:
+        - heading "Próximamente en Ruta del Nido" [level=3] [ref=e263]
+        - generic [ref=e264]:
+          - generic [ref=e265]:
+            - generic [ref=e266]: Próximamente
+            - paragraph [ref=e267]: Queso de campo artesanal
+            - generic [ref=e268]:
+              - textbox "Tu email" [ref=e269]
+              - button "Avísame" [ref=e270]:
+                - img [ref=e271]
+                - text: Avísame
+          - generic [ref=e274]:
+            - generic [ref=e275]: Próximamente
+            - paragraph [ref=e276]: Miel cruda de colmena
+            - generic [ref=e277]:
+              - textbox "Tu email" [ref=e278]
+              - button "Avísame" [ref=e279]:
+                - img [ref=e280]
+                - text: Avísame
+          - generic [ref=e283]:
+            - generic [ref=e284]: Próximamente
+            - paragraph [ref=e285]: Pollo de campo entero
+            - generic [ref=e286]:
+              - textbox "Tu email" [ref=e287]
+              - button "Avísame" [ref=e288]:
+                - img [ref=e289]
+                - text: Avísame
+    - region "Suscripciones proximamente" [ref=e292]:
+      - img "Suscripciones Ruta del Nido" [ref=e294]
+      - generic [ref=e296]:
+        - generic [ref=e297]:
+          - img [ref=e298]
+          - text: Programa de suscripciones
+        - heading "Suscripciones premium" [level=2] [ref=e301]
+        - paragraph [ref=e302]: PRÓXIMAMENTE
+        - paragraph [ref=e303]: Estamos preparando una experiencia de suscripcion superior para hogares y negocios. Muy pronto podras activar planes recurrentes con beneficios exclusivos.
+        - generic [ref=e304]:
+          - img [ref=e305]
+          - text: Modulo temporalmente desactivado
+  - link "Pedir por WhatsApp" [ref=e308] [cursor=pointer]:
+    - /url: https://wa.me/56993685089
+    - generic [ref=e309]: Pide por WhatsApp ahora →
+    - img [ref=e311]
+  - contentinfo [ref=e313]:
+    - generic [ref=e314]:
+      - generic [ref=e315]:
+        - img "Ruta del Nido - Alimentos Naturales" [ref=e317]
+        - paragraph [ref=e318]: Conectamos origen, nutrición y confianza para que tu hogar se alimente mejor cada semana.
+      - generic [ref=e319]:
+        - generic [ref=e320]:
+          - heading "Navegación" [level=5] [ref=e321]
+          - list [ref=e322]:
+            - listitem [ref=e323]:
+              - button "Productos" [ref=e324]
+            - listitem [ref=e325]:
+              - button "Suscripciones" [ref=e326]
+            - listitem [ref=e327]:
+              - button "Chef Ruta del Nido" [ref=e328]
+        - generic [ref=e329]:
+          - heading "Contacto" [level=5] [ref=e330]
+          - list [ref=e331]:
+            - listitem [ref=e332]:
+              - button "WhatsApp" [ref=e333]
+            - listitem [ref=e334]:
+              - button "Ayuda" [ref=e335]
+    - link "Comunidad Ruta del Nido Síguenos en Instagram para promos, recetas y novedades Ver Instagram" [ref=e337] [cursor=pointer]:
+      - /url: https://www.instagram.com/rutadelnido/
+      - generic [ref=e338]:
+        - img [ref=e340]
+        - generic [ref=e343]:
+          - paragraph [ref=e344]: Comunidad Ruta del Nido
+          - paragraph [ref=e345]: Síguenos en Instagram para promos, recetas y novedades
+      - generic [ref=e346]:
+        - text: Ver Instagram
+        - img [ref=e347]
+    - generic [ref=e349]: © 2026 Ruta del Nido - Alimentos Naturales

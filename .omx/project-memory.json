@@ -1,0 +1,22 @@
+{
+  "directives": [
+    {
+      "directive": "En cada nuevo repo se deben crear .env y .env.example antes del primer commit, agregar ambos patrones al .gitignore dejando solo .env.example versionado, y definir en .env.example todas las variables usadas por POS/ERP, base de datos, APIs de terceros y claves internas sin incluir valores reales.",
+      "priority": "high",
+      "context": "bootstrap de repositorios y configuracion inicial",
+      "timestamp": "2026-03-19T04:23:40.352Z"
+    },
+    {
+      "directive": "En cualquier despliegue (VPS, Supabase, Vercel, u otros), las mismas variables deben configurarse desde el panel del proveedor, secretos del sistema o secretos de GitHub Actions; el codigo solo debe leer desde variables de entorno y nunca depender de valores hardcodeados o archivos con secretos versionados.",
+      "priority": "high",
+      "context": "despliegues y gestion de secretos",
+      "timestamp": "2026-03-19T04:29:51.547Z"
+    },
+    {
+      "directive": "Al terminar las pruebas locales o de integracion, se deben eliminar todas las claves reales cargadas en archivos de entorno, plantillas, variables temporales o configuraciones locales, dejando solo placeholders seguros en los archivos example y conservando secretos unicamente en gestores de secretos o paneles de despliegue.",
+      "priority": "high",
+      "context": "cierre de pruebas y manejo de secretos",
+      "timestamp": "2026-03-19T05:00:06.022Z"
+    }
+  ]
+}

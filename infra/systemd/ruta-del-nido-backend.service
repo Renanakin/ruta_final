@@ -1,0 +1,16 @@
+[Unit]
+Description=Ruta del Nido Backend
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/ruta_del_nido/backend
+ExecStart=/usr/bin/node src/app.js
+Restart=always
+RestartSec=5
+User=www-data
+Group=www-data
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

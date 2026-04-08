@@ -1,0 +1,89 @@
+# =========================
+# NODE / GENERAL
+# =========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+
+# =========================
+# BUILD / DIST
+# =========================
+dist/
+build/
+
+# =========================
+# ENV VARIABLES (CRÍTICO)
+# =========================
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# =========================
+# DATABASE (MUY IMPORTANTE)
+# =========================
+*.sqlite
+*.sqlite3
+database.sqlite
+backend/database.sqlite
+
+# =========================
+# LOGS
+# =========================
+logs/
+*.log
+
+# =========================
+# OS FILES
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# EDITORS
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# TEST / PLAYWRIGHT
+# =========================
+.playwright/
+test-results/
+coverage/
+
+# =========================
+# CACHE
+# =========================
+.cache/
+.tmp/
+.temp/
+
+# =========================
+# FRONTEND SPECIFIC
+# =========================
+.vite/
+
+# =========================
+# BACKEND SPECIFIC
+# =========================
+backend/node_modules/
+backend/.env
+
+# =========================
+# CERTS / KEYS
+# =========================
+*.pem
+*.key
+*.crt
+
+# =========================
+# MISC
+# =========================
+*.backup
+*.old

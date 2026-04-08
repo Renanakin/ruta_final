@@ -1,0 +1,208 @@
+- generic [ref=e3]:
+  - link "Ir al contenido principal" [ref=e4] [cursor=pointer]:
+    - /url: "#catalogo"
+  - navigation [ref=e5]:
+    - generic [ref=e7]:
+      - img "Ruta del Nido" [ref=e10] [cursor=pointer]
+      - generic [ref=e11]:
+        - button "Productos" [ref=e12]
+        - button "Suscripciones" [ref=e13]
+        - button "El Alquimista" [ref=e14]
+      - generic [ref=e15]:
+        - button "0" [ref=e16]:
+          - img [ref=e17]
+          - generic [ref=e21]: "0"
+        - button [ref=e23]:
+          - img [ref=e24]
+        - button "Comprar Ahora" [ref=e28]
+        - link "Instagram" [ref=e29] [cursor=pointer]:
+          - /url: https://www.instagram.com/rutadelnido/
+          - img [ref=e30]
+          - text: Instagram
+  - generic [ref=e33]:
+    - text: Productos frescos seleccionados para tu mesa
+    - button "Cerrar banner" [ref=e34]:
+      - img [ref=e35]
+  - main [ref=e38]:
+    - generic [ref=e39]:
+      - img "Ruta del Nido - Origen y Frescura" [ref=e41]
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - img [ref=e45]
+          - text: Calidad Premium del Campo a tu Mesa
+        - heading "Directo del campo y el mar a tu mesa" [level=1] [ref=e48]:
+          - text: Directo del campo y
+          - generic [ref=e49]:
+            - text: el mar a tu mesa
+            - img [ref=e50]
+        - paragraph [ref=e52]: Frescura real. Calidad que se nota. Seleccionamos el mejor origen para transformar tu alimentación diaria.
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - img [ref=e55]
+            - text: Frescura de granja
+          - generic [ref=e57]:
+            - img [ref=e58]
+            - text: Despacho mismo día
+          - generic [ref=e63]:
+            - img [ref=e64]
+            - text: Calidad superior
+        - generic [ref=e67]:
+          - button "Ver Productos" [ref=e68]:
+            - text: Ver Productos
+            - img [ref=e69]
+          - button "Pide por WhatsApp" [ref=e71]:
+            - text: Pide por WhatsApp
+            - img [ref=e72]
+    - generic [ref=e77]:
+      - generic [ref=e78]:
+        - generic [ref=e79]: Línea actual
+        - heading "Variedades Seleccionadas" [level=2] [ref=e80]
+        - paragraph [ref=e81]: Cada producto ha sido curado por El Alquimista por su alma y su origen.
+      - generic [ref=e82]:
+        - button "Todos" [ref=e83]
+        - button "Huevos" [ref=e84]
+        - button "Quesos" [ref=e85]
+        - button "Embutidos" [ref=e86]
+        - button "Congelados" [ref=e87]
+        - button "Costillares" [ref=e88]
+    - generic [ref=e91]:
+      - heading "¿Por qué elegir Ruta del Nido?" [level=2] [ref=e93]
+      - generic [ref=e95]:
+        - generic [ref=e96]:
+          - img [ref=e99]
+          - heading "Sin intermediarios" [level=3] [ref=e102]
+          - paragraph [ref=e103]: Del origen a tu mano sin pasos innecesarios.
+        - generic [ref=e104]:
+          - img [ref=e107]
+          - heading "Selección cuidadosa" [level=3] [ref=e109]
+          - paragraph [ref=e110]: Elegimos solo el calibre y frescura superior.
+        - generic [ref=e111]:
+          - img [ref=e114]
+          - heading "Frescura garantizada" [level=3] [ref=e117]
+          - paragraph [ref=e118]: Productos recolectados y enviados en tiempo récord.
+        - generic [ref=e119]:
+          - img [ref=e122]
+          - heading "Producto Real" [level=3] [ref=e124]
+          - paragraph [ref=e125]: Nada industrial. Alimentos honestos y nutritivos.
+    - generic [ref=e128]:
+      - generic [ref=e129]:
+        - img [ref=e130]
+        - text: Experiencia de Autor
+      - heading "Alquimia en Tu Cocina." [level=2] [ref=e133]:
+        - text: Alquimia en
+        - text: Tu Cocina.
+      - paragraph [ref=e134]: “Fusionamos Nuestros Tesoros con lo que tienes en casa para crear salud y sabor real.”
+      - generic [ref=e135]:
+        - button "Entrar a la Alquimia" [ref=e136]:
+          - text: Entrar a la Alquimia
+          - img [ref=e137]
+        - paragraph [ref=e139]: Acceso Reservado • Miembros del Nido
+    - generic [ref=e141]:
+      - generic [ref=e142]:
+        - generic [ref=e143]: Nuestros Miembros
+        - heading "Lo que dicen en Ruta del Nido" [level=2] [ref=e144]
+      - generic [ref=e146]:
+        - generic [ref=e147]:
+          - generic [ref=e148]:
+            - generic [ref=e149]: MP
+            - generic [ref=e150]:
+              - paragraph [ref=e151]: María P. — Las Condes
+              - generic [ref=e152]:
+                - generic [ref=e153]: ⭐
+                - generic [ref=e154]: ⭐
+                - generic [ref=e155]: ⭐
+                - generic [ref=e156]: ⭐
+                - generic [ref=e157]: ⭐
+          - paragraph [ref=e158]: Se nota la diferencia desde el primer plato. La yema de los huevos es naranja de verdad, como en el campo.
+        - generic [ref=e159]:
+          - generic [ref=e160]:
+            - generic [ref=e161]: CR
+            - generic [ref=e162]:
+              - paragraph [ref=e163]: Carlos R. — Providencia
+              - generic [ref=e164]:
+                - generic [ref=e165]: ⭐
+                - generic [ref=e166]: ⭐
+                - generic [ref=e167]: ⭐
+                - generic [ref=e168]: ⭐
+                - generic [ref=e169]: ⭐
+          - paragraph [ref=e170]: Nunca más compré en supermercado. El salmón llega con una frescura que no se encuentra en el retail.
+        - generic [ref=e171]:
+          - generic [ref=e172]:
+            - generic [ref=e173]: SL
+            - generic [ref=e174]:
+              - paragraph [ref=e175]: Sofía L. — Ñuñoa
+              - generic [ref=e176]:
+                - generic [ref=e177]: ⭐
+                - generic [ref=e178]: ⭐
+                - generic [ref=e179]: ⭐
+                - generic [ref=e180]: ⭐
+                - generic [ref=e181]: ⭐
+          - paragraph [ref=e182]: Pedir por WhatsApp es rapidísimo. Calidad superior, productos reales y sin plásticos innecesarios.
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - generic [ref=e186]: 500+
+          - generic [ref=e187]: familias
+        - generic [ref=e188]:
+          - generic [ref=e189]: 98%
+          - generic [ref=e190]: satisfacción
+        - generic [ref=e191]:
+          - generic [ref=e192]: 24h
+          - generic [ref=e193]: despacho
+    - region "Suscripciones" [ref=e194]:
+      - img "Suscripciones Ruta del Nido" [ref=e196]
+      - generic [ref=e198]:
+        - generic [ref=e199]:
+          - img [ref=e200]
+          - text: Stock Limitado
+        - heading "Haz tu pedido hoy" [level=2] [ref=e203]
+        - paragraph [ref=e204]: Directo del campo y el mar, sin intermediarios.
+        - link "Pedir por WhatsApp" [ref=e206] [cursor=pointer]:
+          - /url: https://wa.me/56947529379
+        - paragraph [ref=e207]: ⭐ Calidad superior garantizada en cada entrega.
+  - contentinfo [ref=e208]:
+    - generic [ref=e209]:
+      - generic [ref=e210]:
+        - img "Ruta del Nido" [ref=e213]
+        - paragraph [ref=e214]: Conectamos origen, nutrición y confianza para que tu hogar se alimente mejor cada semana.
+      - generic [ref=e215]:
+        - generic [ref=e216]:
+          - heading "Explorar" [level=5] [ref=e217]
+          - list [ref=e218]:
+            - listitem [ref=e219]:
+              - button "Productos" [ref=e220]
+            - listitem [ref=e221]:
+              - button "Suscripciones" [ref=e222]
+            - listitem [ref=e223]:
+              - button "El Alquimista" [ref=e224]
+        - generic [ref=e225]:
+          - heading "Ayuda" [level=5] [ref=e226]
+          - list [ref=e227]:
+            - listitem [ref=e228]:
+              - button "WhatsApp" [ref=e229]
+            - listitem [ref=e230]:
+              - button "Contacto" [ref=e231]
+    - generic "Contador publico de visitas a la tienda" [ref=e233]:
+      - generic [ref=e234]:
+        - generic [ref=e235]: 🐔
+        - generic [ref=e236]:
+          - generic [ref=e237]: "0"
+          - generic [ref=e238]: Visitas registradas este mes · ...
+        - generic [ref=e240]:
+          - generic [ref=e241]: "0"
+          - generic [ref=e242]: Visitas historicas
+      - generic [ref=e243]:
+        - img [ref=e244]
+        - generic [ref=e247]:
+          - text: El contador registra sesiones unicas de visita, sin recopilar datos personales.
+          - strong [ref=e248]: Solo contamos, no identificamos.
+    - link "Comunidad del Nido Síguenos en Instagram para promociones y sabiduría culinaria Seguir" [ref=e250] [cursor=pointer]:
+      - /url: https://www.instagram.com/rutadelnido/
+      - generic [ref=e252]:
+        - img [ref=e254]
+        - generic [ref=e257]:
+          - paragraph [ref=e258]: Comunidad del Nido
+          - paragraph [ref=e259]: Síguenos en Instagram para promociones y sabiduría culinaria
+      - generic [ref=e260]:
+        - text: Seguir
+        - img [ref=e261]
+    - generic [ref=e263]: © 2026 Ruta del Nido • Diseñada, programada y desplegada por HackTeck Design

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruta del Nido - Huevos de Campo Premium | Despacho Santiago</title>
+
+  <link rel="icon" type="image/svg+xml" href="/images/RUTA_DEL_NIDO_EMBLEM.svg" />
+  <link rel="shortcut icon" href="/images/RUTA_DEL_NIDO_EMBLEM.svg" />
+  <link rel="apple-touch-icon" href="/images/RUTA_DEL_NIDO_EMBLEM.svg" />
+
+  <meta name="description" content="Ruta del Nido ofrece huevos de campo, quesos y productos seleccionados con despacho en Santiago y una experiencia guiada por El Alquimista." />
+  <link rel="canonical" href="https://rutadelnido.com/" />
+
+  <meta property="og:locale" content="es_CL" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rutadelnido.com/" />
+  <meta property="og:title" content="Ruta del Nido - Huevos de Campo Premium con despacho en Santiago" />
+  <meta property="og:description" content="Huevos de campo, quesos y productos seleccionados con origen real, despacho local y experiencias guiadas por El Alquimista." />
+  <meta property="og:image" content="https://rutadelnido.com/images/og-image.png" />
+  <meta property="og:image:alt" content="Seleccion de productos Ruta del Nido sobre fondo natural" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ruta del Nido - Huevos de Campo Premium con despacho en Santiago" />
+  <meta name="twitter:description" content="Huevos de campo, quesos y productos seleccionados con origen real, despacho local y experiencias guiadas por El Alquimista." />
+  <meta name="twitter:image" content="https://rutadelnido.com/images/og-image.png" />
+  <meta name="twitter:image:alt" content="Seleccion de productos Ruta del Nido sobre fondo natural" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Ruta del Nido",
+      "url": "https://rutadelnido.com",
+      "logo": "https://rutadelnido.com/images/RUTA_DEL_NIDO_LOGO.svg",
+      "description": "Alimentos seleccionados con origen real, despacho local y experiencias culinarias guiadas por El Alquimista.",
+      "sameAs": [
+        "https://www.instagram.com/rutadelnido/"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+56993685089",
+        "contactType": "sales",
+        "availableLanguage": "Spanish"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Santiago"
+      }
+    }
+  </script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Ruta del Nido",
+      "url": "https://rutadelnido.com",
+      "description": "Sitio oficial de Ruta del Nido para productos seleccionados y experiencias culinarias guiadas."
+    }
+  </script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Ruta del Nido",
+      "description": "Huevos de campo premium y alimentos seleccionados con despacho a domicilio en Santiago",
+      "url": "https://rutadelnido.com",
+      "telephone": "+56993685089",
+      "priceRange": "$6.500 - $9.600 CLP",
+      "areaServed": "Santiago, Chile",
+      "image": "https://rutadelnido.com/images/og-image.png"
+    }
+  </script>
+
+  <script>
+    const resolveOptionalEnv = (value) => {
+      const normalized = value.trim();
+      return normalized.startsWith('%VITE_') && normalized.endsWith('%') ? '' : normalized;
+    };
+
+    const gaId = resolveOptionalEnv('%VITE_GA_ID%');
+    if (gaId) {
+      const gaScript = document.createElement('script');
+      gaScript.async = true;
+      gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+      document.head.appendChild(gaScript);
+
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag() { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', gaId);
+    }
+
+    const metaPixelId = resolveOptionalEnv('%VITE_META_PIXEL_ID%');
+    if (metaPixelId) {
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', metaPixelId);
+      fbq('track', 'PageView');
+    }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

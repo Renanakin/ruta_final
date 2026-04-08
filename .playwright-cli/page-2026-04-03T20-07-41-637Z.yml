@@ -1,0 +1,444 @@
+- generic [ref=e3]:
+  - link "Ir al contenido principal" [ref=e4] [cursor=pointer]:
+    - /url: "#main-content"
+  - navigation [ref=e5]:
+    - generic [ref=e7]:
+      - img "Ruta del Nido" [ref=e10] [cursor=pointer]
+      - generic [ref=e11]:
+        - button "Productos" [ref=e12]
+        - button "Suscripciones" [ref=e13]
+        - button "El Alquimista" [ref=e14]
+      - generic [ref=e15]:
+        - button "Pedir por WhatsApp" [active] [ref=e16]:
+          - img [ref=e17]
+        - button [ref=e20]:
+          - img [ref=e21]
+        - button "Comprar Ahora" [ref=e25]
+        - link "Instagram" [ref=e26] [cursor=pointer]:
+          - /url: https://www.instagram.com/rutadelnido/
+          - img [ref=e27]
+          - text: Instagram
+  - generic [ref=e30]:
+    - text: Calidad que se siente en cada bocado
+    - button "Cerrar banner" [ref=e31]:
+      - img [ref=e32]
+  - main [ref=e35]:
+    - generic [ref=e36]:
+      - img "Ruta del Nido - Origen y Frescura" [ref=e38]
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - img [ref=e42]
+          - text: Calidad Premium del Campo a tu Mesa
+        - heading "Directo del campo y el mar a tu mesa" [level=1] [ref=e45]:
+          - text: Directo del campo y
+          - generic [ref=e46]:
+            - text: el mar a tu mesa
+            - img [ref=e47]
+        - paragraph [ref=e49]: Frescura real. Calidad que se nota. Seleccionamos el mejor origen para transformar tu alimentación diaria.
+        - generic [ref=e50]:
+          - generic [ref=e51]:
+            - img [ref=e52]
+            - text: Frescura de granja
+          - generic [ref=e54]:
+            - img [ref=e55]
+            - text: Despacho mismo día
+          - generic [ref=e60]:
+            - img [ref=e61]
+            - text: Calidad superior
+        - generic [ref=e64]:
+          - button "Ver Productos" [ref=e65]:
+            - text: Ver Productos
+            - img [ref=e66]
+          - button "Pide por WhatsApp" [ref=e68]:
+            - text: Pide por WhatsApp
+            - img [ref=e69]
+    - generic [ref=e73]:
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - generic [ref=e76]: Línea actual
+          - heading "Variedades Seleccionadas" [level=2] [ref=e77]
+          - paragraph [ref=e78]: Cada producto ha sido curado por El Alquimista por su alma y su origen.
+        - generic [ref=e79]:
+          - button "Todos" [ref=e80]
+          - button "Huevos" [ref=e81]
+          - button "Quesos" [ref=e82]
+          - button "Embutidos" [ref=e83]
+          - button "Congelados" [ref=e84]
+          - button "Costillares" [ref=e85]
+      - generic [ref=e261]:
+        - generic [ref=e262]:
+          - heading "Huevos" [level=3] [ref=e264]
+          - generic [ref=e266]:
+            - generic [ref=e267]:
+              - generic [ref=e268]:
+                - img "Huevo de Gallina Feliz Premium" [ref=e269]
+                - generic [ref=e270]: Premium
+              - generic [ref=e271]:
+                - heading "Huevo de Gallina Feliz Premium" [level=3] [ref=e272]
+                - paragraph [ref=e273]: Yema naranja, sabor intenso y real de campo. Libres de jaulas, alimentadas con granos naturales.
+                - generic [ref=e274]:
+                  - generic [ref=e275]: En stock
+                  - generic [ref=e276]: Del campo directo a tu mesa
+                - generic [ref=e277]:
+                  - generic [ref=e278]:
+                    - text: $8.400
+                    - generic [ref=e279]: Precio vigente
+                  - generic [ref=e280]:
+                    - button "Detalle" [ref=e281]
+                    - link "Pedir Huevo de Gallina Feliz Premium por WhatsApp" [ref=e282] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e283]
+                      - generic [ref=e285]: WhatsApp
+            - generic [ref=e286]:
+              - generic [ref=e287]:
+                - img "Huevo Blanco Extra (Bandeja 30 un)" [ref=e288]
+                - generic [ref=e289]: Extra Grande
+              - generic [ref=e290]:
+                - heading "Huevo Blanco Extra (Bandeja 30 un)" [level=3] [ref=e291]
+                - paragraph [ref=e292]: Calibre Superior (61g - 68g). Yema de color intenso y clara densa para resultados gourmet.
+                - generic [ref=e293]:
+                  - generic [ref=e294]: En stock
+                  - generic [ref=e295]: Del campo directo a tu mesa
+                - generic [ref=e296]:
+                  - generic [ref=e297]:
+                    - text: $7.900
+                    - generic [ref=e298]: Precio vigente
+                  - generic [ref=e299]:
+                    - button "Detalle" [ref=e300]
+                    - link "Pedir Huevo Blanco Extra (Bandeja 30 un) por WhatsApp" [ref=e301] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e302]
+                      - generic [ref=e304]: WhatsApp
+        - generic [ref=e305]:
+          - heading "Quesos" [level=3] [ref=e307]
+          - generic [ref=e309]:
+            - generic [ref=e310]:
+              - generic [ref=e311]:
+                - img "Queso Chanco de Licán Ray Pieza de 500g" [ref=e312]
+                - generic [ref=e313]: Artesanal Sur
+              - generic [ref=e314]:
+                - heading "Queso Chanco de Licán Ray Pieza de 500g" [level=3] [ref=e315]
+                - paragraph [ref=e316]: Queso artesanal directamente de la zona sur del país. Textura mantecosa y sabor auténtico.
+                - generic [ref=e317]:
+                  - generic [ref=e318]: En stock
+                  - generic [ref=e319]: Del campo directo a tu mesa
+                - generic [ref=e320]:
+                  - generic [ref=e321]:
+                    - text: $8.500
+                    - generic [ref=e322]: Precio vigente
+                  - generic [ref=e323]:
+                    - button "Detalle" [ref=e324]
+                    - link "Pedir Queso Chanco de Licán Ray Pieza de 500g por WhatsApp" [ref=e325] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e326]
+                      - generic [ref=e328]: WhatsApp
+            - generic [ref=e329]:
+              - generic [ref=e330]:
+                - img "Queso Mantecoso de Púa (Horma)" [ref=e331]
+                - generic [ref=e332]: Selección Nido
+              - generic [ref=e333]:
+                - heading "Queso Mantecoso de Púa (Horma)" [level=3] [ref=e334]
+                - paragraph [ref=e335]: Queso artesanal maduro del sur de Chile. Textura firme, sabor intenso y terroso curado con la técnica tradicional de púas.
+                - generic [ref=e336]:
+                  - generic [ref=e337]: En stock
+                  - generic [ref=e338]: Del campo directo a tu mesa
+                - generic [ref=e339]:
+                  - generic [ref=e340]:
+                    - text: $8.500
+                    - generic [ref=e341]: Precio vigente
+                  - generic [ref=e342]:
+                    - button "Detalle" [ref=e343]
+                    - link "Pedir Queso Mantecoso de Púa (Horma) por WhatsApp" [ref=e344] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e345]
+                      - generic [ref=e347]: WhatsApp
+        - generic [ref=e348]:
+          - heading "Embutidos" [level=3] [ref=e350]
+          - generic [ref=e352]:
+            - generic [ref=e353]:
+              - generic [ref=e354]:
+                - img "Longaniza de Contulmo Artesanal (Baja en Grasa)" [ref=e355]
+                - generic [ref=e356]: Referencia $9.600/kg
+              - generic [ref=e357]:
+                - heading "Longaniza de Contulmo Artesanal (Baja en Grasa)" [level=3] [ref=e358]
+                - paragraph [ref=e359]: Receta tradicional española, elaborada artesanalmente en Contulmo. Sabor auténtico con menos grasa.
+                - generic [ref=e360]:
+                  - generic [ref=e361]: En stock
+                  - generic [ref=e362]: Del campo directo a tu mesa
+                - generic [ref=e363]:
+                  - generic [ref=e364]:
+                    - text: $9.600
+                    - generic [ref=e365]: Precio vigente
+                  - generic [ref=e366]:
+                    - button "Detalle" [ref=e367]
+                    - link "Pedir Longaniza de Contulmo Artesanal (Baja en Grasa) por WhatsApp" [ref=e368] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e369]
+                      - generic [ref=e371]: WhatsApp
+            - generic [ref=e372]:
+              - generic [ref=e373]:
+                - img "Longaniza de Capitán Pastene" [ref=e374]
+                - generic [ref=e375]: NUEVA LLEGADA | RECETA ITALIANA
+              - generic [ref=e376]:
+                - heading "Longaniza de Capitán Pastene" [level=3] [ref=e377]
+                - paragraph [ref=e378]: Receta tradicional italiana, ahumada con madera nativa de Nahuelbuta. 100% cerdo y artesanal.
+                - generic [ref=e379]:
+                  - generic [ref=e380]: En stock
+                  - generic [ref=e381]: Del campo directo a tu mesa
+                - generic [ref=e382]:
+                  - generic [ref=e383]:
+                    - text: Proximamente
+                    - generic [ref=e384]: Lanzamiento próximo
+                  - generic [ref=e385]:
+                    - button "Detalle" [ref=e386]
+                    - link "Pedir Longaniza de Capitán Pastene por WhatsApp" [ref=e387] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e388]
+                      - generic [ref=e390]: WhatsApp
+        - generic [ref=e391]:
+          - heading "Congelados" [level=3] [ref=e393]
+          - generic [ref=e395]:
+            - generic [ref=e396]:
+              - generic [ref=e397]:
+                - img "Salmón porcionado 500g" [ref=e398]
+                - generic [ref=e399]: Contenido 500g
+              - generic [ref=e400]:
+                - heading "Salmón porcionado 500g" [level=3] [ref=e401]
+                - paragraph [ref=e402]: Cortes premium seleccionados. Calidad de exportacion en formato practico y congelado IQF.
+                - generic [ref=e403]:
+                  - generic [ref=e404]: En stock
+                  - generic [ref=e405]: Del campo directo a tu mesa
+                - generic [ref=e406]:
+                  - generic [ref=e407]:
+                    - text: $7.990
+                    - generic [ref=e408]: Precio vigente
+                  - generic [ref=e409]:
+                    - button "Detalle" [ref=e410]
+                    - link "Pedir Salmón porcionado 500g por WhatsApp" [ref=e411] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e412]
+                      - generic [ref=e414]: WhatsApp
+            - generic [ref=e415]:
+              - generic [ref=e416]:
+                - img "Surtido de Mariscos Premium Mix" [ref=e417]
+                - generic [ref=e418]: Contenido 1kg
+              - generic [ref=e419]:
+                - heading "Surtido de Mariscos Premium Mix" [level=3] [ref=e420]
+                - paragraph [ref=e421]: Chorito, ostión, calamar, camarón y almeja. Una seleccion premium para transformar tu mesa en una experiencia gourmet.
+                - generic [ref=e422]:
+                  - generic [ref=e423]: En stock
+                  - generic [ref=e424]: Del campo directo a tu mesa
+                - generic [ref=e425]:
+                  - generic [ref=e426]:
+                    - text: $5.500
+                    - generic [ref=e427]: Precio vigente
+                  - generic [ref=e428]:
+                    - button "Detalle" [ref=e429]
+                    - link "Pedir Surtido de Mariscos Premium Mix por WhatsApp" [ref=e430] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e431]
+                      - generic [ref=e433]: WhatsApp
+            - generic [ref=e434]:
+              - generic [ref=e435]:
+                - img "Camarón Cocido Pelado ECO" [ref=e436]
+                - generic [ref=e437]: Formato IQF
+              - generic [ref=e438]:
+                - heading "Camarón Cocido Pelado ECO" [level=3] [ref=e439]
+                - paragraph [ref=e440]: Camarones cocidos y pelados listos para servir. El equilibrio perfecto entre sabor y conveniencia.
+                - generic [ref=e441]:
+                  - generic [ref=e442]: En stock
+                  - generic [ref=e443]: Del campo directo a tu mesa
+                - generic [ref=e444]:
+                  - generic [ref=e445]:
+                    - text: $6.800
+                    - generic [ref=e446]: Precio vigente
+                  - generic [ref=e447]:
+                    - button "Detalle" [ref=e448]
+                    - link "Pedir Camarón Cocido Pelado ECO por WhatsApp" [ref=e449] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e450]
+                      - generic [ref=e452]: WhatsApp
+        - generic [ref=e453]:
+          - heading "Costillares" [level=3] [ref=e455]
+          - generic [ref=e457]:
+            - generic [ref=e458]:
+              - generic [ref=e459]:
+                - img "Costillar de Cerdo Nacional" [ref=e460]
+                - generic [ref=e461]: NUEVO
+              - generic [ref=e462]:
+                - heading "Costillar de Cerdo Nacional" [level=3] [ref=e463]
+                - paragraph [ref=e464]: Costillar de criaderos artesanales del sur. Carne de alta calidad con excelente infiltración.
+                - generic [ref=e465]:
+                  - generic [ref=e466]: En stock
+                  - generic [ref=e467]: Del campo directo a tu mesa
+                - generic [ref=e468]:
+                  - generic [ref=e469]:
+                    - text: Proximamente
+                    - generic [ref=e470]: Lanzamiento próximo
+                  - generic [ref=e471]:
+                    - button "Detalle" [ref=e472]
+                    - link "Pedir Costillar de Cerdo Nacional por WhatsApp" [ref=e473] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e474]
+                      - generic [ref=e476]: WhatsApp
+            - generic [ref=e477]:
+              - generic [ref=e478]:
+                - img "Costillar Ahumado Capitán Pastene" [ref=e479]
+                - generic [ref=e480]: AHUMADO PREMIUM
+              - generic [ref=e481]:
+                - heading "Costillar Ahumado Capitán Pastene" [level=3] [ref=e482]
+                - paragraph [ref=e483]: Ahumado 48H con madera nativa. Receta tradicional de influencia italiana. Sabor incomparable.
+                - generic [ref=e484]:
+                  - generic [ref=e485]: En stock
+                  - generic [ref=e486]: Del campo directo a tu mesa
+                - generic [ref=e487]:
+                  - generic [ref=e488]:
+                    - text: Proximamente
+                    - generic [ref=e489]: Lanzamiento próximo
+                  - generic [ref=e490]:
+                    - button "Detalle" [ref=e491]
+                    - link "Pedir Costillar Ahumado Capitán Pastene por WhatsApp" [ref=e492] [cursor=pointer]:
+                      - /url: https://wa.me/56947529379
+                      - img [ref=e493]
+                      - generic [ref=e495]: WhatsApp
+    - generic [ref=e88]:
+      - heading "¿Por qué elegir Ruta del Nido?" [level=2] [ref=e90]
+      - generic [ref=e92]:
+        - generic [ref=e93]:
+          - img [ref=e96]
+          - heading "Sin intermediarios" [level=3] [ref=e99]
+          - paragraph [ref=e100]: Del origen a tu mano sin pasos innecesarios.
+        - generic [ref=e101]:
+          - img [ref=e104]
+          - heading "Selección cuidadosa" [level=3] [ref=e106]
+          - paragraph [ref=e107]: Elegimos solo el calibre y frescura superior.
+        - generic [ref=e108]:
+          - img [ref=e111]
+          - heading "Frescura garantizada" [level=3] [ref=e114]
+          - paragraph [ref=e115]: Productos recolectados y enviados en tiempo récord.
+        - generic [ref=e116]:
+          - img [ref=e119]
+          - heading "Producto Real" [level=3] [ref=e121]
+          - paragraph [ref=e122]: Nada industrial. Alimentos honestos y nutritivos.
+    - generic [ref=e125]:
+      - generic [ref=e126]:
+        - img [ref=e127]
+        - text: Experiencia de Autor
+      - heading "Alquimia en Tu Cocina." [level=2] [ref=e130]:
+        - text: Alquimia en
+        - text: Tu Cocina.
+      - paragraph [ref=e131]: “Fusionamos Nuestros Tesoros con lo que tienes en casa para crear salud y sabor real.”
+      - generic [ref=e132]:
+        - button "Entrar a la Alquimia" [ref=e133]:
+          - text: Entrar a la Alquimia
+          - img [ref=e134]
+        - paragraph [ref=e136]: Acceso Reservado • Miembros del Nido
+    - generic [ref=e138]:
+      - generic [ref=e139]:
+        - generic [ref=e140]: Nuestros Miembros
+        - heading "Lo que dicen en Ruta del Nido" [level=2] [ref=e141]
+      - generic [ref=e143]:
+        - generic [ref=e144]:
+          - generic [ref=e145]:
+            - generic [ref=e146]: MP
+            - generic [ref=e147]:
+              - paragraph [ref=e148]: María P. — Las Condes
+              - generic [ref=e149]:
+                - generic [ref=e150]: ⭐
+                - generic [ref=e151]: ⭐
+                - generic [ref=e152]: ⭐
+                - generic [ref=e153]: ⭐
+                - generic [ref=e154]: ⭐
+          - paragraph [ref=e155]: Se nota la diferencia desde el primer plato. La yema de los huevos es naranja de verdad, como en el campo.
+        - generic [ref=e156]:
+          - generic [ref=e157]:
+            - generic [ref=e158]: CR
+            - generic [ref=e159]:
+              - paragraph [ref=e160]: Carlos R. — Providencia
+              - generic [ref=e161]:
+                - generic [ref=e162]: ⭐
+                - generic [ref=e163]: ⭐
+                - generic [ref=e164]: ⭐
+                - generic [ref=e165]: ⭐
+                - generic [ref=e166]: ⭐
+          - paragraph [ref=e167]: Nunca más compré en supermercado. El salmón llega con una frescura que no se encuentra en el retail.
+        - generic [ref=e168]:
+          - generic [ref=e169]:
+            - generic [ref=e170]: SL
+            - generic [ref=e171]:
+              - paragraph [ref=e172]: Sofía L. — Ñuñoa
+              - generic [ref=e173]:
+                - generic [ref=e174]: ⭐
+                - generic [ref=e175]: ⭐
+                - generic [ref=e176]: ⭐
+                - generic [ref=e177]: ⭐
+                - generic [ref=e178]: ⭐
+          - paragraph [ref=e179]: Pedir por WhatsApp es rapidísimo. Calidad superior, productos reales y sin plásticos innecesarios.
+      - generic [ref=e181]:
+        - generic [ref=e182]:
+          - generic [ref=e183]: 500+
+          - generic [ref=e184]: familias
+        - generic [ref=e185]:
+          - generic [ref=e186]: 98%
+          - generic [ref=e187]: satisfacción
+        - generic [ref=e188]:
+          - generic [ref=e189]: 24h
+          - generic [ref=e190]: despacho
+    - region "Suscripciones" [ref=e191]:
+      - img "Suscripciones Ruta del Nido" [ref=e193]
+      - generic [ref=e195]:
+        - generic [ref=e196]:
+          - img [ref=e197]
+          - text: Stock Limitado
+        - heading "Haz tu pedido hoy" [level=2] [ref=e200]
+        - paragraph [ref=e201]: Directo del campo y el mar, sin intermediarios.
+        - link "Pedir por WhatsApp" [ref=e203] [cursor=pointer]:
+          - /url: https://wa.me/56947529379
+        - paragraph [ref=e204]: ⭐ Calidad superior garantizada en cada entrega.
+  - contentinfo [ref=e205]:
+    - generic [ref=e206]:
+      - generic [ref=e207]:
+        - img "Ruta del Nido" [ref=e210]
+        - paragraph [ref=e211]: Conectamos origen, nutrición y confianza para que tu hogar se alimente mejor cada semana.
+      - generic [ref=e212]:
+        - generic [ref=e213]:
+          - paragraph [ref=e214]: Explorar
+          - list [ref=e215]:
+            - listitem [ref=e216]:
+              - button "Productos" [ref=e217]
+            - listitem [ref=e218]:
+              - button "Suscripciones" [ref=e219]
+            - listitem [ref=e220]:
+              - button "El Alquimista" [ref=e221]
+        - generic [ref=e222]:
+          - paragraph [ref=e223]: Ayuda
+          - list [ref=e224]:
+            - listitem [ref=e225]:
+              - button "WhatsApp" [ref=e226]
+            - listitem [ref=e227]:
+              - button "Contacto" [ref=e228]
+    - generic "Contador publico de visitas a la tienda" [ref=e230]:
+      - generic [ref=e231]:
+        - generic [ref=e232]: 🐔
+        - generic [ref=e233]:
+          - generic [ref=e234]: "26"
+          - generic [ref=e235]: Visitas registradas este mes · Abril 2026
+        - generic [ref=e237]:
+          - generic [ref=e238]: "26"
+          - generic [ref=e239]: Visitas historicas
+      - generic [ref=e240]:
+        - img [ref=e241]
+        - generic [ref=e244]:
+          - text: El contador registra sesiones unicas de visita, sin recopilar datos personales.
+          - strong [ref=e245]: Solo contamos, no identificamos.
+    - link "Comunidad del Nido Síguenos en Instagram para promociones y sabiduría culinaria Seguir" [ref=e247] [cursor=pointer]:
+      - /url: https://www.instagram.com/rutadelnido/
+      - generic [ref=e249]:
+        - img [ref=e251]
+        - generic [ref=e254]:
+          - paragraph [ref=e255]: Comunidad del Nido
+          - paragraph [ref=e256]: Síguenos en Instagram para promociones y sabiduría culinaria
+      - generic [ref=e257]:
+        - text: Seguir
+        - img [ref=e258]
+    - generic [ref=e260]: © 2026 Ruta del Nido • Diseñada, programada y desplegada por HackTeck Design

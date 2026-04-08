@@ -1,0 +1,78 @@
+import { MessageSquare, X } from 'lucide-react';
+import { buildWhatsAppProductUrl } from '../lib/constants';
+
+const ProductDetailModal = ({ selectedProduct, onClose }) => {
+  if (!selectedProduct) return null;
+
+  const nutrition = Array.isArray(selectedProduct.nutrition) ? selectedProduct.nutrition : [];
+  const reviews = Array.isArray(selectedProduct.reviews) ? selectedProduct.reviews : [];
+  const description = selectedProduct.extendedDescription || selectedProduct.description || 'Producto natural seleccionado.';
+  const origin = selectedProduct.origin || 'Origen natural seleccionado';
+
+  return (
+    <div className="fixed inset-0 z-[80] bg-black/60 backdrop-blur-sm p-4 md:p-8" onClick={onClose}>
+      <div className="relative max-w-4xl mx-auto bg-white rounded-[2rem] overflow-hidden border border-stone-200 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 z-10 inline-flex items-center gap-2 min-h-12 px-4 rounded-xl bg-brand-900 text-white font-black text-sm shadow-lg hover:bg-brand-800 active:scale-95 transition-all"
+          aria-label="Cerrar detalle del producto"
+        >
+          <X size={20} />
+          Cerrar
+        </button>
+
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          <div className="bg-stone-100">
+            <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover min-h-[340px]" width={800} height={1000} loading="lazy" />
+          </div>
+          <div className="p-7">
+            <h3 className="text-3xl font-serif font-black text-stone-900">{selectedProduct.name}</h3>
+            <p className="text-stone-600 mt-4 leading-relaxed">{description}</p>
+            <p className="text-brand-700 font-black mt-5">Origen: {origin}</p>
+
+            <div className="mt-7">
+              <h4 className="text-sm uppercase tracking-[0.2em] font-black text-brand-700 mb-2">Información nutricional</h4>
+              {nutrition.length > 0 ? (
+                <ul className="space-y-2 text-sm text-stone-600">
+                  {nutrition.map((item) => <li key={item}>* {item}</li>)}
+                </ul>
+              ) : (
+                <p className="text-sm text-stone-500">Información nutricional disponible pronto.</p>
+              )}
+            </div>
+
+            <div className="mt-7">
+              <h4 className="text-sm uppercase tracking-[0.2em] font-black text-brand-700 mb-2">Reseñas</h4>
+              {reviews.length > 0 ? (
+                <ul className="space-y-2 text-sm text-stone-600">
+                  {reviews.map((review) => (
+                    <li key={review} className="rounded-xl border border-beige-200 bg-beige-100 px-3 py-2 italic">
+                      "{review}"
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-stone-500">Reseñas disponibles pronto.</p>
+              )}
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              <a
+                href={buildWhatsAppProductUrl(selectedProduct.name)}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-[#25D366] text-white font-black"
+              >
+                <MessageSquare size={18} />
+                Pedir por WhatsApp
+              </a>
+              <button onClick={onClose} className="px-4 py-3 min-h-12 rounded-xl border border-stone-200 font-black text-stone-600">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetailModal;
